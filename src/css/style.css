@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: rgb(2, 134, 2);
+}
+
+h1{
+    color: white;
+    text-align: center;
+    margin: 30px;
+}
+
+nav{
+    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.15);
+    padding: 5px;
+    position: relative;
+    z-index: 10;
+    background-color: grey;
+}
