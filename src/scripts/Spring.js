@@ -14,6 +14,7 @@ class Spring
 
     #omega = 0;
     #zeta = 0;
+    #omegaZeta = 0;
 
     // ----------------------------------------------
     // CONSTRUCTORS
@@ -38,6 +39,7 @@ class Spring
 
         this.#omega = Math.sqrt(this.#k / this.#mass);
         this.#zeta = Math.min(this.#beta / (2 * Math.sqrt(this.#k * this.#mass)), 1);
+        this.#omegaZeta = this.#omega * this.#zeta;
     }
 
     // ----------------------------------------------
@@ -59,14 +61,14 @@ class Spring
         let omegaRoot = this.#omega * Math.sqrt(1 - this.#zeta * this.#zeta);
         let omegaRootDeltaTime = omegaRoot * deltaTime;
 
-        let exponential = Math.exp(-this.#zeta * this.#omega * deltaTime);
+        let exponential = Math.exp(-this.#omegaZeta * deltaTime);
         let cosine = Math.cos(omegaRootDeltaTime);
         let sine = Math.sin(omegaRootDeltaTime);
 
-        let b = (this.#velocity - (a * this.#zeta * this.#omega)) / omegaRoot;
+        let b = (this.#velocity - (a * this.#omegaZeta)) / omegaRoot;
 
         this.#position = (a * cosine + b * sine) * exponential + this.#target;
-        this.#velocity = exponential * ((a * this.#omega * this.#zeta - b * omegaRoot) * cosine + a * omegaRoot + b * this.#omega * this.#zeta * sine)
+        this.#velocity = -exponential * ((a * this.#omegaZeta - b * omegaRoot) * cosine + (a * omegaRoot + b * this.#omegaZeta) * sine)
     }
 
     // ----------------------------------------------

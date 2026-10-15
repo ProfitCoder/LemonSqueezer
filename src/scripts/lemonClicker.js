@@ -7,18 +7,18 @@ const DELTA_TIME = 1 / FPS;
 
 const EPSILON_ANGLE_DEGREES = 1;
 
-const MAXIMUM_ANGLE_TO_ROTATE = 20;
-const MINIMUM_ANGLE_TO_ROTATE = 7;
+const MAXIMUM_ANGLE_TO_ROTATE = 15;
+const MINIMUM_ANGLE_TO_ROTATE = 5;
 const DIFFERENCE_LIMITS_ANGLES_TO_ROTATE = Math.abs(MAXIMUM_ANGLE_TO_ROTATE - MINIMUM_ANGLE_TO_ROTATE);
 
 const DECREASE_SCALE_WHEN_CLICKING = 0.1;
 
-const ClickSpringRotation = new Spring(70, 1, 10);
-const ClickSpringScale = new Spring(70, 1, 10, 1);
-
 // ----------------------------------------------
 // VARIABLES
 // ----------------------------------------------
+
+const ClickSpringRotation = new Spring(10, 2, 2);
+const ClickSpringScale = new Spring(1, 0.5, 1, 1);
 
 const lemon = document.getElementById("lemon");
 
