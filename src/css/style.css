@@ -4,7 +4,7 @@
 }
 
 body{
-    background-color: rgb(2, 134, 2);
+    background-color: #FFF700;
 }
 
 h1{
@@ -15,8 +15,33 @@ h1{
 
 nav{
     box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.15);
-    padding: 5px;
+    padding: 4px;
     position: relative;
     z-index: 10;
     background-color: grey;
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
 }
+
+img{
+    padding: 70px;
+    width: 400px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+nav h1 {
+    color: white;
+    transition: text-shadow 0.3s;
+}
+
+nav h1:hover {
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #ffff00,
+        0 0 20px #ffff00,
+        0 0 40px #ffff00;
+}
+
