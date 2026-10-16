@@ -68,6 +68,13 @@ const stats = {
         }
     },
 
+    showMultiplier: function () {
+        document.getElementById("multiplier").textContent = "x" + Number.parseFloat(this.multiplier).toFixed(2);
+    },
+
+    showPoints: function () {
+        document.getElementById("points").textContent =  "Points: " + Number.parseFloat(this.points).toFixed(0);
+    },
 
     addActiveUpgrade: function () {
 

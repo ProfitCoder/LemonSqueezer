@@ -1,0 +1,108 @@
+/* Tablero de puntos original. */
+
+footer p:hover {
+text-shadow:
+        0 0 5px #fff,
+        0 0 10px #ffff00,
+        0 0 20px #ffff00,
+        0 0 40px #ffff00;
+}
+
+footer {
+margin-top: 10px;
+    padding: 0 10px 15px;
+    text-align: center;
+}
+
+footer > div {
+width: fit-content;
+    min-width: 150px;
+    margin: 0 auto;
+    padding: 20px 30px;
+
+    background: url("../img/fondo-textura-madera_1100-57.png")
+        center / cover;
+
+    color: white;
+}
+
+footer p {
+margin: 0;
+}
+
+footer {
+margin-top: auto;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+footer > div {
+min-width: 260px;
+    padding: 15px 35px;
+
+    border: 4px solid #573719;
+    box-shadow:
+        inset 0 0 0 2px #b18249,
+        5px 5px 0 #382310;
+}
+
+#points::before {
+content: "PUNTOS";
+    display: block;
+    margin-bottom: 4px;
+
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: #fff3cf;
+}
+
+#points {
+margin: 0;
+    font-family: "Pixelta", sans-serif;
+    font-size: 48px;
+    font-weight: normal;
+    line-height: 1;
+
+    color: #ffe65b;
+    text-shadow: 3px 3px 0 #382310;
+}
+
+/* Contenedor sin tablero: coloca ambos marcadores en línea */
+footer > .score-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    width: fit-content;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+/* Fondo de madera para ambos marcadores */
+.points-board,
+.multiplier-board {
+    background: url("../img/fondo-textura-madera_1100-57.png")
+        center / cover;
+    border: 3px solid #573719;
+    box-shadow: 3px 3px 0 #382310;
+}
+
+.points-board {
+    padding: 15px 30px;
+}
+
+.multiplier-board {
+    padding: 8px 12px;
+}
+
+footer #multiplier {
+    margin: 0;
+    font-size: 24px;
+    color: #ffe65b;
+    text-shadow: 2px 2px 0 #382310;
+}
