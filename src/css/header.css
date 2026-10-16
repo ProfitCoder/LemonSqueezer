@@ -1,0 +1,56 @@
+/* Título, cadenas e iluminación. */
+
+nav {
+padding: 65px 10px 0;
+    position: relative;
+    z-index: 10;
+}
+
+nav h1 {
+position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 15px 30px;
+
+    background: url("../img/fondo-textura-madera_1100-57.png")
+        center / cover;
+
+    color: white;
+    text-align: center;
+    transition: text-shadow 0.3s;
+}
+
+nav h1::before,
+nav h1::after {
+content: "";
+    position: absolute;
+    top: -65px;
+    width: 12px;
+    height: 65px;
+
+    border-left: 3px solid #555;
+    border-right: 3px solid #999;
+
+    background: repeating-linear-gradient(
+        to bottom,
+        #555 0px 3px,
+        transparent 3px 9px,
+        #999 9px 12px
+    );
+}
+
+nav h1::before {
+left: 35px;
+}
+
+nav h1::after {
+right: 35px;
+}
+
+nav h1:hover {
+text-shadow:
+        0 0 5px #fff,
+        0 0 10px #ffff00,
+        0 0 20px #ffff00,
+        0 0 40px #ffff00;
+}

@@ -1,0 +1,262 @@
+@media (max-width: 768px) {
+    /* El juego ocupa todo el ancho */
+    body,
+    body.menu-abierto,
+    body.menu-open {
+        padding-left: 0;
+        padding-right: 0;
+        min-height: 100dvh;
+    }
+
+    /* Botones superiores */
+    #open-upgrades,
+    #open-shop {
+        position: fixed;
+        top: 10px;
+        z-index: 30;
+        max-width: calc(50vw - 15px);
+        padding: 8px 10px;
+
+        background: url("../img/fondo-textura-madera_1100-57.png")
+            center / cover;
+
+        border: 3px solid #573719;
+        box-shadow: 3px 3px 0 #382310;
+        font-family: inherit;
+        font-size: 18px;
+        color: white;
+        cursor: pointer;
+    }
+
+    #open-upgrades {
+        left: 10px;
+    }
+
+    #open-shop {
+        right: 10px;
+    }
+
+    /* Tienda desplegable en móvil */
+    .shop {
+        display: none;
+        position: fixed;
+        inset: 0 0 0 auto;
+        width: min(360px, 100vw);
+        max-width: 100%;
+        padding: 20px 15px;
+        z-index: 50;
+
+        flex-direction: column;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    body.shop-open .shop {
+        display: flex;
+    }
+
+    .shop-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+
+    .shop-head img {
+        width: 35px;
+        height: 35px;
+        margin: 0;
+        padding: 0;
+        object-fit: contain;
+    }
+
+    .shop-head h2 {
+        flex: 1;
+        min-width: 0;
+        font-size: 25px;
+    }
+
+    #close-shop,
+    #cerrar-upgrades {
+        padding: 5px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 28px;
+        cursor: pointer;
+    }
+
+    /* Panel izquierdo */
+    #upgrades-panel {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: min(360px, 100vw);
+        max-width: 100%;
+        z-index: 50;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    #upgrades-panel[hidden] {
+        display: none;
+    }
+
+    #upgrades-panel:not([hidden]) {
+        display: flex;
+    }
+
+    .upgrades-cabecera {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 20px;
+        flex-shrink: 0;
+    }
+
+    .upgrade-list {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 0 20px 20px;
+    }
+
+    /* Título y cadenas */
+    nav {
+        padding: 90px 15px 0;
+    }
+
+    nav h1 {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 12px 20px;
+        font-size: 28px;
+    }
+
+    nav h1::before,
+    nav h1::after {
+        top: -90px;
+        height: 90px;
+    }
+
+    /* Limón */
+    main {
+        margin-top: 25px;
+        padding: 0 12px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #lemon-container {
+        max-width: 100%;
+    }
+
+    #lemon {
+        width: auto;
+        height: auto;
+        max-width: min(300px, 78vw);
+        max-height: 38dvh;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    /* Puntos y multiplicador */
+    footer {
+        margin-top: auto;
+        padding: 15px 10px;
+        padding-bottom: max(15px, env(safe-area-inset-bottom));
+    }
+
+    footer > .score-container {
+        max-width: 100%;
+        min-width: 0;
+        gap: 8px;
+    }
+
+    .points-board {
+        min-width: 0;
+        padding: 10px 14px;
+    }
+
+    #points {
+        font-size: 32px;
+        overflow-wrap: anywhere;
+    }
+
+    #points::before {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .multiplier-board {
+        flex-shrink: 0;
+        padding: 8px;
+    }
+
+    footer #multiplier {
+        font-size: 22px;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 360px) {
+    #open-upgrades,
+    #open-shop {
+        font-size: 16px;
+        padding: 7px;
+    }
+
+    #points {
+        font-size: 27px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Distribuye la pantalla entre cabecera, juego y puntos */
+    body {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header,
+    footer {
+        flex-shrink: 0;
+    }
+
+    /* Ocupa el espacio libre y centra el limón */
+    main {
+        flex: 1;
+        min-height: 0;
+        margin: 0;
+        padding: 25px 15px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #lemon-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 380px;
+    }
+
+    #lemon {
+        width: min(70vw, 350px);
+        max-width: 100%;
+        max-height: 42dvh;
+        height: auto;
+        object-fit: contain;
+        margin: 0;
+        padding: 0;
+    }
+
+    footer {
+        margin-top: 0;
+    }
+}

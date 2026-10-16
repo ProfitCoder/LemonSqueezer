@@ -1,0 +1,85 @@
+/* Botón y panel izquierdo de upgrades. */
+
+#open-upgrades {
+position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 30;
+
+    padding: 10px 10px;
+    background: url("../img/fondo-textura-madera_1100-57.png")
+        center / cover;
+
+    font-family: "Pixelta", sans-serif;
+    font-size: 22px;
+    color: white;
+
+    border: 3px solid #573719;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 #382310;
+    text-shadow: 2px 2px 0 #382310;
+    cursor: pointer;
+}
+
+#open-upgrades:hover {
+filter: brightness(1.2);
+}
+
+#open-upgrades:active {
+transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 #382310;
+}
+
+#open-upgrades:focus-visible {
+outline: 3px solid #ffe65b;
+    outline-offset: 5px;
+}
+
+#upgrades-panel {
+position: fixed;
+    inset: 0 auto 0 0;
+    width: min(320px, 100vw);
+    z-index: 40;
+
+    display: flex;
+    flex-direction: column;
+
+    background: url("../img/imagenesDesplegables.png")
+        center / cover;
+
+    color: white;
+    border-right: 4px solid #573719;
+}
+
+#upgrades-panel[hidden] {
+display: none;
+}
+
+.upgrades-cabecera {
+display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+#cerrar-upgrades {
+background: transparent;
+    border: none;
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.upgrade-list {
+flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0 20px 20px;
+}
+
+.upgrade {
+padding: 15px 0;
+    border-top: 2px solid #573719;
+}

@@ -1,0 +1,51 @@
+/* Tamaño del limón y multiplicador. */
+
+#lemon {
+display: block;
+    width: auto;
+    height: auto;
+    max-width: min(400px, 85vw);
+    max-height: 45dvh;
+    margin: 0;
+    padding: 0;
+    object-fit: contain;
+    image-rendering: pixelated;
+    cursor: pointer;
+}
+
+#lemon:active {
+transform: scale(0.95);
+}
+
+/* El multiplicador se coloca debajo del limón sin cambiar sus IDs. */
+main {
+    flex-direction: column;
+    gap: 18px;
+}
+
+.multiplier-display {
+    padding: 12px 25px;
+    background: url("../img/fondo-textura-madera_1100-57.png")
+        center / cover;
+
+    border: 4px solid #573719;
+    box-shadow:
+        inset 0 0 0 2px #b18249,
+        4px 4px 0 #382310;
+
+    text-align: center;
+    color: white;
+}
+
+.multiplier-display h4 {
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: normal;
+    letter-spacing: 2px;
+}
+
+#multiplier {
+    font-size: 36px;
+    color: #ffe65b;
+    text-shadow: 2px 2px 0 #382310;
+}
