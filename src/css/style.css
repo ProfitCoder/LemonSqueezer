@@ -4,10 +4,11 @@
 }
 
 body{
-    background-color: #FFF700;
+    background-color: hsl(211, 100%, 87%);
 }
 
 h1{
+    background-image: url(../img/LimonSinFondo.png);
     color: white;
     text-align: center;
     margin: 30px;
@@ -15,10 +16,11 @@ h1{
 
 nav{
     box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.15);
-    padding: 4px;
+    padding: 5px;
     position: relative;
     z-index: 10;
-    background-color: grey;
+    background-image: url(../img/Tablones\ de\ madera\ clara\ pixelada.png);
+
     border-bottom-left-radius: 5%;
     border-bottom-right-radius: 5%;
 }
