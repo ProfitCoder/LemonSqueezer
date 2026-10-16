@@ -1,44 +1,80 @@
-*{
+/* Carga la fuente local */
+@font-face {
+    font-family: "Pixelta";
+    src: url("../fonts/PixelOperator.ttf") format("truetype");
+    font-display: swap;
+}
+
+/* El relleno y los bordes se incluyen en el tamaño */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-body{
+html {
+    /* No reserva una franja para la barra de desplazamiento */
+    scrollbar-gutter: auto;
+}
+
+body {
+    min-height: 100dvh;
     background-color: hsl(211, 100%, 87%);
+    font-family: "Pixelta", sans-serif;
+    overflow-x: hidden;
 }
 
-h1{
-    background-image: url(../img/LimonSinFondo.png);
-    color: white;
-    text-align: center;
-    margin: 30px;
-}
-
-nav{
-    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.15);
-    padding: 5px;
+/* Espacio superior para las cadenas del título */
+nav {
+    padding: 65px 10px 0;
     position: relative;
     z-index: 10;
-    background-image: url(../img/Tablones\ de\ madera\ clara\ pixelada.png);
-
-    border-bottom-left-radius: 5%;
-    border-bottom-right-radius: 5%;
 }
 
-img{
-    padding: 70px;
-    width: 400px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    margin-top: 50px;
-}
-
+/* Tablero del título */
 nav h1 {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 15px 30px;
+
+    background: url("../img/fondo-textura-madera_1100-57.png")
+        center / cover;
+
     color: white;
+    text-align: center;
     transition: text-shadow 0.3s;
 }
 
+/* Cadenas del título */
+nav h1::before,
+nav h1::after {
+    content: "";
+    position: absolute;
+    top: -65px;
+    width: 12px;
+    height: 65px;
+
+    border-left: 3px solid #555;
+    border-right: 3px solid #999;
+
+    background: repeating-linear-gradient(
+        to bottom,
+        #555 0px 3px,
+        transparent 3px 9px,
+        #999 9px 12px
+    );
+}
+
+nav h1::before {
+    left: 35px;
+}
+
+nav h1::after {
+    right: 35px;
+}
+
+/* Iluminación al pasar el ratón */
 nav h1:hover {
     text-shadow:
         0 0 5px #fff,
@@ -47,3 +83,65 @@ nav h1:hover {
         0 0 40px #ffff00;
 }
 
+/* Separación entre el título y el limón */
+main {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Limón adaptable al ancho y al alto de la pantalla */
+#lemon {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: min(400px, 85vw);
+    max-height: 45dvh;
+    margin: 0;
+    padding: 0;
+    object-fit: contain;
+    image-rendering: pixelated;
+    cursor: pointer;
+}
+
+/* Se encoge sin cambiar el espacio que ocupa */
+#lemon:active {
+    transform: scale(0.95);
+}
+
+/* Contador cerca del limón */
+footer {
+    margin-top: 10px;
+    padding: 0 10px 15px;
+    text-align: center;
+}
+
+/* Tablero del contador */
+footer > div {
+    width: fit-content;
+    min-width: 150px;
+    margin: 0 auto;
+    padding: 20px 30px;
+
+    background: url("../img/fondo-textura-madera_1100-57.png")
+        center / cover;
+
+    color: white;
+}
+
+footer p {
+    margin: 0;
+}
+
+body {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
