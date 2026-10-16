@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="icon" type="image/png" href="./src/img/Rodaja de limón pixelada circular.png">
-        
-        <link rel = "stylesheet" href="./src/css/style.css">
-        <link rel = "stylesheet" href="./src/css/particles.css">
+        <link rel="stylesheet" href="./src/css/style.css">
         
         <title>Lemon Squeezer</title>
         
@@ -18,99 +15,70 @@
         <script defer src="./src/scripts/lemonClicker.js"></script>
         <script defer src="./src/scripts/menu.js"></script>
     </head>
-
+    
     <body>
+    
         <header>
-
+    
             <nav>
-                <h1>Lemon Squezzer</h1>
+                <h1>Lemon Squeezer</h1>
             </nav>
-
+    
         </header>
-        
-        <aside class="tienda">
 
-            <div class="tienda-cabecera">
+        <aside class="shop">
+    
+            <div class="shop-head">
                 <img src="./src/img/Icono tienda.png" alt="">
-                <h2>Tienda Limonera</h2>
+                <h2>Tiendera Limonera</h2>
             </div>
-
-            <section class="tienda-seccion">
-                <h3>Mejoras</h3>
-                <p>Aumenta los puntos por clic.</p>
-                <button type="button">Comprar mejora</button>
-            </section>
-
-            <section class="tienda-seccion">
-                <h3>Producción automática</h3>
-                <p>Consigue puntos automáticamente.</p>
-                <button type="button">Comprar productor</button>
-            </section>
-
-            <section class="tienda-seccion">
-                <h3>Estadísticas</h3>
-                <p>Aquí puedes mostrar tu progreso.</p>
-            </section>
+    
+            <div>
+                <div id="shop"></div>
+            </div>
+    
         </aside>
-        
-        <!-- Botón que abre el panel izquierdo -->
-        <button id="abrir-mejoras" type="button"
-                aria-controls="panel-mejoras" aria-expanded="false">
-            ☰ Mejoras activas
+
+        <button id="open-upgrades" type="button"
+                aria-controls="upgrades-panel" aria-expanded="false">
+            ☰ Actives upgrades
         </button>
 
-        <!-- Panel izquierdo, inicialmente oculto -->
-        <aside id="panel-mejoras" hidden>
-            <div class="mejoras-cabecera">
-                <h2>Mejoras activas</h2>
-
-                <button id="cerrar-mejoras" type="button"
-                        aria-label="Cerrar mejoras">
-                    ✕
-                </button>
+        <aside id="upgrades-panel" hidden>
+            <div class="upgrades-cabecera">
+                <h2>upgrades activas</h2>
+                <button id="cerrar-upgrades" type="button" aria-label="Cerrar upgrades">✕</button>
             </div>
-
-            <div class="mejoras-lista">
-                <section class="mejora">
-                    <h3>Exprimidor básico</h3>
-                    <p>+1 punto por clic</p>
+            <div class="upgrade-list">
+                <section class="upgrade">
+                    <h3>Exprimidor b&aacute;sico</h3>
+                    <p>+1 points per click</p>
                 </section>
-
-                <section class="mejora">
+                <section class="upgrade">
                     <h3>Limonero automático</h3>
-                    <p>+5 puntos por segundo</p>
+                    <p>+5 points per second</p>
                 </section>
-
-                <!-- Añade aquí las demás mejoras activas -->
             </div>
         </aside>
 
         <main>
 
             <div id="lemon-container">
-                <img id="lemon" src="./src/img/Limón pixelado completo con hoja verde.png" alt="imagen del limon">
+                <img id="lemon" src="./src/img/Limón pixelado completo con hoja verde.png" alt="imagen del limón">
             </div>
-          
-            <div>
-              <h4>Multiplier</h4>
 
-              <p id="multiplier">1</p>
-          </div>
-
-        <div >
-            <p id="shop"></p>
-        </div>
-
-
-        </main>        
+        </main>
 
         <footer>
+            <div class="score-container">
+                <div class="points-board">
+                    <p id="points">0</p>
+                </div>
 
-            <div>
-                <p id="points">0</p>
+                <div class="multiplier-board">
+                    <p id="multiplier">×1.00</p>
+                </div>
             </div>
-
-        </footer> 
-        
+        </footer>
     </body>
 </html>

@@ -1,0 +1,41 @@
+/* Distribución original y espacio de los paneles. */
+
+body {
+min-height: 100dvh;
+    background-color: hsl(211, 100%, 87%);
+    font-family: "Pixelta", sans-serif;
+    overflow-x: hidden;
+}
+
+main {
+margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+padding-right: 320px;
+}
+
+body {
+--ancho-panel: 400px;
+    padding-right: var(--ancho-panel);
+    padding-left: 0;
+}
+
+.shop,
+#upgrades-panel {
+width: var(--ancho-panel);
+    box-sizing: border-box;
+}
+
+body.menu-abierto {
+padding-left: var(--ancho-panel);
+}

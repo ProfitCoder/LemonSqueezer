@@ -45,7 +45,7 @@ const stats = {
     },
 
     showMultiplier: function () {
-        document.getElementById("multiplier").textContent = "Multiplier: " + Number.parseFloat(this.multiplier).toFixed(2);
+        document.getElementById("multiplier").textContent = "x" + Number.parseFloat(this.multiplier).toFixed(2);
     },
 
     showPoints: function () {
