@@ -221,3 +221,9 @@ setInterval(
     },
     DELTA_TIME
 );
+
+//
+//STARTING 
+//
+
+printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
