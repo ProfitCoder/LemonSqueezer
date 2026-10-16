@@ -1,7 +1,7 @@
 const stats = {
-    points: 0,
+    points: 100,
     multiplier: 1,
-    pasiveUpgrades: [],
+    pasiveUpgradesColection: [],
     activeUpgrades: [],
     clothes: [],
 
@@ -20,27 +20,40 @@ const stats = {
     },
 
     decreasePoints: function (n) {
-        setPoints(this.points - n);
+        stats.setPoints(this.points - n);
     },
 
-    addPasiveUpgrade: function (pasiveUpgrade) {
-        if (this.points >= calculateUpgradePrice(pasiveUpgrade)) {
-            activeUpgrades.push(pasiveUpgrade);
-            this.multiplier += pasiveUpgrade[0];
-            this.decreasePoints(this.calculateUpgradePrice(pasiveUpgrade));
-            pasiveUpgrade[1]++;
+    addPasiveUpgrade: function (key) {
+        console.log("Key recibida:", key);
+        if (this.points >= calculateUpgradePrice(key)) {
+            this.pasiveUpgradesColection.push(pasiveUpgrades[key]);
+            this.multiplier += pasiveUpgrades[key][0];
+            this.decreasePoints(calculateUpgradePrice(key));
+        console.log("Mejora encontrada:", pasiveUpgrades[key][1]);
+
+            pasiveUpgrades[key][1]++;
+        console.log("Mejora encontrada:", pasiveUpgrades[key][1]);
+
+            this.showMultiplier();
+            this.showPoints();
+            printAllUpgrades();
+
         }
         else {
 
         }
     },
 
-    calculateUpgradePrice: function (pasiveUpgrade) {
-        return pasiveUpgrade[2] * pasiveUpgrade[1];
+    showMultiplier: function () {
+        document.getElementById("multiplier").textContent = "Multiplier: " + Number.parseFloat(this.multiplier).toFixed(2);
     },
 
     showPoints: function () {
-        document.getElementById("points").textContent =  Number.parseFloat(this.points).toFixed(0);
+        document.getElementById("points").textContent =  "Points: " + Number.parseFloat(this.points).toFixed(0);
+    },
+
+    setPoints(p){
+        this.points = p;
     },
     
     addActiveUpgrade: function () {
