@@ -73,4 +73,4 @@ setInterval(
 //STARTING 
 //
 
-printAllUpgrades("pasive-shop", pasiveUpgradeList);
+printAllUpgrades("pasive", pasiveUpgradeList);

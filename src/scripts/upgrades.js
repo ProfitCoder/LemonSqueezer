@@ -1,11 +1,17 @@
 //PASIVE UPGRADES VALUES
 //upgrade[multiplier: 1.10, tier: 1- 3, price: 300];
 const pasiveUpgradeList = {
-    "spoon": [0.05, 1, 100, "Gain 106% more lemon juice"],
+    "spoon": [0.00, 1, 100, 1 , "Gain 1 more lemon juice"],
     "fork": [0.10, 1, 300],
     "manualTurmix": [0.15, 1, 500],
     "ogTurmix": [0.2, 1, 1000],
     "universeMixer": [0.3, 1, 1300]
+};
+
+//ALL UPGRADE TYPES 
+const upgradeLists = {
+    passive: pasiveUpgradeList,
+    active: activeUpgradeList
 };
 
 
@@ -18,15 +24,20 @@ function printAllUpgrades(htmlId, upgradeList) {
     document.getElementById(htmlId).innerHTML = "";
     for (const upgrade in upgradeList) {
         printUpgrade(htmlId, upgradeList, upgrade);
-        console.log(upgrade[1]);
     }
 };
 
 function printUpgrade(htmlId, upgradeList, key) {
-    document.getElementById(htmlId).innerHTML += "<div id='item-"+ htmlId + "'><p>" + key + "<p>" +
-        "<p>Tier: " + upgradeList[key][1] + "</p>" +
-        "<p>Precio: " + calculateUpgradePrice(upgradeList, key) + "</p>" +
-        "<button onclick=\"stats.addPasiveUpgrade('" + key + "')\">Buy</button>" +
+ document.getElementById(htmlId).innerHTML +=
+        "<div id='item-" + key + "'>" +
+            "<p>" + key + "</p>" +
+            "<p>Tier: " + upgradeList[key][1] + "</p>" +
+            "<p>Precio: " + calculateUpgradePrice(upgradeList, key) + "</p>" +
+            "<p>" + (upgradeList[key][3] ?? "") + "</p>" +
+            "<button onclick=\"stats.addUpgrade(" +
+                "window.upgradeLists['" + htmlId + "'], '" + key + "')\">" +
+                "Buy" +
+            "</button>" +
         "</div>";
 };
 
