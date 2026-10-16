@@ -1,6 +1,6 @@
 //SATS OF THE PLAYER
 const stats = {
-    points: 1000,
+    points: 222220,
     multiplier: 1,
     baseValue: 1,
     clicksPerSecond: 0,
@@ -14,6 +14,8 @@ const stats = {
 
     //POINTS METHODS
 
+    //GETTERS & SETTERS
+
     getPoints: () => {
         return this.points;
     },
@@ -21,6 +23,8 @@ const stats = {
     setPoints: (n) => {
         this.points = n;
     },
+
+    //POINT COUNT
 
     incrementPoints: function () {
         let sum = this.baseValue * this.multiplier;
@@ -32,26 +36,29 @@ const stats = {
     decreasePoints: function (n) {
         stats.setPoints(this.points - n);
     },
-
-
+    
+    showPoints: function () {
+        document.getElementById("points").textContent = Number.parseFloat(this.points).toFixed(0);
+    },
     showMultiplier: function () {
         document.getElementById("multiplier").textContent = Number.parseFloat(this.multiplier).toFixed(2);
     },
 
-    showPoints: function () {
-        document.getElementById("points").textContent = Number.parseFloat(this.points).toFixed(0);
+    showBaseValue (){
+        document.getElementById("baseValue").textContent = "+ " + this.baseValue;
     },
 
-    setPoints(p) {
-        this.points = p;
-    },
+    //ADD UPGRADE AND UPGRADE LOGIC
 
     addUpgrade: function (upgradeList, key) {
         const price = calculateUpgradePrice(upgradeList, key);
-        
+
         if (this.points >= price) {
-            
-            upgradeList[key].price = price;
+
+            this.decreasePoints(price);
+            upgradeList[key].price = price * 0.75;
+            upgradeList[key].tier++;
+
             if (upgradeList === pasiveUpgradeList) {
                 this.playerPasiveUpgradesList.push(upgradeList[key]);
                 this.multiplier += upgradeList[key].multiplier;
@@ -63,37 +70,17 @@ const stats = {
                 this.clicksPerSecond += upgradeList[key].clicksPerSecond;
                 autoClicker();
                 printAllUpgrades("autoItems", autoUpgradeList, "auto");
-                
-            }
-                printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
 
-            
-            this.decreasePoints(price);
-            upgradeList[key].tier++;
+            }
+
             this.showMultiplier();
+            this.showBaseValue();
             this.showPoints();
 
-
         } else {
-            console.log("No tienes suficientes puntos");
+            alert("Not enough lemon");
         }
     },
-
-    showMultiplier: function () {
-        document.getElementById("multiplier").textContent = "x" + Number.parseFloat(this.multiplier).toFixed(2);
-    },
-
-    showPoints: function () {
-        document.getElementById("points").textContent =  "Points: " + Number.parseFloat(this.points).toFixed(0);
-    },
-
-    addActiveUpgrade: function () {
-
-    },
-    addClothes: function () {
-
-    }
-
 }
 
 

@@ -47,7 +47,7 @@ min-width: 260px;
 }
 
 #points::before {
-content: "PUNTOS";
+content: "POINTS";
     display: block;
     margin-bottom: 4px;
 
@@ -92,6 +92,8 @@ footer > .score-container {
     box-shadow: 3px 3px 0 #382310;
 }
 
+
+
 .points-board {
     padding: 15px 30px;
 }
@@ -105,4 +107,8 @@ footer #multiplier {
     font-size: 24px;
     color: #ffe65b;
     text-shadow: 2px 2px 0 #382310;
+}
+
+#baseValue {
+    color: #ff5bf1;
 }
