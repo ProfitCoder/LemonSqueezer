@@ -1,9 +1,11 @@
 //SATS OF THE PLAYER
 const stats = {
-    points: 230000,
+    points: 1000,
     multiplier: 1,
     baseValue: 1,
+    clicksPerSecond: 0,
     playerPasiveUpgradesList: [],
+    playerAutoUpgradesList: [],
     activeUpgrades: [],
     clothes: [],
     totalPoints: 0,
@@ -46,22 +48,31 @@ const stats = {
 
     addUpgrade: function (upgradeList, key) {
         const price = calculateUpgradePrice(upgradeList, key);
-        upgradeList[key][2] = price;
- 
+        
         if (this.points >= price) {
-
+            
+            upgradeList[key].price = price;
             if (upgradeList === pasiveUpgradeList) {
-                this.playerPasiveUpgradesList.push(key);
-                this.multiplier += upgradeList[key][0];
-                this.baseValue += upgradeList[key][3];
-                upgradeList[key][1]++;
+                this.playerPasiveUpgradesList.push(upgradeList[key]);
+                this.multiplier += upgradeList[key].multiplier;
+                this.baseValue += upgradeList[key].baseValue;
+                printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
             }
+            else if (upgradeList === autoUpgradeList) {
+                this.playerAutoUpgradesList.push(upgradeList[key]);
+                this.clicksPerSecond += upgradeList[key].clicksPerSecond;
+                autoClicker();
+                printAllUpgrades("autoItems", autoUpgradeList, "auto");
+                
+            }
+                printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
 
+            
             this.decreasePoints(price);
+            upgradeList[key].tier++;
             this.showMultiplier();
             this.showPoints();
 
-            printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
 
         } else {
             console.log("No tienes suficientes puntos");
