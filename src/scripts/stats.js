@@ -1,6 +1,6 @@
 //SATS OF THE PLAYER
 const stats = {
-    points: 100,
+    points: 20000,
     multiplier: 1,
     baseValue: 1,
     playerPasiveUpgradesList: [],
@@ -8,7 +8,9 @@ const stats = {
     clothes: [],
     totalPoints: 0,
 
-//POINTS METHODS
+
+
+    //POINTS METHODS
 
     getPoints: () => {
         return this.points;
@@ -43,27 +45,33 @@ const stats = {
     },
 
     addUpgrade: function (upgradeList, key) {
-        console.log("Key recibida:", key);
-        if (this.points >= calculateUpgradePrice(upgradeList, key)) {
-            if (upgradeList = pasiveUpgradeList)
-                this.playerPasiveUpgradesList.push(upgradeList[key]);
+        const price = calculateUpgradePrice(upgradeList, key);
+        upgradeList[key][2] = price;
+ 
+        if (this.points >= price) {
+
+            if (upgradeList === pasiveUpgradeList) {
+                this.playerPasiveUpgradesList.push(key);
+            }
+
+            this.decreasePoints(price);
 
             this.multiplier += upgradeList[key][0];
-            this.decreasePoints(calculateUpgradePrice(upgradeList, key));
-            console.log("Mejora encontrada:", upgradeList[key][1]);
+            this.baseValue += upgradeList[key][3];
 
             upgradeList[key][1]++;
-            console.log("Mejora encontrada:", upgradeList[key][1]);
+            console.log(upgradeList[key][1]);
 
             this.showMultiplier();
             this.showPoints();
-            printAllUpgrades();
 
-        }
-        else {
+            printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
 
+        } else {
+            console.log("No tienes suficientes puntos");
         }
     },
+
 
     addActiveUpgrade: function () {
 

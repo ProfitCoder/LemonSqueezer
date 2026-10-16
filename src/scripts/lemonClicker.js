@@ -226,4 +226,4 @@ setInterval(
 //STARTING 
 //
 
-printAllUpgrades("pasive", pasiveUpgradeList);
+printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
