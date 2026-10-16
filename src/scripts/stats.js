@@ -40,7 +40,7 @@ const stats = {
     },
 
     showPoints: function () {
-        document.getElementById("points").textContent = this.points;
+        document.getElementById("points").textContent =  Number.parseFloat(this.points).toFixed(0);
     },
     
     addActiveUpgrade: function () {
