@@ -1,6 +1,7 @@
 import { Spring } from "../math/Spring.js";
 import { clamp, lerp } from "../math/MathHelper.js";
 import { Mouse } from "../input/Mouse.js";
+//import { stats } from "./stats.js";
 
 // ----------------------------------------------
 // CLASS
@@ -206,6 +207,8 @@ export class Lemon
     #onclick()
     {
         this.#playClickAnimation();
+        stats.incrementPoints();
+        stats.showPoints();
     }
 
     /**

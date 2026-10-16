@@ -1,6 +1,6 @@
 //PASIVE UPGRADES VALUES
 
-const pasiveUpgradeList = [
+export const pasiveUpgradeList = [
     {
         key: "spoon",
         name: "Spoon",
@@ -51,7 +51,7 @@ const pasiveUpgradeList = [
 //AUTO UPGRADES VALUES
 
 
-const autoUpgradeList = [
+export const autoUpgradeList = [
     {
         key: "lemonTree",
         name: "Lemon Tree",
@@ -94,7 +94,7 @@ const autoUpgradeList = [
     
 ];
 
-const activeUpgradeList = [
+export const activeUpgradeList = [
     {
         key: "lemonRain",
         name: "Lemon Rain",
@@ -139,11 +139,11 @@ const upgradeLists = {
 
 
 //GENERAL FUNCTIONS 
-function calculateUpgradePrice(upgradeList, key) {
+ function calculateUpgradePrice(upgradeList, key) {
     return Math.floor(upgradeList[key].price * Math.sqrt(upgradeList[key].tier * 1.5));
 };
 
-function printAllUpgrades(htmlId, upgradeList, listName) {
+export function printAllUpgrades(htmlId, upgradeList, listName) {
     document.getElementById(htmlId).innerHTML = "";
     for (const upgradeKey in upgradeList) {
         printUpgrade(htmlId, listName, upgradeList, upgradeKey);

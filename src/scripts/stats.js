@@ -1,5 +1,5 @@
 //SATS OF THE PLAYER
-const stats = {
+export const stats = {
     points: 222220,
     multiplier: 1,
     baseValue: 1,
@@ -40,6 +40,7 @@ const stats = {
     showPoints: function () {
         document.getElementById("points").textContent = Number.parseFloat(this.points).toFixed(0);
     },
+
     showMultiplier: function () {
         document.getElementById("multiplier").textContent = Number.parseFloat(this.multiplier).toFixed(2);
     },
