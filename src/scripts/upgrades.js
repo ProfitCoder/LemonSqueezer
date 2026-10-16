@@ -1,7 +1,7 @@
 //PASIVE UPGRADES VALUES
 //upgrade[multiplier: 1.10, tier: 1- 3, price: 300];
 const pasiveUpgradeList = {
-    "spoon": [0.00, 1, 100, 1, "Gain 1 more lemon juice"],
+    "spoon": [0.00, 1, 70, 1, "Gain 1 more lemon juice"],
     "fork": [0.10, 1, 300, 0, "106% more juice"],
     "manualTurmix": [0.15, 1, 500, 20, "Get 20 ml more per click!!"],
     "ogTurmix": [0.2, 1, 1000],
@@ -18,7 +18,7 @@ const upgradeLists = {
 
 //GENERAL FUNCTIONS 
 function calculateUpgradePrice(upgradeList, key) {
-    return upgradeList[key][2] * (upgradeList[key][1] * 1.1);
+    return upgradeList[key][2] * Math.sqrt((upgradeList[key][1]* 1.5));
 };
 
 function printAllUpgrades(htmlId, upgradeList, listName) {

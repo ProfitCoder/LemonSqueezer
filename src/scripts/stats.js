@@ -1,6 +1,6 @@
 //SATS OF THE PLAYER
 const stats = {
-    points: 20000,
+    points: 230000,
     multiplier: 1,
     baseValue: 1,
     playerPasiveUpgradesList: [],
@@ -52,16 +52,12 @@ const stats = {
 
             if (upgradeList === pasiveUpgradeList) {
                 this.playerPasiveUpgradesList.push(key);
+                this.multiplier += upgradeList[key][0];
+                this.baseValue += upgradeList[key][3];
+                upgradeList[key][1]++;
             }
 
             this.decreasePoints(price);
-
-            this.multiplier += upgradeList[key][0];
-            this.baseValue += upgradeList[key][3];
-
-            upgradeList[key][1]++;
-            console.log(upgradeList[key][1]);
-
             this.showMultiplier();
             this.showPoints();
 
