@@ -72,26 +72,26 @@ flex-shrink: 0;
 }
 
 /* Tarjeta de cada herramienta */
-#shopItem {
+.shopItem {
     padding: 15px;
     background-color: rgba(48, 33, 15, 0.9);
     border: 2px solid #b18249;
     box-shadow: 3px 3px 0 #382310;
 }
 
-#shopItem p {
+.shopItem p {
     margin-bottom: 6px;
 }
 
 /* Nombre de la herramienta */
-#shopItem > p:first-child {
+.shopItem > p:first-child {
     color: #ffe65b;
     font-size: 25px;
     font-weight: bold;
 }
 
 /* Botón de compra */
-#shopItem button {
+.shopItem button {
     width: 100%;
     margin-top: 10px;
     padding: 8px 12px;
@@ -105,10 +105,10 @@ flex-shrink: 0;
     cursor: pointer;
 }
 
-#shopItem button:hover {
+.shopItem button:hover {
     background-color: #fff3a0;
 }
 
-#shopItem button:active {
+.shopItem button:active {
     transform: translateY(2px);
 }
