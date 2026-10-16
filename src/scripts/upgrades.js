@@ -94,6 +94,41 @@ const autoUpgradeList = [
     
 ];
 
+const activeUpgradeList = [
+    {
+        key: "lemonRain",
+        name: "Lemon Rain",
+        state: true,
+        clicksPerSecond: 1,
+        multiplier: 0,
+        tier: 1,
+        price: 100,
+        description: "Gain 1 more lemon juice every second"
+    },
+    {
+        key: "lemonDance",
+        name: "Lemon Rain",
+        state: true,
+        clicksPerSecond: 1,
+        multiplier: 2,
+        tier: 1,
+        price: 100,
+        description: "Gain 1 more lemon juice every second"
+    },
+    {
+        key: "lemonRain",
+        name: "Lemon Rain",
+        state: true,
+        clicksPerSecond: 1,
+        multiplier: 0,
+        tier: 1,
+        price: 100,
+        description: "Gain 1 more lemon juice every second"
+    },
+    
+    
+];
+
 const upgradeLists = {
     pasive: pasiveUpgradeList,
     auto: autoUpgradeList
@@ -105,7 +140,7 @@ const upgradeLists = {
 
 //GENERAL FUNCTIONS 
 function calculateUpgradePrice(upgradeList, key) {
-    return upgradeList[key].price * Math.sqrt(upgradeList[key].tier * 1.05);
+    return Math.floor(upgradeList[key].price * Math.sqrt(upgradeList[key].tier * 1.5));
 };
 
 function printAllUpgrades(htmlId, upgradeList, listName) {
@@ -120,7 +155,7 @@ function printUpgrade(htmlId, listName, upgradeList, key) {
         "<div  class=\"shopItem\" id='item-" + key + "'>" +
         "<p>" + upgradeList[key].name + "</p>" +
         "<p>Tier: " + upgradeList[key].tier + "</p>" +
-        "<p>Precio: " + Number.parseInt(calculateUpgradePrice(upgradeList, key)) + "</p>" +
+        "<p>Precio: " + calculateUpgradePrice(upgradeList, key) + "</p>" +
         "<p>" + (upgradeList[key].description ?? "") + "</p>" +
         "<button onclick=\"stats.addUpgrade(upgradeLists['" +
         listName + "'], '" + key + "')\">" +
