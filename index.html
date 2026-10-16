@@ -1,116 +1,109 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="icon" type="image/png" href="./src/img/Rodaja de limón pixelada circular.png">
-        
-        <link rel = "stylesheet" href="./src/css/style.css">
-        <link rel = "stylesheet" href="./src/css/particles.css">
-        
-        <title>Lemon Squeezer</title>
-        
-        <script defer src="./src/scripts/upgrades.js"></script>
-        <script defer src="./src/scripts/stats.js"></script>
-        <script defer src="./src/scripts/Spring.js"></script>
-        <script defer src="./src/scripts/lemonClicker.js"></script>
-        <script defer src="./src/scripts/menu.js"></script>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="StyleSheet" href="./src/css/style.css">
+    <script defer src="./src/scripts/upgrades.js"></script>
+    <script defer src="./src/scripts/stats.js"></script>
+    <script defer src="./src/scripts/Spring.js"></script>
+    <script defer src="./src/scripts/lemonClicker.js"></script>
+    <title>Lemon Squeezer</title>
+    <link rel="icon" type="image/png" href="./src/img/Rodaja de limón pixelada circular.png">
+    <script defer src="./src/scripts/menu.js"></script>
+</head>
 
-    <body>
-        <header>
+<body>
+    <header>
 
-            <nav>
-                <h1>Lemon Squezzer</h1>
-            </nav>
+        <nav>
+            <h1>Lemon Squezzer</h1>
+        </nav>
 
-        </header>
-        
-        <aside class="tienda">
+    </header>
 
-            <div class="tienda-cabecera">
-                <img src="./src/img/Icono tienda.png" alt="">
-                <h2>Tienda Limonera</h2>
-            </div>
+    <aside class="tienda">
 
-            <section class="tienda-seccion">
-                <h3>Mejoras</h3>
-                <p>Aumenta los puntos por clic.</p>
-                <button type="button">Comprar mejora</button>
+        <div class="tienda-cabecera">
+            <img src="./src/img/Icono tienda.png" alt="">
+            <h2>Tienda Limonera</h2>
+        </div>
+
+        <section class="tienda-seccion">
+            <h3>Mejoras</h3>
+            <p>Aumenta los puntos por clic.</p>
+            <div id="pasiveItems"></div>
+        </section>
+
+        <section class="tienda-seccion">
+            <h3>Producción automática</h3>
+            <p>Consigue puntos automáticamente.</p>
+            <button type="button">Comprar productor</button>
+        </section>
+
+        <section class="tienda-seccion">
+            <h3>Estadísticas</h3>
+            <p>Aquí puedes mostrar tu progreso.</p>
+        </section>
+    </aside>
+
+    <!-- Botón que abre el panel izquierdo -->
+    <button id="abrir-mejoras" type="button" aria-controls="panel-mejoras" aria-expanded="false">
+        ☰ Mejoras activas
+    </button>
+
+    <!-- Panel izquierdo, inicialmente oculto -->
+    <aside id="panel-mejoras" hidden>
+        <div class="mejoras-cabecera">
+            <h2>Mejoras activas</h2>
+
+            <button id="cerrar-mejoras" type="button" aria-label="Cerrar mejoras">
+                ✕
+            </button>
+        </div>
+
+        <div class="mejoras-lista">
+            <section class="mejora">
+                <h3>Exprimidor básico</h3>
+                <p>+1 punto por clic</p>
             </section>
 
-            <section class="tienda-seccion">
-                <h3>Producción automática</h3>
-                <p>Consigue puntos automáticamente.</p>
-                <button type="button">Comprar productor</button>
+            <section class="mejora">
+                <h3>Limonero automático</h3>
+                <p>+5 puntos por segundo</p>
             </section>
 
-            <section class="tienda-seccion">
-                <h3>Estadísticas</h3>
-                <p>Aquí puedes mostrar tu progreso.</p>
-            </section>
-        </aside>
-        
-        <!-- Botón que abre el panel izquierdo -->
-        <button id="abrir-mejoras" type="button"
-                aria-controls="panel-mejoras" aria-expanded="false">
-            ☰ Mejoras activas
-        </button>
+            <!-- Añade aquí las demás mejoras activas -->
+        </div>
+    </aside>
 
-        <!-- Panel izquierdo, inicialmente oculto -->
-        <aside id="panel-mejoras" hidden>
-            <div class="mejoras-cabecera">
-                <h2>Mejoras activas</h2>
+    <main>
 
-                <button id="cerrar-mejoras" type="button"
-                        aria-label="Cerrar mejoras">
-                    ✕
-                </button>
-            </div>
+        <div id="lemon-container">
+            <img id="lemon" src="./src/img/Limón pixelado completo con hoja verde.png" alt="imagen del limon">
+        </div>
 
-            <div class="mejoras-lista">
-                <section class="mejora">
-                    <h3>Exprimidor básico</h3>
-                    <p>+1 punto por clic</p>
-                </section>
+        <div>
 
-                <section class="mejora">
-                    <h3>Limonero automático</h3>
-                    <p>+5 puntos por segundo</p>
-                </section>
+        </div>
 
-                <!-- Añade aquí las demás mejoras activas -->
-            </div>
-        </aside>
-
-        <main>
-
-            <div id="lemon-container">
-                <img id="lemon" src="./src/img/Limón pixelado completo con hoja verde.png" alt="imagen del limon">
-            </div>
-          
-            <div>
-              <h4>Multiplier</h4>
-
-              <p id="multiplier">1</p>
-          </div>
-
-        <div >
-            <p id="shop"></p>
+        <div>
         </div>
 
 
-        </main>        
+    </main>
 
-        <footer>
+    <footer>
 
-            <div>
-                <p id="points">0</p>
-            </div>
+        <div>
+            <p id="multiplier">1</p>
+            <p id="points">0</p>
+        </div>
 
-        </footer> 
-        
-    </body>
+    </footer>
+
+</body>
+
 </html>

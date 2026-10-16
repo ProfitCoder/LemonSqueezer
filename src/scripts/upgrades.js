@@ -1,31 +1,45 @@
+//PASIVE UPGRADES VALUES
 //upgrade[multiplier: 1.10, tier: 1- 3, price: 300];
-
-var pasiveUpgrades = {
-    "spoon": [0.05, 1, 100],
-    "fork": [0.10, 1, 300],
-    "manualTurmix": [0.15, 1, 500],
+const pasiveUpgradeList = {
+    "spoon": [0.00, 1, 100, 1, "Gain 1 more lemon juice"],
+    "fork": [0.10, 1, 300, 0, "106% more juice"],
+    "manualTurmix": [0.15, 1, 500, 20, "Get 20 ml more per click!!"],
     "ogTurmix": [0.2, 1, 1000],
     "universeMixer": [0.3, 1, 1300]
 };
 
-function calculateUpgradePrice(key) {
-    return pasiveUpgrades[key][2] * pasiveUpgrades[key][1];
-}
+const upgradeLists = {
+    pasive: pasiveUpgradeList
+};
 
-function printAllUpgrades() {
-    document.getElementById("shop").innerHTML = "";
-    for (upgrade in pasiveUpgrades) {
-        printUpgrade(upgrade);
+//ALL UPGRADE TYPES 
+
+
+
+//GENERAL FUNCTIONS 
+function calculateUpgradePrice(upgradeList, key) {
+    return upgradeList[key][2] * (upgradeList[key][1] * 1.1);
+};
+
+function printAllUpgrades(htmlId, upgradeList, listName) {
+    document.getElementById(htmlId).innerHTML = "";
+    for (const upgradeKey in upgradeList) {
+        printUpgrade(htmlId, listName, upgradeList, upgradeKey);
     }
-}
+};
 
-function printUpgrade(key) {
-    document.getElementById("shop").innerHTML += "<div id='shopItem'><p>" + key + "<p>" +
-        "<p>Tier: " + pasiveUpgrades[key][1] + "</p>" +
-        "<p>Precio: " + calculateUpgradePrice(key) + "</p>" +
-        "<button onclick=\"stats.addPasiveUpgrade('" + key + "')\">Buy</button>" +
+function printUpgrade(htmlId, listName, upgradeList, key) {
+    document.getElementById(htmlId).innerHTML +=
+        "<div id='item-" + key + "'>" +
+        "<p>" + key + "</p>" +
+        "<p>Tier: " + upgradeList[key][1] + "</p>" +
+        "<p>Precio: " + Number.parseInt(calculateUpgradePrice(upgradeList, key)) + "</p>" +
+        "<p>" + (upgradeList[key][4] ?? "") + "</p>" +
+        "<button onclick=\"stats.addUpgrade(upgradeLists['" +
+        listName + "'], '" + key + "')\">" +
+        "Buy" +
+        "</button>" +
         "</div>";
-}
+};
 
 //console.log(pasiveUpgrades["spoon"][2]);
-printAllUpgrades();
