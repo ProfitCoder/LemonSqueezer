@@ -1,0 +1,8 @@
+.particle {
+    width: 10px;
+    height: 10px;
+
+    background-color: yellow;
+
+    border-radius: 100%;
+}
