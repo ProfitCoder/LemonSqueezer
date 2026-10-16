@@ -1,6 +1,6 @@
 const stats = {
     points: 0,
-    multiplier = 1,
+    multiplier: 1,
     pasiveUpgrades: [],
     activeUpgrades: [],
     clothes: [],
@@ -16,6 +16,7 @@ const stats = {
 
     incrementPoints: function () {
         this.points = this.points + (1 * this.multiplier);
+        this.showPoints();
     },
 
     decreasePoints: function (n) {
@@ -26,7 +27,7 @@ const stats = {
         if (this.points >= calculateUpgradePrice(pasiveUpgrade)) {
             activeUpgrades.push(pasiveUpgrade);
             this.multiplier += pasiveUpgrade[0];
-            this.points - this.calculateUpgradePrice(pasiveUpgrade);
+            this.decreasePoints(this.calculateUpgradePrice(pasiveUpgrade));
             pasiveUpgrade[1]++;
         }
         else {
@@ -36,6 +37,10 @@ const stats = {
 
     calculateUpgradePrice: function (pasiveUpgrade) {
         return pasiveUpgrade[2] * pasiveUpgrade[1];
+    },
+
+    showPoints: function () {
+        document.getElementById("points").textContent = this.points;
     },
     
     addActiveUpgrade: function () {
