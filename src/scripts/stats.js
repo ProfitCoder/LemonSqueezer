@@ -46,22 +46,18 @@ const stats = {
 
     addUpgrade: function (upgradeList, key) {
         const price = calculateUpgradePrice(upgradeList, key);
-        upgradeList[key][2] = price;
+        upgradeList[key].price = price;
  
         if (this.points >= price) {
 
             if (upgradeList === pasiveUpgradeList) {
-                this.playerPasiveUpgradesList.push(key);
+                this.playerPasiveUpgradesList.push(upgradeList[key]);
+                this.multiplier += upgradeList[key].multiplier;
+                this.baseValue += upgradeList[key].baseValue;
             }
 
             this.decreasePoints(price);
-
-            this.multiplier += upgradeList[key][0];
-            this.baseValue += upgradeList[key][3];
-
-            upgradeList[key][1]++;
-            console.log(upgradeList[key][1]);
-
+            upgradeList[key].tier++;
             this.showMultiplier();
             this.showPoints();
 
