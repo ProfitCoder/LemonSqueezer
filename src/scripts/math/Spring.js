@@ -1,4 +1,4 @@
-class Spring
+export class Spring
 {
     // ----------------------------------------------
     // ATTRIBUTES
