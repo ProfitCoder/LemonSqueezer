@@ -45,11 +45,11 @@ const stats = {
     },
 
     showMultiplier: function () {
-        document.getElementById("multiplier").textContent = "Multiplier: " + Number.parseFloat(this.multiplier).toFixed(2);
+        document.getElementById("multiplier").textContent =  Number.parseFloat(this.multiplier).toFixed(2);
     },
 
     showPoints: function () {
-        document.getElementById("points").textContent =  "Points: " + Number.parseFloat(this.points).toFixed(0);
+        document.getElementById("points").textContent =   Number.parseFloat(this.points).toFixed(0);
     },
 
     setPoints(p){

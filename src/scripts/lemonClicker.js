@@ -68,3 +68,9 @@ setInterval(
     },
     DELTA_TIME
 );
+
+//
+//STARTING 
+//
+
+printAllUpgrades("pasive-shop", pasiveUpgradeList);

@@ -369,6 +369,16 @@ footer > div {
     color: #fff3cf;
 }
 
+#multiplier::before {
+    content: "Multiplier";
+    display: block;
+    margin-bottom: 4px;
+
+    font-size: 15px;
+    letter-spacing: 3px;
+    color: #fff3cf;
+}
+
 /* Número principal */
 #points {
     margin: 0;
