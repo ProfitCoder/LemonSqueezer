@@ -35,6 +35,8 @@ const particlesParent = document.getElementById("lemon-container");
 
 const ClickSpringRotation = new Spring(10, 2, 2);
 const ClickSpringScale = new Spring(1, 0.5, 1, 1);
+const ClickSpringRotationAuto = new Spring(10, 2, 2);
+const ClickSpringScaleAuto = new Spring(1, 0.5, 1, 1);
 const HoverSpringX = new Spring(1, 0.5, 1, 0);
 const HoverSpringY = new Spring(1, 0.5, 1, 0);
 
@@ -169,6 +171,18 @@ function playClickAnimation()
     spreadParticles();
 }
 
+function playClickAnimationAuto()
+{
+    let alpha = MINIMUM_ANGLE_TO_ROTATE + Math.random() * DIFFERENCE_LIMITS_ANGLES_TO_ROTATE;
+    if (currentLemonRotation < -EPSILON_ANGLE_DEGREES || Math.random() > 0.1)
+        alpha *= -1;
+
+    ClickSpringRotationAuto.position += alpha;
+    ClickSpringScaleAuto.position -= DECREASE_SCALE_WHEN_CLICKING;
+
+    spreadParticles();
+}
+
 /**
  * Updates the mouse's information
  * @param {Object} data Object with the mouse's information 
@@ -209,6 +223,8 @@ setInterval(
     () => {
         ClickSpringRotation.update(DELTA_TIME);
         ClickSpringScale.update(DELTA_TIME);
+        ClickSpringRotationAuto.update(DELTA_TIME);
+        ClickSpringScaleAuto.update(DELTA_TIME);
         HoverSpringX.update(DELTA_TIME);
         HoverSpringY.update(DELTA_TIME);
         
@@ -223,7 +239,8 @@ setInterval(
 );
 
 //
-//STARTING 
+//STARTING FUNCTIONS
 //
 
 printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
+printAllUpgrades("autoItems", autoUpgradeList, "auto");
