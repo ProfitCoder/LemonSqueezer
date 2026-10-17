@@ -30,7 +30,7 @@ function printAllUpgrades(htmlId, upgradeList, listName) {
 
 function printUpgrade(htmlId, listName, upgradeList, key) {
     document.getElementById(htmlId).innerHTML +=
-        "<div id='item-" + key + "'>" +
+        "<div  class=\"shopItem\" id='item-" + key + "'>" +
         "<p>" + key + "</p>" +
         "<p>Tier: " + upgradeList[key][1] + "</p>" +
         "<p>Precio: " + Number.parseInt(calculateUpgradePrice(upgradeList, key)) + "</p>" +
