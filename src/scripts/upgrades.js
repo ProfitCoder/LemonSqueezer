@@ -89,7 +89,7 @@ export const autoUpgradeList = [
         tier: 1,
         price: 1000000,
         description: "Gain 1 more lemon juice every second"
-    },{
+    }, {
         key: "lemonUniverse",
         name: "Lemon UNIVERSE",
         clicksPerSecond: 1,
@@ -97,47 +97,57 @@ export const autoUpgradeList = [
         price: 1000000,
         description: "Gain 1 more lemon juice every second"
     },
-    
+
 ];
 
 export const activeUpgradeList = [
     {
         key: "lemonRain",
         name: "Lemon Rain",
-        state: true,
-        clicksPerSecond: 1,
-        multiplier: 0,
+        canBePlayed: true,
+        clicksPerSecond: 0,
+        baseValue: 0,
+        multiplier: 3,
+        cooldown: 200,
+        activeTime: 10,
         tier: 1,
         price: 100,
-        description: "Gain 1 more lemon juice every second"
+        description: "Gain more for 10 seconds"
     },
     {
         key: "lemonDance",
         name: "Lemon Rain",
-        state: true,
-        clicksPerSecond: 1,
-        multiplier: 2,
+        canBePlayed: true,
+        clicksPerSecond: 10,
+        multiplier: 0,
+        baseValue: 0,
+        cooldown: 300,
+        activeTime: 10,
         tier: 1,
-        price: 100,
+        price: 500,
         description: "Gain 1 more lemon juice every second"
     },
     {
         key: "lemonRain",
         name: "Lemon Rain",
-        state: true,
+        canBePlayed: true,
         clicksPerSecond: 1,
+        baseValue: 0,
         multiplier: 0,
+        cooldown: 60,
+        activeTime: 10,
         tier: 1,
-        price: 100,
+        price: 2000,
         description: "Gain 1 more lemon juice every second"
     },
-    
-    
+
+
 ];
 
 const upgradeLists = {
     pasive: pasiveUpgradeList,
-    auto: autoUpgradeList
+    auto: autoUpgradeList,
+    active: activeUpgradeList,
 };
 
 //ALL UPGRADE TYPES 
@@ -149,12 +159,17 @@ export function calculateUpgradePrice(upgradeList, key) {
     return Math.floor(upgradeList[key].price * Math.sqrt(upgradeList[key].tier * 1.5));
 };
 
+
+//PRINT UPGRADES
+
 export function printAllUpgrades(htmlId, upgradeList, listName, lemon) {
     document.getElementById(htmlId).innerHTML = "";
     for (const upgradeKey in upgradeList) {
         printUpgrade(htmlId, listName, upgradeList, upgradeKey, lemon);
     }
 };
+
+
 
 function printUpgrade(htmlId, listName, upgradeList, key, lemon) {
     const container = document.getElementById(htmlId);
@@ -180,19 +195,138 @@ function printUpgrade(htmlId, listName, upgradeList, key, lemon) {
     container.appendChild(item);
 }
 
-//console.log(pasiveUpgrades["spoon"][2]);
+//PRINT ACTIVE UPGRADES
+
+export function printAllActiveUpgrades(htmlId, upgradeList, listName, lemon) {
+    document.getElementById(htmlId).innerHTML = "";
+    for (const upgradeKey in upgradeList) {
+        printActiveUpgrade(htmlId, listName, upgradeKey, lemon);
+    }
+};
+
+
+function printActiveUpgrade(htmlId, listName, key, lemon) {
+    const container = document.getElementById(htmlId);
+
+    const item = document.createElement("div");
+    item.className = "activeItem";
+
+    item.innerHTML = `
+        <p>${activeUpgradeList[key].name}</p>
+        <p>Tier: ${activeUpgradeList[key].tier}</p>
+        <p>Active time: ${activeUpgradeList[key].activeTime}</p>
+        <p>Cooldown: ${activeUpgradeList[key].cooldown}</p>
+        <p>Multiplier: ${activeUpgradeList[key].multiplier}</p>
+        <p>Base Lemons: ${activeUpgradeList[key].baseValue}</p>
+        <p>${activeUpgradeList[key].description ?? ""}</p>
+    `;
+
+    const button = document.createElement("button");
+    button.textContent = "TURBO";
+
+    button.addEventListener("click", () => {
+        activeEfect(key, lemon);
+    });
+
+    item.appendChild(button);
+    container.appendChild(item);
+}
+
 
 //AUTO FUNCTIONS
 
-function click(lemon){
-    for(let i = 0; i < stats.clicksPerSecond; i++) {
-        console.log(stats.clicksPerSecond);
-        stats.incrementPoints();
-    }    
-    lemon.playClickAnimationAuto();
+let lastAnimationTime = 0;
+const animationInterval = 100; 
+
+function click(lemon) {
+    stats.incrementPoints();
+
+    const now = Date.now();
+
+    if (now - lastAnimationTime >= animationInterval) {
+        lemon.playClickAnimationAuto();
+        lastAnimationTime = now;
+    }
 }
 
 export function autoClicker(lemon) {
     setInterval(() => click(lemon), 1000);
+}
+
+//ACTIVE FUNCTIONS
+
+var activeIntervals = {};
+
+function activeEfect(key, lemon) {
+    if (activeUpgradeList[key].canBePlayed) {
+
+        activeUpgradeList[key].canBePlayed = false;
+
+        stats.setClicksPerSecond(stats.getClicksPerSecond() + activeUpgradeList[key].clicksPerSecond);
+        stats.setMultiplier(stats.getMultiplier() + activeUpgradeList[key].multiplier);
+        stats.setBaseValue(stats.getBaseValue() + activeUpgradeList[key].baseValue);
+
+        stats.showPoints();
+        stats.showMultiplier();
+        stats.showClicksPerSecond();
+        stats.showBaseValue();
+
+        let cooldown = activeUpgradeList[key].cooldown;
+        let activeTime = activeUpgradeList[key].activeTime;
+
+        activeIntervals[key] = {}
+
+        activeIntervals[key].cooldown = setInterval(() => activeCooldownCallback(key, lemon, cooldown), 1000);
+        activeIntervals[key].timeActive = setInterval(() => activeTimeCallback(key, lemon, activeTime), 1000);
+    }
+}
+
+
+//CALLBACK FUNTIONS FOR ACTIVE UPGRADE TIMERS
+
+
+function activeTimeCallback(key, lemon, activeTime) {
+    if (activeUpgradeList[key].activeTime > 0) {
+        activeUpgradeList[key].activeTime--;
+        printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
+        if (activeUpgradeList[key] != 0) {
+            click(lemon);
+        }
+    }
+    else {
+        stats.setClicksPerSecond(stats.getClicksPerSecond() - activeUpgradeList[key].clicksPerSecond);
+        stats.setMultiplier(stats.getMultiplier() - activeUpgradeList[key].multiplier);
+        stats.setBaseValue(stats.getBaseValue() - activeUpgradeList[key].baseValue);
+
+        stats.showPoints();
+        stats.showMultiplier();
+        stats.showClicksPerSecond();
+        stats.showBaseValue();
+
+        activeUpgradeList[key].activeTime = activeTime;
+        printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
+
+        clearInterval(activeIntervals[key].timeActive);
+    }
+}
+
+
+function activeCooldownCallback(key, lemon, cooldown) {
+
+    if (activeUpgradeList[key].cooldown > 0) {
+        activeUpgradeList[key].cooldown--;
+        console.log(activeUpgradeList[key].cooldown);
+        printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
+
+    }
+    else {
+        console.log("a");
+
+        activeUpgradeList[key].cooldown = cooldown;
+        activeUpgradeList[key].canBePlayed = true;
+        printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
+
+        clearInterval(activeIntervals[key].cooldown);
+    }
 }
 
