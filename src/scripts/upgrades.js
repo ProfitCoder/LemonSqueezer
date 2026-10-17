@@ -106,25 +106,25 @@ export const activeUpgradeList = [
         name: "Lemon Rain",
         canBePlayed: true,
         clicksPerSecond: 0,
-        baseValue: 1,
-        multiplier: 5,
-        cooldown: 20,
+        baseValue: 0,
+        multiplier: 3,
+        cooldown: 200,
         activeTime: 10,
         tier: 1,
         price: 100,
-        description: "Gain x2 for every tier for 10 seconds"
+        description: "Gain more for 10 seconds"
     },
     {
         key: "lemonDance",
         name: "Lemon Rain",
         canBePlayed: true,
         clicksPerSecond: 10,
-        multiplier: 2,
+        multiplier: 0,
         baseValue: 0,
-        cooldown: 60,
+        cooldown: 300,
         activeTime: 10,
         tier: 1,
-        price: 100,
+        price: 500,
         description: "Gain 1 more lemon juice every second"
     },
     {
@@ -137,7 +137,7 @@ export const activeUpgradeList = [
         cooldown: 60,
         activeTime: 10,
         tier: 1,
-        price: 100,
+        price: 2000,
         description: "Gain 1 more lemon juice every second"
     },
 
@@ -235,11 +235,18 @@ function printActiveUpgrade(htmlId, listName, key, lemon) {
 
 //AUTO FUNCTIONS
 
+let lastAnimationTime = 0;
+const animationInterval = 100; 
+
 function click(lemon) {
-    for (let i = 0; i < stats.clicksPerSecond; i++) {
-        stats.incrementPoints();
+    stats.incrementPoints();
+
+    const now = Date.now();
+
+    if (now - lastAnimationTime >= animationInterval) {
+        lemon.playClickAnimationAuto();
+        lastAnimationTime = now;
     }
-    lemon.playClickAnimationAuto();
 }
 
 export function autoClicker(lemon) {
@@ -282,7 +289,7 @@ function activeTimeCallback(key, lemon, activeTime) {
     if (activeUpgradeList[key].activeTime > 0) {
         activeUpgradeList[key].activeTime--;
         printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
-        if(activeUpgradeList[key] != 0) {
+        if (activeUpgradeList[key] != 0) {
             click(lemon);
         }
     }

@@ -7,7 +7,7 @@ import { autoClicker } from './upgrades.js';
 
 //SATS OF THE PLAYER
 export const stats = {
-    points: 222220,
+    points: 222222222,
     multiplier: 1,
     baseValue: 1,
     clicksPerSecond: 0,
@@ -58,7 +58,9 @@ export const stats = {
     //POINT COUNT
 
     incrementPoints: function () {
-        let sum = this.baseValue * this.multiplier;
+        let n = 1;
+        this.clicksPerSecond == 0 ? n = 1: n = this.clicksPerSecond;
+        let sum =  n * this.baseValue * this.multiplier;
         this.points += sum;
         this.totalPoints += sum;
         this.showPoints();
