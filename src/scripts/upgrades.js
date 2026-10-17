@@ -89,7 +89,7 @@ export const autoUpgradeList = [
         tier: 1,
         price: 1000000,
         description: "Gain 1 more lemon juice every second"
-    },{
+    }, {
         key: "lemonUniverse",
         name: "Lemon UNIVERSE",
         clicksPerSecond: 1,
@@ -97,7 +97,7 @@ export const autoUpgradeList = [
         price: 1000000,
         description: "Gain 1 more lemon juice every second"
     },
-    
+
 ];
 
 export const activeUpgradeList = [
@@ -106,8 +106,9 @@ export const activeUpgradeList = [
         name: "Lemon Rain",
         canBePlayed: true,
         clicksPerSecond: 0,
-        multiplier: 3,
-        cooldown: 60,
+        baseValue: 1,
+        multiplier: 5,
+        cooldown: 20,
         activeTime: 10,
         tier: 1,
         price: 100,
@@ -116,9 +117,10 @@ export const activeUpgradeList = [
     {
         key: "lemonDance",
         name: "Lemon Rain",
-        canBePlay: true,
+        canBePlayed: true,
         clicksPerSecond: 10,
         multiplier: 2,
+        baseValue: 0,
         cooldown: 60,
         activeTime: 10,
         tier: 1,
@@ -128,8 +130,9 @@ export const activeUpgradeList = [
     {
         key: "lemonRain",
         name: "Lemon Rain",
-        canBePlay: true,
+        canBePlayed: true,
         clicksPerSecond: 1,
+        baseValue: 0,
         multiplier: 0,
         cooldown: 60,
         activeTime: 10,
@@ -137,8 +140,8 @@ export const activeUpgradeList = [
         price: 100,
         description: "Gain 1 more lemon juice every second"
     },
-    
-    
+
+
 ];
 
 const upgradeLists = {
@@ -156,12 +159,17 @@ export function calculateUpgradePrice(upgradeList, key) {
     return Math.floor(upgradeList[key].price * Math.sqrt(upgradeList[key].tier * 1.5));
 };
 
+
+//PRINT UPGRADES
+
 export function printAllUpgrades(htmlId, upgradeList, listName, lemon) {
     document.getElementById(htmlId).innerHTML = "";
     for (const upgradeKey in upgradeList) {
         printUpgrade(htmlId, listName, upgradeList, upgradeKey, lemon);
     }
 };
+
+
 
 function printUpgrade(htmlId, listName, upgradeList, key, lemon) {
     const container = document.getElementById(htmlId);
@@ -187,9 +195,15 @@ function printUpgrade(htmlId, listName, upgradeList, key, lemon) {
     container.appendChild(item);
 }
 
-function printOwnedActiveUpgrades() {
-    const container = document.getElementById()
-}
+//PRINT ACTIVE UPGRADES
+
+export function printAllActiveUpgrades(htmlId, upgradeList, listName, lemon) {
+    document.getElementById(htmlId).innerHTML = "";
+    for (const upgradeKey in upgradeList) {
+        printActiveUpgrade(htmlId, listName, upgradeKey, lemon);
+    }
+};
+
 
 function printActiveUpgrade(htmlId, listName, key, lemon) {
     const container = document.getElementById(htmlId);
@@ -200,29 +214,31 @@ function printActiveUpgrade(htmlId, listName, key, lemon) {
     item.innerHTML = `
         <p>${activeUpgradeList[key].name}</p>
         <p>Tier: ${activeUpgradeList[key].tier}</p>
+        <p>Active time: ${activeUpgradeList[key].activeTime}</p>
+        <p>Cooldown: ${activeUpgradeList[key].cooldown}</p>
+        <p>Multiplier: ${activeUpgradeList[key].multiplier}</p>
+        <p>Base Lemons: ${activeUpgradeList[key].baseValue}</p>
         <p>${activeUpgradeList[key].description ?? ""}</p>
     `;
 
     const button = document.createElement("button");
-    button.textContent = "Buy";
+    button.textContent = "TURBO";
 
     button.addEventListener("click", () => {
-        stats.activeEfect(activeUpgradeList, key, lemon);
+        activeEfect(key, lemon);
     });
 
     item.appendChild(button);
     container.appendChild(item);
 }
 
-//console.log(pasiveUpgrades["spoon"][2]);
 
 //AUTO FUNCTIONS
 
-function click(lemon){
-    for(let i = 0; i < stats.clicksPerSecond; i++) {
-        console.log(stats.clicksPerSecond);
+function click(lemon) {
+    for (let i = 0; i < stats.clicksPerSecond; i++) {
         stats.incrementPoints();
-    }    
+    }
     lemon.playClickAnimationAuto();
 }
 
@@ -232,47 +248,78 @@ export function autoClicker(lemon) {
 
 //ACTIVE FUNCTIONS
 
-var activeIntervals = [];
+var activeIntervals = {};
 
-function activeEfect(key, lemon)  {
-    if(activeUpgradeList[key].canBePlayed)
+function activeEfect(key, lemon) {
+    if (activeUpgradeList[key].canBePlayed) {
+
         activeUpgradeList[key].canBePlayed = false;
+
         stats.setClicksPerSecond(stats.getClicksPerSecond() + activeUpgradeList[key].clicksPerSecond);
         stats.setMultiplier(stats.getMultiplier() + activeUpgradeList[key].multiplier);
+        stats.setBaseValue(stats.getBaseValue() + activeUpgradeList[key].baseValue);
+
+        stats.showPoints();
+        stats.showMultiplier();
+        stats.showClicksPerSecond();
+        stats.showBaseValue();
+
         let cooldown = activeUpgradeList[key].cooldown;
         let activeTime = activeUpgradeList[key].activeTime;
-        interval[key][cooldown] =  setInterval(() => activeCooldownCallback(key, lemon, cooldown), 1000);
-        interval[key][timeActive] =  setInterval(() => activeTimeCallback(key, lemon, activeTime), 1000);
+
+        activeIntervals[key] = {}
+
+        activeIntervals[key].cooldown = setInterval(() => activeCooldownCallback(key, lemon, cooldown), 1000);
+        activeIntervals[key].timeActive = setInterval(() => activeTimeCallback(key, lemon, activeTime), 1000);
+    }
 }
 
-function activeTimeCallback (key, lemon, activeTime) {
-    if(activeTime > 0 ) {
-        activeUpgradeList[key].activeTime--;
-        console.log(activeUpgradeList[key].activeTime);
 
+//CALLBACK FUNTIONS FOR ACTIVE UPGRADE TIMERS
+
+
+function activeTimeCallback(key, lemon, activeTime) {
+    if (activeUpgradeList[key].activeTime > 0) {
+        activeUpgradeList[key].activeTime--;
+        printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
+        if(activeUpgradeList[key] != 0) {
+            click(lemon);
+        }
     }
-    else{
+    else {
         stats.setClicksPerSecond(stats.getClicksPerSecond() - activeUpgradeList[key].clicksPerSecond);
         stats.setMultiplier(stats.getMultiplier() - activeUpgradeList[key].multiplier);
+        stats.setBaseValue(stats.getBaseValue() - activeUpgradeList[key].baseValue);
+
+        stats.showPoints();
+        stats.showMultiplier();
+        stats.showClicksPerSecond();
+        stats.showBaseValue();
+
         activeUpgradeList[key].activeTime = activeTime;
-        clearInterval(interval[key][timeActive]);
+        printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
+
+        clearInterval(activeIntervals[key].timeActive);
     }
 }
 
 
 function activeCooldownCallback(key, lemon, cooldown) {
-    
-    if(cooldown > 0) {
+
+    if (activeUpgradeList[key].cooldown > 0) {
         activeUpgradeList[key].cooldown--;
         console.log(activeUpgradeList[key].cooldown);
-        click(lemon);
+        printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
+
     }
-    else{
-        stats.setClicksPerSecond(stats.getClicksPerSecond() - activeUpgradeList[key].clicksPerSecond);
-        stats.setMultiplier(stats.getMultiplier() - activeUpgradeList[key].multiplier);
+    else {
+        console.log("a");
+
         activeUpgradeList[key].cooldown = cooldown;
         activeUpgradeList[key].canBePlayed = true;
-        clearInterval(activeIntervals[key][cooldown]);
+        printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
+
+        clearInterval(activeIntervals[key].cooldown);
     }
 }
 
