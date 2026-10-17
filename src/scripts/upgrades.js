@@ -104,7 +104,7 @@ export const activeUpgradeList = [
     {
         key: "lemonRain",
         name: "Lemon Rain",
-        state: true,
+        canBePlayed: true,
         clicksPerSecond: 0,
         multiplier: 3,
         cooldown: 60,
@@ -116,7 +116,7 @@ export const activeUpgradeList = [
     {
         key: "lemonDance",
         name: "Lemon Rain",
-        state: true,
+        canBePlay: true,
         clicksPerSecond: 10,
         multiplier: 2,
         cooldown: 60,
@@ -128,7 +128,7 @@ export const activeUpgradeList = [
     {
         key: "lemonRain",
         name: "Lemon Rain",
-        state: true,
+        canBePlay: true,
         clicksPerSecond: 1,
         multiplier: 0,
         cooldown: 60,
@@ -143,7 +143,8 @@ export const activeUpgradeList = [
 
 const upgradeLists = {
     pasive: pasiveUpgradeList,
-    auto: autoUpgradeList
+    auto: autoUpgradeList,
+    active: activeUpgradeList,
 };
 
 //ALL UPGRADE TYPES 
@@ -186,6 +187,33 @@ function printUpgrade(htmlId, listName, upgradeList, key, lemon) {
     container.appendChild(item);
 }
 
+function printOwnedActiveUpgrades() {
+
+}
+
+function printActiveUpgrades(htmlId, listName, key, lemon) {
+    const container = document.getElementById(htmlId);
+
+    const item = document.createElement("div");
+    item.className = "activeItem";
+
+    item.innerHTML = `
+        <p>${activeUpgradeList[key].name}</p>
+        <p>Tier: ${activeUpgradeList[key].tier}</p>
+        <p>${activeUpgradeList[key].description ?? ""}</p>
+    `;
+
+    const button = document.createElement("button");
+    button.textContent = "Buy";
+
+    button.addEventListener("click", () => {
+        stats.activeEfect(activeUpgradeList, key, lemon);
+    });
+
+    item.appendChild(button);
+    container.appendChild(item);
+}
+
 //console.log(pasiveUpgrades["spoon"][2]);
 
 //AUTO FUNCTIONS
@@ -202,3 +230,32 @@ export function autoClicker(lemon) {
     setInterval(() => click(lemon), 1000);
 }
 
+//ACTIVE FUNCTIONS
+
+var activeIntervals = [];
+
+function activeEfect(key, lemon)  {
+    if(activeUpgradeList[key].canBePlayed)
+        stats.setClicksPerSecond(stats.getClicksPerSecond() + activeUpgradeList[key].clicksPerSecond);
+        stats.setMultiplier(stats.getMultiplier() + activeUpgradeList[key].multiplier);
+        let cooldown = activeUpgradeList[key].cooldown;
+        interval[key] =  setInterval(() => activeCallback(key, lemon, cooldown), 1000);
+    
+}
+
+
+function activeCallback(key, lemon, cooldown) {
+    
+
+    if(cooldown > 0) {
+        activeUpgradeList[key].cooldown--;
+        console.log(activeUpgradeList[key].cooldown);
+        click(lemon);
+    }
+    else{
+        stats.setClicksPerSecond(stats.getClicksPerSecond() - activeUpgradeList[key].clicksPerSecond);
+        stats.setMultiplier(stats.getMultiplier() - activeUpgradeList[key].multiplier);
+        activeUpgradeList[key].cooldown = cooldown;
+        clearInterval(activeIntervals[key]);
+    }
+}

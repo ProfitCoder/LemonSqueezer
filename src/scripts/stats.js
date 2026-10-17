@@ -13,7 +13,7 @@ export const stats = {
     clicksPerSecond: 0,
     playerPasiveUpgradesList: [],
     playerAutoUpgradesList: [],
-    activeUpgrades: [],
+    playerActiveUpgradesList: [],
     clothes: [],
     totalPoints: 0,
 
@@ -29,6 +29,22 @@ export const stats = {
 
     setPoints: function(n) {
         this.points = n;
+    },
+
+    setClicksPerSecond: function(clicks) {
+        this.clicksPerSecond = clicks;
+    },
+
+    getClicksPerSecond: function(){
+        return this.clicksPerSecond;
+    },
+
+    setMultiplier: function(x) {
+        this.multiplier = x;
+    },
+
+    getMultiplier() {
+        return this.multiplier;
     },
 
     //POINT COUNT
@@ -56,6 +72,10 @@ export const stats = {
         document.getElementById("baseValue").textContent = "+ " + this.baseValue;
     },
 
+    showClicksPerSecond: function (){
+        document.getElementById("clicksPerSecond").textContent = "cps " + this.clicksPerSecond;
+    },
+
     //ADD UPGRADE AND UPGRADE LOGIC
 
     addUpgrade: function (upgradeList, key, lemon) {
@@ -79,11 +99,21 @@ export const stats = {
                 autoClicker(lemon);
                 printAllUpgrades("autoItems", autoUpgradeList, "auto", lemon);
 
+            }else if(upgradeList === activeUpgradeList) {
+                this.playerActiveUpgradesList.push(upgradeList[key]);
+                printAllUpgrades("activeItems", activeUpgradeList, "active", lemon);
+                console.log(this.playerActiveUpgradesList);
+                activeUpgradeList[key].cooldown *=  0.9;
+                activeUpgradeList[key].multiplier *= 1.1;
+                activeUpgradeList[key].clicksPerSecond *= 1.1;
+                activeUpgradeList[key].activeTime *= 1.1;
+                
             }
 
             this.showMultiplier();
             this.showBaseValue();
             this.showPoints();
+            this.showClicksPerSecond();
 
         } else {
             alert("Not enough lemon");
