@@ -1,8 +1,10 @@
 import { Lemon } from './lemon/Lemon.js';
 import { LemonsObserver } from './lemon/LemonsObserver.js';
-import { printAllUpgrades, pasiveUpgradeList, autoUpgradeList } from './upgrades.js';
+import { printAllUpgrades, pasiveUpgradeList, autoUpgradeList, autoClicker } from './upgrades.js';
 import {stats} from './stats.js';
-import {} from './stats.js';
+
+
+
 
 
 // ----------------------------------------------
@@ -17,8 +19,8 @@ const lemon = new Lemon(document.getElementById("lemon"), document.getElementByI
 // ----------------------------------------------
 
 lemonsObserver.suscribe(lemon);
-printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
-printAllUpgrades("autoItems", autoUpgradeList, "auto");
+printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive", lemon);
+printAllUpgrades("autoItems", autoUpgradeList, "auto", lemon);
 
 // ----------------------------------------------
 // GAME LOOP

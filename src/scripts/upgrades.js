@@ -1,3 +1,9 @@
+import { stats } from "./stats.js";
+import { Lemon } from "./lemon/Lemon.js";
+
+//New lemon to use private method playClickAnimation
+
+
 //PASIVE UPGRADES VALUES
 
 export const pasiveUpgradeList = [
@@ -139,46 +145,54 @@ const upgradeLists = {
 
 
 //GENERAL FUNCTIONS 
- function calculateUpgradePrice(upgradeList, key) {
+export function calculateUpgradePrice(upgradeList, key) {
     return Math.floor(upgradeList[key].price * Math.sqrt(upgradeList[key].tier * 1.5));
 };
 
-export function printAllUpgrades(htmlId, upgradeList, listName) {
+export function printAllUpgrades(htmlId, upgradeList, listName, lemon) {
     document.getElementById(htmlId).innerHTML = "";
     for (const upgradeKey in upgradeList) {
-        printUpgrade(htmlId, listName, upgradeList, upgradeKey);
+        printUpgrade(htmlId, listName, upgradeList, upgradeKey, lemon);
     }
 };
 
-function printUpgrade(htmlId, listName, upgradeList, key) {
-    document.getElementById(htmlId).innerHTML +=
-        "<div  class=\"shopItem\" id='item-" + key + "'>" +
-        "<p>" + upgradeList[key].name + "</p>" +
-        "<p>Tier: " + upgradeList[key].tier + "</p>" +
-        "<p>Precio: " + calculateUpgradePrice(upgradeList, key) + "</p>" +
-        "<p>" + (upgradeList[key].description ?? "") + "</p>" +
-        "<button onclick=\"stats.addUpgrade(upgradeLists['" +
-        listName + "'], '" + key + "')\">" +
-        "Buy" +
-        "</button>" +
-        "</div>";
-};
+function printUpgrade(htmlId, listName, upgradeList, key, lemon) {
+    const container = document.getElementById(htmlId);
+
+    const item = document.createElement("div");
+    item.className = "shopItem";
+
+    item.innerHTML = `
+        <p>${upgradeList[key].name}</p>
+        <p>Tier: ${upgradeList[key].tier}</p>
+        <p>Precio: ${calculateUpgradePrice(upgradeList, key)}</p>
+        <p>${upgradeList[key].description ?? ""}</p>
+    `;
+
+    const button = document.createElement("button");
+    button.textContent = "Buy";
+
+    button.addEventListener("click", () => {
+        stats.addUpgrade(upgradeLists[listName], key, lemon);
+    });
+
+    item.appendChild(button);
+    container.appendChild(item);
+}
 
 //console.log(pasiveUpgrades["spoon"][2]);
 
 //AUTO FUNCTIONS
 
-function click(){
-    for(i = 0; i < stats.clicksPerSecond; i++) {
+function click(lemon){
+    for(let i = 0; i < stats.clicksPerSecond; i++) {
         console.log(stats.clicksPerSecond);
         stats.incrementPoints();
-    }
-    playClickAnimationAuto();
-    
-    playClickAnimation();
+    }    
+    lemon.playClickAnimationAuto();
 }
 
-function autoClicker() {
-    setInterval(click, 1000);
+export function autoClicker(lemon) {
+    setInterval(() => click(lemon), 1000);
 }
 
