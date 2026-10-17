@@ -188,10 +188,10 @@ function printUpgrade(htmlId, listName, upgradeList, key, lemon) {
 }
 
 function printOwnedActiveUpgrades() {
-
+    const container = document.getElementById()
 }
 
-function printActiveUpgrades(htmlId, listName, key, lemon) {
+function printActiveUpgrade(htmlId, listName, key, lemon) {
     const container = document.getElementById(htmlId);
 
     const item = document.createElement("div");
@@ -236,17 +236,32 @@ var activeIntervals = [];
 
 function activeEfect(key, lemon)  {
     if(activeUpgradeList[key].canBePlayed)
+        activeUpgradeList[key].canBePlayed = false;
         stats.setClicksPerSecond(stats.getClicksPerSecond() + activeUpgradeList[key].clicksPerSecond);
         stats.setMultiplier(stats.getMultiplier() + activeUpgradeList[key].multiplier);
         let cooldown = activeUpgradeList[key].cooldown;
-        interval[key] =  setInterval(() => activeCallback(key, lemon, cooldown), 1000);
-    
+        let activeTime = activeUpgradeList[key].activeTime;
+        interval[key][cooldown] =  setInterval(() => activeCooldownCallback(key, lemon, cooldown), 1000);
+        interval[key][timeActive] =  setInterval(() => activeTimeCallback(key, lemon, activeTime), 1000);
+}
+
+function activeTimeCallback (key, lemon, activeTime) {
+    if(activeTime > 0 ) {
+        activeUpgradeList[key].activeTime--;
+        console.log(activeUpgradeList[key].activeTime);
+
+    }
+    else{
+        stats.setClicksPerSecond(stats.getClicksPerSecond() - activeUpgradeList[key].clicksPerSecond);
+        stats.setMultiplier(stats.getMultiplier() - activeUpgradeList[key].multiplier);
+        activeUpgradeList[key].activeTime = activeTime;
+        clearInterval(interval[key][timeActive]);
+    }
 }
 
 
-function activeCallback(key, lemon, cooldown) {
+function activeCooldownCallback(key, lemon, cooldown) {
     
-
     if(cooldown > 0) {
         activeUpgradeList[key].cooldown--;
         console.log(activeUpgradeList[key].cooldown);
@@ -256,6 +271,8 @@ function activeCallback(key, lemon, cooldown) {
         stats.setClicksPerSecond(stats.getClicksPerSecond() - activeUpgradeList[key].clicksPerSecond);
         stats.setMultiplier(stats.getMultiplier() - activeUpgradeList[key].multiplier);
         activeUpgradeList[key].cooldown = cooldown;
-        clearInterval(activeIntervals[key]);
+        activeUpgradeList[key].canBePlayed = true;
+        clearInterval(activeIntervals[key][cooldown]);
     }
 }
+

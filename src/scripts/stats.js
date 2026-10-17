@@ -101,6 +101,7 @@ export const stats = {
 
             }else if(upgradeList === activeUpgradeList) {
                 this.playerActiveUpgradesList.push(upgradeList[key]);
+                printAllUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
                 printAllUpgrades("activeItems", activeUpgradeList, "active", lemon);
                 console.log(this.playerActiveUpgradesList);
                 activeUpgradeList[key].cooldown *=  0.9;

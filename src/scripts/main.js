@@ -22,7 +22,7 @@ lemonsObserver.suscribe(lemon);
 printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive", lemon);
 printAllUpgrades("autoItems", autoUpgradeList, "auto", lemon);
 printAllUpgrades("activeItems", activeUpgradeList, "active", lemon);
-printAllUpgrades("activeItems", activeUpgradeList, "active", lemon);
+printAllUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
 
 // ----------------------------------------------
 // GAME LOOP
