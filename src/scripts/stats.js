@@ -71,13 +71,13 @@ export const stats = {
                 this.playerPasiveUpgradesList.push(upgradeList[key]);
                 this.multiplier += upgradeList[key].multiplier;
                 this.baseValue += upgradeList[key].baseValue;
-                printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive");
+                printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive", lemon);
             }
             else if (upgradeList === autoUpgradeList) {
                 this.playerAutoUpgradesList.push(upgradeList[key]);
                 this.clicksPerSecond += upgradeList[key].clicksPerSecond;
                 autoClicker(lemon);
-                printAllUpgrades("autoItems", autoUpgradeList, "auto");
+                printAllUpgrades("autoItems", autoUpgradeList, "auto", lemon);
 
             }
 

@@ -105,18 +105,22 @@ export const activeUpgradeList = [
         key: "lemonRain",
         name: "Lemon Rain",
         state: true,
-        clicksPerSecond: 1,
-        multiplier: 0,
+        clicksPerSecond: 0,
+        multiplier: 3,
+        cooldown: 60,
+        activeTime: 10,
         tier: 1,
         price: 100,
-        description: "Gain 1 more lemon juice every second"
+        description: "Gain x2 for every tier for 10 seconds"
     },
     {
         key: "lemonDance",
         name: "Lemon Rain",
         state: true,
-        clicksPerSecond: 1,
+        clicksPerSecond: 10,
         multiplier: 2,
+        cooldown: 60,
+        activeTime: 10,
         tier: 1,
         price: 100,
         description: "Gain 1 more lemon juice every second"
@@ -127,6 +131,8 @@ export const activeUpgradeList = [
         state: true,
         clicksPerSecond: 1,
         multiplier: 0,
+        cooldown: 60,
+        activeTime: 10,
         tier: 1,
         price: 100,
         description: "Gain 1 more lemon juice every second"
