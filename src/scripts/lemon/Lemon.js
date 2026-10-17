@@ -1,4 +1,5 @@
 import { Spring } from "../math/Spring.js";
+import { HTMLObjectPoolingBuilder } from "../HTMLObjectPooling/HTMLObjectPoolingBuilder.js";
 import { clamp, lerp } from "../math/MathHelper.js";
 import { Mouse } from "../input/Mouse.js";
 import { stats } from "../stats.js";
@@ -37,6 +38,8 @@ export class Lemon
     // ----------------------------------------------
     // ATTRIBUTES
     // ----------------------------------------------
+
+    #htmlObjectPooling = undefined;
 
     #lemon = undefined;
     #particlesParent = undefined;
@@ -80,14 +83,20 @@ export class Lemon
         this.#lemon = lemonElement;
         this.#particlesParent = particlesParentElement;
 
-        this.#lemonContainerCoordinates = particlesParentElement.getBoundingClientRect();
-        this.#lemonCoordinates = lemonElement.getBoundingClientRect();
+        this.#setLemonCoordinates();
 
-        this.#lemonCoordinatesX = this.#lemonCoordinates.left + (this.#lemonCoordinates.right - this.#lemonCoordinates.left) / 2 - this.#lemonContainerCoordinates.left;
-        this.#lemonCoordinatesY = this.#lemonContainerCoordinates.top + (this.#lemonCoordinates.top - this.#lemonCoordinates.bottom) / 2 - this.#lemonCoordinates.top;
+        this.#htmlObjectPooling = new HTMLObjectPoolingBuilder()
+                                .setElement(this.#createDrop())
+                                .setDefaultAmount(5)
+                                .setUnpoolTime(-1)
+                                .setPoolMethod(particle => this.#throwDrop(particle))
+                                .setUnpoolMethod(particle => particle.style.opacity = 0)
+                                .build();
 
         this.#lemon.addEventListener("click", () => { this.#onclick(); });
         this.#lemon.addEventListener("mouseover", () => { this.#onMouseOver(); });
+
+        window.addEventListener("resize", () => {this.#setLemonCoordinates()})
     }
 
     // ----------------------------------------------
@@ -116,29 +125,13 @@ export class Lemon
     }
 
     /**
-     * Creates a new drop element
-    * @returns The new particle created as a HTML element
-    * @author Álvaro Fernández Barrero
-    */
-    #createDrop()
-    {
-        let particle = document.createElement("div");
-        particle.className = Lemon.#PARTICLE_CLASS_NAME;
-        particle.style.margin = "0 auto";
-        particle.style.zIndex = -500;
-        particle.style.position = "absolute";
-        this.#particlesParent.appendChild(particle);
-
-        return particle;
-    }
-
-    /**
      * Throw a lemon's drop
      * @author Álvaro Fernández Barrero
      */
-    async #throwDrop()
+    async #throwDrop(particle)
     {
-        let particle = this.#createDrop();
+        particle.style.opacity = 1;
+        particle.style.transform = `translate(${this.#lemonCoordinatesX}px, ${this.#lemonCoordinatesY}px)`;
 
         let offsetX = Lemon.#computeDropOffset();
         let offsetY = Lemon.#computeDropOffset();
@@ -161,7 +154,25 @@ export class Lemon
             particle.style.transform = `translate(${newX}px, ${newY}px)`;
         }
 
-        particle.remove();
+        this.#htmlObjectPooling.unpool(particle);
+    }
+
+    /**
+    * Creates a new drop element
+    * @returns The new particle created as a HTML element
+    * @author Álvaro Fernández Barrero
+    */
+    #createDrop()
+    {
+        let particle = document.createElement("div");
+        particle.className = Lemon.#PARTICLE_CLASS_NAME;
+        particle.style.margin = "0 auto";
+        particle.style.opacity = 0;
+        particle.style.zIndex = -500;
+        particle.style.position = "absolute";
+        this.#particlesParent.appendChild(particle);
+
+        return particle;
     }
 
     /**
@@ -175,7 +186,7 @@ export class Lemon
             return;
 
         for (let i = 0; i < particlesAmount; i++)
-            this.#throwDrop();
+            this.#htmlObjectPooling.pool();
     }
 
     /**
@@ -203,6 +214,19 @@ export class Lemon
         this.#playClickAnimation();
     }
 
+
+    /**
+     * Sets the lemon's coordinates in screen
+     * @author Álvaro Fernández Barrero
+     */
+    #setLemonCoordinates()
+    {
+        this.#lemonContainerCoordinates = this.#particlesParent.getBoundingClientRect();
+        this.#lemonCoordinates = this.#lemon.getBoundingClientRect();
+
+        this.#lemonCoordinatesX = this.#lemonCoordinates.left + (this.#lemonCoordinates.right - this.#lemonCoordinates.left) / 2 - this.#lemonContainerCoordinates.left;
+        this.#lemonCoordinatesY = this.#lemonContainerCoordinates.top + (this.#lemonCoordinates.top - this.#lemonCoordinates.bottom) / 2 - this.#lemonCoordinates.top;
+    }
 
     /**
      * Callback for the click event
