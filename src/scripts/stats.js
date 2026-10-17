@@ -1,5 +1,12 @@
+import { calculateUpgradePrice } from './upgrades.js';
+import { pasiveUpgradeList } from './upgrades.js';
+import { activeUpgradeList } from './upgrades.js';
+import { autoUpgradeList } from './upgrades.js';
+import { printAllUpgrades } from './upgrades.js';
+import { autoClicker } from './upgrades.js';
+
 //SATS OF THE PLAYER
-const stats = {
+export const stats = {
     points: 222220,
     multiplier: 1,
     baseValue: 1,
@@ -16,11 +23,11 @@ const stats = {
 
     //GETTERS & SETTERS
 
-    getPoints: () => {
+    getPoints: function() {
         return this.points;
     },
 
-    setPoints: (n) => {
+    setPoints: function(n) {
         this.points = n;
     },
 
@@ -40,17 +47,18 @@ const stats = {
     showPoints: function () {
         document.getElementById("points").textContent = Number.parseFloat(this.points).toFixed(0);
     },
+
     showMultiplier: function () {
         document.getElementById("multiplier").textContent = Number.parseFloat(this.multiplier).toFixed(2);
     },
 
-    showBaseValue (){
+    showBaseValue: function (){
         document.getElementById("baseValue").textContent = "+ " + this.baseValue;
     },
 
     //ADD UPGRADE AND UPGRADE LOGIC
 
-    addUpgrade: function (upgradeList, key) {
+    addUpgrade: function (upgradeList, key, lemon) {
         const price = calculateUpgradePrice(upgradeList, key);
 
         if (this.points >= price) {
@@ -68,7 +76,7 @@ const stats = {
             else if (upgradeList === autoUpgradeList) {
                 this.playerAutoUpgradesList.push(upgradeList[key]);
                 this.clicksPerSecond += upgradeList[key].clicksPerSecond;
-                autoClicker();
+                autoClicker(lemon);
                 printAllUpgrades("autoItems", autoUpgradeList, "auto");
 
             }
