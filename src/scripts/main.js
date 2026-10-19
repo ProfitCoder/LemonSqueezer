@@ -6,7 +6,6 @@ import {stats} from './stats.js';
 
 
 
-
 // ----------------------------------------------
 // VARIABLES
 // ----------------------------------------------
@@ -34,3 +33,27 @@ setInterval(
     },
     DELTA_TIME
 );
+
+// Abrir y cerrar el panel de mejoras
+const openUpgradesButton = document.getElementById("open-upgrades");
+const closeUpgradesButton = document.getElementById("cerrar-upgrades");
+const upgradesPanel = document.getElementById("upgrades-panel");
+
+function setUpgradesOpen(isOpen) {
+    upgradesPanel.hidden = !isOpen;
+    document.body.classList.toggle("menu-abierto", isOpen);
+    openUpgradesButton.setAttribute("aria-expanded", String(isOpen));
+}
+
+// Empieza cerrado
+setUpgradesOpen(false);
+
+openUpgradesButton.addEventListener("click", () => {
+    setUpgradesOpen(true);
+    closeUpgradesButton.focus();
+});
+
+closeUpgradesButton.addEventListener("click", () => {
+    setUpgradesOpen(false);
+    openUpgradesButton.focus();
+});

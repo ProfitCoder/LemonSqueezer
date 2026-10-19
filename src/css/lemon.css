@@ -49,3 +49,11 @@ main {
     color: #ffe65b;
     text-shadow: 2px 2px 0 #382310;
 }
+
+/* Contiene el desbordamiento de la animación y las partículas */
+#lemon-container {
+    position: relative;
+    overflow: clip;
+    padding: 35px;
+    box-sizing: border-box;
+}
