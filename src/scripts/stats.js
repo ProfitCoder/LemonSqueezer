@@ -14,6 +14,7 @@ export const stats = {
     playerPasiveUpgradesList: [],
     playerAutoUpgradesList: [],
     playerActiveUpgradesList: [],
+    playerClothesUpgradesList: [],
     clothes: [],
     totalPoints: 0,
 
@@ -118,6 +119,11 @@ export const stats = {
                 activeUpgradeList[key].multiplier = Math.floor(activeUpgradeList[key].multiplier * 1.1);
                 activeUpgradeList[key].clicksPerSecond = Math.floor(activeUpgradeList[key].clicksPerSecond * 1.1);
                 activeUpgradeList[key].activeTime = Math.floor(activeUpgradeList[key].activeTime * 1.1);
+
+            }else if( upgradeList == clothesList) {
+                clothesList[key].owned = true;
+                this.playerClothesUpgradesList.push(clothesList[key]);
+                printAllclothesShopUpgrades("clothesItems", lemon);
 
             }
 
