@@ -24,16 +24,16 @@ export class Lemon
     static #MAXIMUM_IMPULSE_WHEN_MOUSE_IS_OVER = 10;
 
     static #MINIMUM_DELAY_BETWEEN_CLICKS_TO_RUN_ANIMATIONS = 0.1;
-    static #MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 0;
-    static #MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 5;
+    static #MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 3;
+    static #MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 20;
     static #LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE = Math.min(this.#MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK - this.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK);
 
     static #PARTICLE_CLASS_NAME = "particle";
-    static #PARTICLES_SPEED = 0.5;
+    static #PARTICLES_SPEED = 0.35;
 
-    static #PARTICLE_MINIMUM_MOTION = 120;
-    static #PARTICLE_MAXIMUM_MOTION = 150;
-    static #PARTICLE_CURVATURE = 70;
+    static #PARTICLE_MINIMUM_MOTION = 0;
+    static #PARTICLE_MAXIMUM_MOTION = 400;
+    static #PARTICLE_CURVATURE = 100;
 
     // ----------------------------------------------
     // ATTRIBUTES
@@ -108,7 +108,12 @@ export class Lemon
      * @returns A random amount of particles
      * @author Álvaro Fernández Barrero
      */
-    static #getAmountParticles = () => Lemon.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK + Math.floor(Math.random() * Lemon.#LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE);
+    static #getAmountParticles = () => {
+        let multiplier = Math.sqrt(1 + stats.baseValue * 0.1);
+        let randomAmount = (Lemon.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK + Math.floor(Math.random() * Lemon.#LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE));
+        
+        return Math.floor(multiplier * randomAmount);
+    }
 
     /**
      * Computes a random offset for the drop's motion
@@ -132,24 +137,31 @@ export class Lemon
     {
         particle.style.opacity = 1;
         particle.style.transform = `translate(${this.#lemonCoordinatesX}px, ${this.#lemonCoordinatesY}px)`;
+        
+        let t = 0;  
+        let lifeTime = 1 + Math.random() * 2;
 
         let offsetX = Lemon.#computeDropOffset();
         let offsetY = Lemon.#computeDropOffset();
 
-        let goalX = this.#lemonCoordinatesX + offsetX;
-        let goalY = this.#lemonCoordinatesY + offsetY;
+        if (offsetX === 0 && offsetY === 0)
+            offsetX = Lemon.#PARTICLE_MAXIMUM_MOTION;
 
-        let t = 0;  
+        let goalX = this.#lemonCoordinatesX + offsetX * lifeTime;
+        let goalY = this.#lemonCoordinatesY + (offsetY < 0 ? offsetY : offsetY * 2) * lifeTime;
 
-        while (t < 1)
+
+        while (t < lifeTime)
         {
             await new Promise(resolve => setTimeout(resolve, DELTA_TIME)).then(() => t += DELTA_TIME * Lemon.#PARTICLES_SPEED);
 
-            let newX = lerp(this.#lemonCoordinatesX, goalX, t);
-            let newY = lerp(this.#lemonCoordinatesY, goalY, t);
+            let alpha = t / lifeTime;
+
+            let newX = lerp(this.#lemonCoordinatesX, goalX, alpha);
+            let newY = lerp(this.#lemonCoordinatesY, goalY, alpha);
             
-            if (newY > 0)
-                newY -= Math.sin(t * Math.PI) * Lemon.#PARTICLE_CURVATURE;
+            if (offsetY < 0)
+                newY -= Math.sin(Math.min(alpha * Math.PI, Math.PI)) * Lemon.#PARTICLE_CURVATURE;
             
             particle.style.transform = `translate(${newX}px, ${newY}px)`;
         }
