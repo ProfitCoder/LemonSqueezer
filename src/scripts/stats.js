@@ -7,7 +7,7 @@ import { autoClicker } from './upgrades.js';
 
 //SATS OF THE PLAYER
 export const stats = {
-    points: 0,
+    points:  222222222,
     multiplier: 1,
     baseValue: 1,
     clicksPerSecond: 0,
@@ -98,20 +98,23 @@ export const stats = {
             upgradeList[key].tier++;
 
             if (upgradeList === pasiveUpgradeList) {
-                this.addOrUpdateUpgrade(this.playerPasiveUpgradesList, upgradeList[key])
+                this.addOrUpdateUpgrade(this.playerPasiveUpgradesList, upgradeList[key]);
+
                 this.playerPasiveUpgradesList.push(upgradeList[key]);
+
                 this.multiplier += upgradeList[key].multiplier;
                 this.baseValue += upgradeList[key].baseValue;
+
                 printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive", lemon);
             }
             else if (upgradeList === autoUpgradeList) {
-                this.addOrUpdateUpgrade(this.playerAutoUpgradesList, upgradeList[key])
+                this.addOrUpdateUpgrade(this.playerAutoUpgradesList, upgradeList[key]);
                 this.clicksPerSecond += upgradeList[key].clicksPerSecond;
                 autoClicker(lemon);
                 printAllUpgrades("autoItems", autoUpgradeList, "auto", lemon);
 
             } else if (upgradeList === activeUpgradeList) {
-                this.addOrUpdateUpgrade(this.playerActiveUpgradesList, upgradeList[key])
+                this.addOrUpdateUpgrade(this.playerActiveUpgradesList, upgradeList[key]);
                 printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
                 printAllUpgrades("activeItems", activeUpgradeList, "active", lemon);
                 activeUpgradeList[key].cooldown = Math.floor(activeUpgradeList[key].cooldown * 0.9);
