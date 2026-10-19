@@ -7,7 +7,7 @@ import { autoClicker } from './upgrades.js';
 
 //SATS OF THE PLAYER
 export const stats = {
-    points: 222222222,
+    points: 0,
     multiplier: 1,
     baseValue: 1,
     clicksPerSecond: 0,
