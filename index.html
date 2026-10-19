@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es">
+
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,17 +15,13 @@
     </head>
     
     <body>
-    
         <header>
-    
             <nav>
                 <h1>Lemon Squeezer</h1>
             </nav>
-    
         </header>
 
         <aside class="shop">
-    
             <div class="shop-head">
                 <img draggable="false" src="./src/img/Icono tienda.png" alt="">
                 <h2>Lemon Shop</h2>
@@ -33,18 +30,19 @@
             <div>
                 <div id="pasiveItems"></div>
             </div>
+            
             <h2>Auto Squeezers</h2>
             <div>
                 <div id="autoItems"></div>
             </div>
+
             <h2>Auto Squeezers</h2>
             <div>
                 <div id="activeItems"></div>
             </div>
         </aside>
 
-        <button id="open-upgrades" type="button"
-                aria-controls="upgrades-panel" aria-expanded="false">
+        <button id="open-upgrades" type="button" aria-controls="upgrades-panel" aria-expanded="false">
             ☰ Actives upgrades
         </button>
 
@@ -53,11 +51,13 @@
                 <h2>upgrades activas</h2>
                 <button id="cerrar-upgrades" type="button" aria-label="Cerrar upgrades">✕</button>
             </div>
+
             <div class="upgrade-list">
                 <section class="upgrade">
                     <h3>Exprimidor b&aacute;sico</h3>
                     <p>+1 points per click</p>
                 </section>
+            
                 <section class="upgrade">
                     <h3>Limonero automático</h3>
                     <p>+5 points per second</p>
@@ -66,31 +66,31 @@
         </aside>
 
         <main>
-
             <div id="lemon-container">
                 <img draggable="false" id="lemon" src="./src/img/Limón pixelado completo con hoja verde.png" alt="imagen del limón">
             </div>
-
         </main>
 
         <footer>
-                <div id="activeItemsOwned"></div>
+            <div id="activeItemsOwned"></div>
 
             <div class="score-container">
                 <div class="points-board">
                     <p id="points">0</p>
                 </div>
+                
                 <div class="multiplier-board">
                     <p id="baseValue">+1.00</p>
                 </div>
+                
                 <div class="multiplier-board">
                     <p id="clicksPerSecond">cps 0</p>
                 </div>
+
                 <div class="multiplier-board">
                     <p id="multiplier">×1.00</p>
                 </div>
             </div>
-
         </footer>
     </body>
 </html>
