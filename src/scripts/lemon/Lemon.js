@@ -108,7 +108,12 @@ export class Lemon
      * @returns A random amount of particles
      * @author Álvaro Fernández Barrero
      */
-    static #getAmountParticles = () => Math.sqrt(stats.baseValue) * (Lemon.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK + Math.floor(Math.random() * Lemon.#LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE));
+    static #getAmountParticles = () => {
+        let multiplier = Math.sqrt(1 + stats.baseValue * 0.1);
+        let randomAmount = (Lemon.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK + Math.floor(Math.random() * Lemon.#LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE));
+        
+        return Math.floor(multiplier * randomAmount);
+    }
 
     /**
      * Computes a random offset for the drop's motion
@@ -132,6 +137,9 @@ export class Lemon
     {
         particle.style.opacity = 1;
         particle.style.transform = `translate(${this.#lemonCoordinatesX}px, ${this.#lemonCoordinatesY}px)`;
+        
+        let t = 0;  
+        let lifeTime = 1 + Math.random() * 2;
 
         let offsetX = Lemon.#computeDropOffset();
         let offsetY = Lemon.#computeDropOffset();
@@ -139,20 +147,21 @@ export class Lemon
         if (offsetX === 0 && offsetY === 0)
             offsetX = Lemon.#PARTICLE_MAXIMUM_MOTION;
 
-        let goalX = this.#lemonCoordinatesX + offsetX;
-        let goalY = this.#lemonCoordinatesY + (offsetY < 0 ? offsetY : offsetY * 2);
+        let goalX = this.#lemonCoordinatesX + offsetX * lifeTime;
+        let goalY = this.#lemonCoordinatesY + (offsetY < 0 ? offsetY : offsetY * 2) * lifeTime;
 
-        let t = 0;  
 
-        while (t < 1)
+        while (t < lifeTime)
         {
             await new Promise(resolve => setTimeout(resolve, DELTA_TIME)).then(() => t += DELTA_TIME * Lemon.#PARTICLES_SPEED);
 
-            let newX = lerp(this.#lemonCoordinatesX, goalX, t);
-            let newY = lerp(this.#lemonCoordinatesY, goalY, t);
+            let alpha = t / lifeTime;
+
+            let newX = lerp(this.#lemonCoordinatesX, goalX, alpha);
+            let newY = lerp(this.#lemonCoordinatesY, goalY, alpha);
             
             if (offsetY < 0)
-                newY -= Math.sin(t * Math.PI) * Lemon.#PARTICLE_CURVATURE;
+                newY -= Math.sin(Math.min(alpha * Math.PI, Math.PI)) * Lemon.#PARTICLE_CURVATURE;
             
             particle.style.transform = `translate(${newX}px, ${newY}px)`;
         }
