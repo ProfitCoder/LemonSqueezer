@@ -1,9 +1,11 @@
 import { calculateUpgradePrice } from './upgrades.js';
 import { pasiveUpgradeList } from './upgrades.js';
+import { clothesList } from './upgrades.js';
 import { activeUpgradeList } from './upgrades.js';
 import { autoUpgradeList } from './upgrades.js';
 import { printAllUpgrades, printAllActiveUpgrades } from './upgrades.js';
 import { autoClicker } from './upgrades.js';
+import { printAllclothesShopUpgrades } from './upgrades.js';
 
 //SATS OF THE PLAYER
 export const stats = {
@@ -14,6 +16,7 @@ export const stats = {
     playerPasiveUpgradesList: [],
     playerAutoUpgradesList: [],
     playerActiveUpgradesList: [],
+    playerClothesUpgradesList: [],
     clothes: [],
     totalPoints: 0,
 
@@ -121,6 +124,11 @@ export const stats = {
                 activeUpgradeList[key].multiplier = Math.floor(activeUpgradeList[key].multiplier * 1.1);
                 activeUpgradeList[key].clicksPerSecond = Math.floor(activeUpgradeList[key].clicksPerSecond * 1.1);
                 activeUpgradeList[key].activeTime = Math.floor(activeUpgradeList[key].activeTime * 1.1);
+
+            }else if( upgradeList == clothesList) {
+                clothesList[key].owned = true;
+                this.playerClothesUpgradesList.push(clothesList[key]);
+                printAllclothesShopUpgrades("clothesItems", lemon);
 
             }
 

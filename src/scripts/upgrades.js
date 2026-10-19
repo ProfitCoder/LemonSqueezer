@@ -100,6 +100,8 @@ export const autoUpgradeList = [
 
 ];
 
+//ACTIVE UPGRADES VALUE
+
 export const activeUpgradeList = [
     {
         key: "lemonRain",
@@ -144,14 +146,118 @@ export const activeUpgradeList = [
 
 ];
 
+
+//parts -> legs, feet, torso, head
+export const clothesList = [
+    {
+        key: "coolPants",
+        name: "Cool Pants",
+        tier: 1,
+        price: 2000,
+        part: "legs",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "jeans",
+        name: "Blue Jeans",
+        tier: 1,
+        price: 1500,
+        part: "legs",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "shorts",
+        name: "Sport Shorts",
+        tier: 1,
+        price: 1000,
+        part: "legs",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "sneakers",
+        name: "White Sneakers",
+        tier: 1,
+        price: 1200,
+        part: "feet",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "boots",
+        name: "Black Boots",
+        tier: 1,
+        price: 2500,
+        part: "feet",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "sandals",
+        name: "Summer Sandals",
+        tier: 1,
+        price: 800,
+        part: "feet",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "hoodie",
+        name: "Red Hoodie",
+        tier: 1,
+        price: 3000,
+        part: "torso",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "tshirt",
+        name: "Basic T-Shirt",
+        tier: 1,
+        price: 1000,
+        part: "torso",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "jacket",
+        name: "Leather Jacket",
+        tier: 1,
+        price: 5000,
+        part: "torso",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "cap",
+        name: "Baseball Cap",
+        tier: 1,
+        price: 700,
+        part: "head",
+        owned: false,
+        description: "",
+        img: undefined
+    }
+];
+
+//ALL UPGRADE TYPES 
+
 const upgradeLists = {
     pasive: pasiveUpgradeList,
     auto: autoUpgradeList,
     active: activeUpgradeList,
 };
-
-//ALL UPGRADE TYPES 
-
 
 
 //GENERAL FUNCTIONS 
@@ -232,11 +338,44 @@ function printActiveUpgrade(htmlId, listName, key, lemon) {
     container.appendChild(item);
 }
 
+//PRINT CLOTHES UPGRADES
+
+export function printAllclothesShopUpgrades(htmlId, lemon) {
+    document.getElementById(htmlId).innerHTML = "";
+    for (const upgradeKey in clothesList) {
+        if(clothesList[upgradeKey].owned == false)
+            printClothesShopUpgrades(htmlId, upgradeKey, lemon);
+    }
+};
+
+function printClothesShopUpgrades(htmlId, key, lemon) {
+    const container = document.getElementById(htmlId);
+
+    const item = document.createElement("div");
+    item.className = "shopItem";
+
+    item.innerHTML = `
+        <p>${clothesList[key].name}</p>
+        <p>Price: ${clothesList[key].price}</p>
+        <p>Body Part: ${clothesList[key].part}</p>
+        <p>${clothesList[key].description ?? ""}</p>
+    `;
+
+    const button = document.createElement("button");
+    button.textContent = "Buy";
+
+    button.addEventListener("click", () => {
+        stats.addUpgrade(clothesList , key, lemon);
+    });
+
+    item.appendChild(button);
+    container.appendChild(item);
+}
 
 //AUTO FUNCTIONS
 
 let lastAnimationTime = 0;
-const animationInterval = 100; 
+const animationInterval = 100;
 
 function click(lemon) {
     stats.incrementPoints();

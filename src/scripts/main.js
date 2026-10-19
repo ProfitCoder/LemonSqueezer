@@ -1,6 +1,9 @@
 import { Lemon } from './lemon/Lemon.js';
 import { LemonsObserver } from './lemon/LemonsObserver.js';
-import { printAllUpgrades, pasiveUpgradeList, autoUpgradeList, autoClicker, activeUpgradeList, printAllActiveUpgrades } from './upgrades.js';
+import { printAllUpgrades, pasiveUpgradeList, autoUpgradeList, autoClicker,
+        activeUpgradeList, printAllActiveUpgrades,
+        printAllclothesShopUpgrades } from './upgrades.js';
+
 import {stats} from './stats.js';
 
 
@@ -23,6 +26,7 @@ printAllUpgrades("pasiveItems", pasiveUpgradeList, "pasive", lemon);
 printAllUpgrades("autoItems", autoUpgradeList, "auto", lemon);
 printAllUpgrades("activeItems", activeUpgradeList, "active", lemon);
 printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
+printAllclothesShopUpgrades("clothesItems", lemon);
 
 // ----------------------------------------------
 // GAME LOOP
