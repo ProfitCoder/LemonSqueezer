@@ -8,3 +8,5 @@
 @import url("lemon.css");
 @import url("responsive.css");
 @import url("particles.css");
+
+::selection {}
