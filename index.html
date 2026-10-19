@@ -8,8 +8,9 @@
         <link rel="icon" type="image/png" href="./src/img/Rodaja de limón pixelada circular.png">
         <link rel="stylesheet" href="./src/css/style.css">
 
-        <script defer src="./src/scripts//config.js"></script>
-        <script defer type="module" src="./src/scripts/main.js"></script>
+        <script defer src="./src/scripts/config.js"></script>
+        <script type="module" src="./src/scripts/main.js"></script>
+        <script defer src="./src/scripts/menu.js"></script>
         
         <title>Lemon Squeezer</title>
     </head>
@@ -42,11 +43,15 @@
             </div>
         </aside>
 
+        <button id="toggle-shop" type="button" aria-expanded="false">
+            🛒 Tienda
+        </button>
+
         <button id="open-upgrades" type="button" aria-controls="upgrades-panel" aria-expanded="false">
             ☰ Actives upgrades
         </button>
 
-        <aside id="upgrades-panel">
+        <aside id="upgrades-panel" hidden>
             <div class="upgrades-cabecera">
                 <h2>upgrades activas</h2>
                 <button id="cerrar-upgrades" type="button" aria-label="Cerrar upgrades">✕</button>

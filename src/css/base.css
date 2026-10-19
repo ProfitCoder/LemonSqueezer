@@ -15,3 +15,9 @@ margin: 0;
 html {
 scrollbar-gutter: auto;
 }
+
+/* Evita el desplazamiento horizontal de la página */
+html,
+body {
+    overflow-x: clip;
+}

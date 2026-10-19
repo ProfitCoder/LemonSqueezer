@@ -260,3 +260,332 @@
         margin-top: 0;
     }
 }
+
+@media (max-width: 768px) {
+    #activeItemsOwned:has(> *) {
+        position: static;
+        width: min(230px, 100%);
+        margin: 0 auto 15px;
+        max-height: 25dvh;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Quita el espacio reservado para los paneles */
+    body,
+    body.menu-abierto,
+    body.menu-open {
+        padding: 0;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        order: 0;
+        flex-shrink: 0;
+    }
+
+    /* Título */
+    nav {
+        padding: 85px 15px 0;
+    }
+
+    nav h1 {
+        max-width: 100%;
+        padding: 12px 20px;
+        font-size: clamp(24px, 6vw, 32px);
+    }
+
+    nav h1::before,
+    nav h1::after {
+        top: -85px;
+        height: 85px;
+    }
+
+    /* Zona del limón */
+    main {
+        order: 1;
+        flex: none;
+        min-height: 40svh;
+        margin: 0;
+        padding: 20px 12px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #lemon-container {
+        width: 100%;
+        max-width: 350px;
+        padding: 20px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #lemon {
+        width: min(65vw, 280px);
+        max-width: 100%;
+        height: auto;
+        max-height: 35svh;
+        object-fit: contain;
+        margin: 0;
+    }
+
+    /* Puntos y marcadores */
+    footer {
+        order: 2;
+        margin: 0;
+        padding: 15px 12px 25px;
+    }
+
+    footer > .score-container {
+        width: 100%;
+        max-width: 420px;
+        min-width: 0;
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .score-container > .points-board {
+        flex: 0 1 100%;
+        min-width: 0;
+        padding: 12px;
+        overflow-wrap: anywhere;
+    }
+
+    .score-container > .multiplier-board {
+        position: static;
+        flex: 0 1 auto;
+        min-width: 0;
+        margin: 0;
+        padding: 8px 10px;
+        overflow-wrap: anywhere;
+    }
+
+    #points {
+        font-size: 36px;
+        overflow-wrap: anywhere;
+    }
+
+    #points::before {
+        font-size: 18px;
+    }
+
+    footer #multiplier {
+        font-size: 22px;
+    }
+
+    /* Mejoras compradas */
+    #activeItemsOwned:has(> *) {
+        position: static;
+        inset: auto;
+        width: min(280px, 100%);
+        max-height: none;
+        margin: 0 auto 18px;
+        padding: 12px;
+        overflow: visible;
+    }
+
+    /* Tienda debajo del juego */
+    .shop,
+    body.shop-open .shop {
+        order: 3;
+        position: static;
+        inset: auto;
+
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+        max-width: none;
+        height: auto;
+        max-height: none;
+        padding: 25px 15px;
+
+        border-left: 0;
+        border-top: 4px solid #573719;
+        overflow: visible;
+    }
+
+    .shop-head {
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .shop-head img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .shop-head h2 {
+        font-size: 26px;
+    }
+
+    #shop {
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .shopItem {
+        min-width: 0;
+        padding: 14px;
+        overflow-wrap: anywhere;
+    }
+
+    .shopItem button {
+        min-height: 44px;
+    }
+
+    /* La tienda ya está visible: sobran estos botones */
+    #open-shop,
+    #close-shop {
+        display: none;
+    }
+
+    /* Botón del menú de mejoras */
+    #open-upgrades {
+        top: 10px;
+        left: 10px;
+        max-width: calc(100vw - 24px);
+        padding: 8px 10px;
+        font-size: 18px;
+    }
+
+    /* Menú sobre el juego, sin desplazarlo */
+    #upgrades-panel {
+        width: min(360px, 100vw);
+        max-width: 100%;
+        z-index: 50;
+    }
+
+    .upgrades-cabecera {
+        padding: 15px;
+    }
+
+    #cerrar-upgrades {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .upgrade-list {
+        padding: 0 15px 20px;
+        overscroll-behavior: contain;
+    }
+}
+
+@media (max-width: 768px) {
+    footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+
+    #activeItemsOwned:has(> *) {
+        position: static;
+        inset: auto;
+        width: min(280px, 100%);
+        max-height: none;
+        margin: 0;
+        overflow: visible;
+    }
+
+    footer > .score-container {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .score-container > .multiplier-board {
+        position: static;
+        inset: auto;
+    }
+}
+
+#toggle-shop {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    #toggle-shop {
+        display: block;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 60;
+
+        padding: 10px 14px;
+        background: #ffe65b;
+        border: 3px solid #573719;
+        box-shadow: 3px 3px 0 #382310;
+        color: #382310;
+        font-family: inherit;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .shop {
+        display: none;
+    }
+
+    body.shop-open .shop {
+        display: flex;
+        position: fixed;
+        inset: 0 0 0 auto;
+        width: min(360px, 100vw);
+        height: 100dvh;
+        padding: 70px 15px 20px;
+        overflow-y: auto;
+        z-index: 50;
+        border-left: 4px solid #573719;
+    }
+}
+
+body,
+body.menu-abierto {
+    padding-right: 0;
+}
+
+#toggle-shop {
+    display: block;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 60;
+
+    padding: 10px 14px;
+    background: #ffe65b;
+    border: 3px solid #573719;
+    color: #382310;
+    font-family: inherit;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.shop {
+    display: none;
+}
+
+body.shop-open .shop {
+    display: flex;
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(400px, 100vw);
+    height: 100dvh;
+    padding: 70px 15px 20px;
+    overflow-y: auto;
+    z-index: 50;
+}
