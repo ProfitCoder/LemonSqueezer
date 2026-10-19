@@ -1,7 +1,6 @@
-import { Spring } from "../math/Spring.js";
-import { HTMLObjectPoolingBuilder } from "../HTMLObjectPooling/HTMLObjectPoolingBuilder.js";
-import { clamp, lerp } from "../math/MathHelper.js";
-import { Mouse } from "../input/Mouse.js";
+import { LemonSpringer } from "./LemonSpringer.js";
+import { LemonParticles } from "./LemonParticles.js";
+
 import { stats } from "../stats.js";
 
 // ----------------------------------------------
@@ -10,61 +9,22 @@ import { stats } from "../stats.js";
 
 export class Lemon
 {
-    static #FPS = 45;
-    static #DELTA_TIME = 1 / this.#FPS;
-
-    static #EPSILON_ANGLE_DEGREES = 1;
-
-    static #MAXIMUM_ANGLE_TO_ROTATE = 15;
-    static #MINIMUM_ANGLE_TO_ROTATE = 5;
-    static #DIFFERENCE_LIMITS_ANGLES_TO_ROTATE = Math.abs(this.#MAXIMUM_ANGLE_TO_ROTATE - this.#MINIMUM_ANGLE_TO_ROTATE);
-
-    static #DECREASE_SCALE_WHEN_CLICKING = 0.1;
-
-    static #MAXIMUM_IMPULSE_WHEN_MOUSE_IS_OVER = 10;
+    // ----------------------------------------------
+    // STATICS
+    // ----------------------------------------------
 
     static #MINIMUM_DELAY_BETWEEN_CLICKS_TO_RUN_ANIMATIONS = 0.1;
-    static #MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 3;
-    static #MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 20;
-    static #LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE = Math.min(this.#MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK - this.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK);
-
-    static #PARTICLE_CLASS_NAME = "particle";
-    static #PARTICLES_SPEED = 0.35;
-
-    static #PARTICLE_MINIMUM_MOTION = 0;
-    static #PARTICLE_MAXIMUM_MOTION = 400;
-    static #PARTICLE_CURVATURE = 100;
 
     // ----------------------------------------------
     // ATTRIBUTES
     // ----------------------------------------------
 
-    #htmlObjectPooling = undefined;
-
     #lemon = undefined;
-    #particlesParent = undefined;
-
-    #lemonContainerCoordinates = undefined;
-    #lemonCoordinates = undefined;
-
-    #lemonCoordinatesX = undefined;
-    #lemonCoordinatesY = undefined;
-
-    #ClickSpringRotation = new Spring(10, 2, 2);
-    #ClickSpringScale = new Spring(1, 0.5, 1, 1);
-    #ClickSpringRotationAuto = new Spring(10, 2, 2);
-    #ClickSpringScaleAuto = new Spring(1, 0.5, 1, 1);
-    #HoverSpringX = new Spring(1, 0.5, 1, 0);
-    #HoverSpringY = new Spring(1, 0.5, 1, 0);
-
-    #currentLemonRotation = 0;
-    #currentLemonScale = 0;
-    #currentOffsetPositionX = 0;
-    #currentOffsetPositionY = 0;
-
-    #mouse = undefined;
 
     #lastTimeClicked = 0;
+
+    #lemonSpringer = undefined;
+    #lemonParticles = undefined;
 
     // ----------------------------------------------
     // CONSTRUCTOR
@@ -78,128 +38,17 @@ export class Lemon
      */
     constructor(lemonElement, particlesParentElement)
     {
-        this.#mouse = Mouse.instance;
-
         this.#lemon = lemonElement;
-        this.#particlesParent = particlesParentElement;
 
-        this.#setLemonCoordinates();
-
-        this.#htmlObjectPooling = new HTMLObjectPoolingBuilder()
-                                .setElement(this.#createDrop())
-                                .setDefaultAmount(5)
-                                .setUnpoolTime(-1)
-                                .setPoolMethod(particle => this.#throwDrop(particle))
-                                .setUnpoolMethod(particle => particle.style.opacity = 0)
-                                .build();
+        this.#lemonParticles = new LemonParticles(lemonElement, particlesParentElement);
+        this.#lemonSpringer = new LemonSpringer(lemonElement);
 
         this.#lemon.addEventListener("click", () => { this.#onclick(); });
-        this.#lemon.addEventListener("mouseover", () => { this.#onMouseOver(); });
-
-        window.addEventListener("resize", () => {this.#setLemonCoordinates()})
     }
 
     // ----------------------------------------------
     // METHODS
     // ----------------------------------------------
-
-    /**
-     * Gets a random amount of particles
-     * @returns A random amount of particles
-     * @author Álvaro Fernández Barrero
-     */
-    static #getAmountParticles = () => {
-        let multiplier = Math.sqrt(1 + stats.baseValue * 0.1);
-        let randomAmount = (Lemon.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK + Math.floor(Math.random() * Lemon.#LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE));
-        
-        return Math.floor(multiplier * randomAmount);
-    }
-
-    /**
-     * Computes a random offset for the drop's motion
-     * @returns The random offset for the drop's motion
-     * @author Álvaro Fernández Barrero
-     */
-    static #computeDropOffset()
-    {
-        let offset = Lemon.#PARTICLE_MINIMUM_MOTION + Math.floor(Math.random() * Lemon.#PARTICLE_MAXIMUM_MOTION);
-        if (Math.random() > 0.5)
-            offset *= -1;
-
-        return offset;
-    }
-
-    /**
-     * Throw a lemon's drop
-     * @author Álvaro Fernández Barrero
-     */
-    async #throwDrop(particle)
-    {
-        particle.style.opacity = 1;
-        particle.style.transform = `translate(${this.#lemonCoordinatesX}px, ${this.#lemonCoordinatesY}px)`;
-        
-        let t = 0;  
-        let lifeTime = 1 + Math.random() * 2;
-
-        let offsetX = Lemon.#computeDropOffset();
-        let offsetY = Lemon.#computeDropOffset();
-
-        if (offsetX === 0 && offsetY === 0)
-            offsetX = Lemon.#PARTICLE_MAXIMUM_MOTION;
-
-        let goalX = this.#lemonCoordinatesX + offsetX * lifeTime;
-        let goalY = this.#lemonCoordinatesY + (offsetY < 0 ? offsetY : offsetY * 2) * lifeTime;
-
-
-        while (t < lifeTime)
-        {
-            await new Promise(resolve => setTimeout(resolve, DELTA_TIME)).then(() => t += DELTA_TIME * Lemon.#PARTICLES_SPEED);
-
-            let alpha = t / lifeTime;
-
-            let newX = lerp(this.#lemonCoordinatesX, goalX, alpha);
-            let newY = lerp(this.#lemonCoordinatesY, goalY, alpha);
-            
-            if (offsetY < 0)
-                newY -= Math.sin(Math.min(alpha * Math.PI, Math.PI)) * Lemon.#PARTICLE_CURVATURE;
-            
-            particle.style.transform = `translate(${newX}px, ${newY}px)`;
-        }
-
-        this.#htmlObjectPooling.unpool(particle);
-    }
-
-    /**
-    * Creates a new drop element
-    * @returns The new particle created as a HTML element
-    * @author Álvaro Fernández Barrero
-    */
-    #createDrop()
-    {
-        let particle = document.createElement("div");
-        particle.className = Lemon.#PARTICLE_CLASS_NAME;
-        particle.style.margin = "0 auto";
-        particle.style.opacity = 0;
-        particle.style.zIndex = -500;
-        particle.style.position = "absolute";
-        this.#particlesParent.appendChild(particle);
-
-        return particle;
-    }
-
-    /**
-     * Spreads lemon's particles
-     * @author Álvaro Fernández Barrero
-     */
-    #spreadParticles()
-    {
-        let particlesAmount = Lemon.#getAmountParticles();
-        if (particlesAmount <= 0)
-            return;
-
-        for (let i = 0; i < particlesAmount; i++)
-            this.#htmlObjectPooling.pool();
-    }
 
     /**
      * Plays the click animation (impulses the transform springs)
@@ -213,31 +62,12 @@ export class Lemon
 
         this.#lastTimeClicked = now;
 
-        let alpha = Lemon.#MINIMUM_ANGLE_TO_ROTATE + Math.random() * Lemon.#DIFFERENCE_LIMITS_ANGLES_TO_ROTATE;
-        if (this.#currentLemonRotation < -Lemon.#EPSILON_ANGLE_DEGREES || Math.random() > 0.5)
-            alpha *= -1;
-
-        this.#ClickSpringRotation.position += alpha;
-        this.#ClickSpringScale.position -= Lemon.#DECREASE_SCALE_WHEN_CLICKING;
-
-        this.#spreadParticles();
+        this.#lemonSpringer.applyImpulse();
+        this.#lemonParticles.spread();
     }
+
     playClickAnimationAuto() {
         this.#playClickAnimation();
-    }
-
-
-    /**
-     * Sets the lemon's coordinates in screen
-     * @author Álvaro Fernández Barrero
-     */
-    #setLemonCoordinates()
-    {
-        this.#lemonContainerCoordinates = this.#particlesParent.getBoundingClientRect();
-        this.#lemonCoordinates = this.#lemon.getBoundingClientRect();
-
-        this.#lemonCoordinatesX = this.#lemonCoordinates.left + (this.#lemonCoordinates.right - this.#lemonCoordinates.left) / 2 - this.#lemonContainerCoordinates.left;
-        this.#lemonCoordinatesY = this.#lemonContainerCoordinates.top + (this.#lemonCoordinates.top - this.#lemonCoordinates.bottom) / 2 - this.#lemonCoordinates.top;
     }
 
     /**
@@ -252,34 +82,12 @@ export class Lemon
     }
 
     /**
-     * Callback for the mouseover event
-     * @author Álvaro Fernández Barrero
-     */
-    #onMouseOver()
-    {
-        this.#HoverSpringX.position += clamp(this.#mouse.directionX, -Lemon.#MAXIMUM_IMPULSE_WHEN_MOUSE_IS_OVER, Lemon.#MAXIMUM_IMPULSE_WHEN_MOUSE_IS_OVER);
-        this.#HoverSpringY.position += clamp(this.#mouse.directionY, -Lemon.#MAXIMUM_IMPULSE_WHEN_MOUSE_IS_OVER, Lemon.#MAXIMUM_IMPULSE_WHEN_MOUSE_IS_OVER);
-    }
-
-    /**
      * Updates the lemon's springs and applies them to the lemon's transform
      * @author Álvaro Fernández Barrero
      */
     #update()
     {
-        this.#ClickSpringRotation.update(DELTA_TIME);
-        this.#ClickSpringScale.update(DELTA_TIME);
-        this.#ClickSpringRotationAuto.update(DELTA_TIME);
-        this.#ClickSpringScaleAuto.update(DELTA_TIME);
-        this.#HoverSpringX.update(DELTA_TIME);
-        this.#HoverSpringY.update(DELTA_TIME);
-
-        this.#currentLemonRotation = this.#ClickSpringRotation.position;
-        this.#currentLemonScale = this.#ClickSpringScale.position;
-        this.#currentOffsetPositionX = this.#HoverSpringX.position;
-        this.#currentOffsetPositionY = this.#HoverSpringY.position;
-
-        this.#lemon.style.transform = `translate(${this.#currentOffsetPositionX}px, ${this.#currentOffsetPositionY}px) scale(${this.#currentLemonScale}) rotate(${this.#currentLemonRotation}deg)`;
+        this.#lemonSpringer.update();
     }
 
     /**
