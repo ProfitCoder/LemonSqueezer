@@ -15,7 +15,7 @@ export class LemonParticles
 
     static #MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 3;
     static #MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 20;
-    static #LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE = Math.min(this.#MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK - this.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK);
+    static #LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE = Math.abs(this.#MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK - this.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK);
 
     static #PARTICLE_CLASS_NAME = "particle";
     static #PARTICLES_SPEED = 0.35;
@@ -98,13 +98,46 @@ export class LemonParticles
     }
 
     /**
+     * Prepares a particle for interpolating it
+     * @param {HTMLElement} particle Particle to prepare
+     * @author Álvaro Fernández Barrero
+     */
+    #prepareParticleForInterpolation(particle)
+    {
+        particle.style.opacity = 1;
+        particle.style.transform = `translate(${this.#lemonCoordinatesX}px, ${this.#lemonCoordinatesY}px)`;
+    }
+
+    /**
+     * Computes a interpolation's interpolation
+     * @param {HTMLElement} particle Particle to move 
+     * @param {Number} t Time
+     * @param {Number} lifeTime Particle's lifetime 
+     * @param {Number} goalX Target position X
+     * @param {Number} goalY Target position Y
+     * @param {Number} offsetY Offset Z
+     * @author Álvaro Fernández Barrero
+     */
+    #computeInterpolation(particle, t, lifeTime, goalX, goalY, offsetY)
+    {
+        let alpha = t / lifeTime;
+
+        let newX = lerp(this.#lemonCoordinatesX, goalX, alpha);
+        let newY = lerp(this.#lemonCoordinatesY, goalY, alpha);
+        
+        if (offsetY < 0)
+            newY -= Math.sin(Math.min(alpha * Math.PI, Math.PI)) * LemonParticles.#PARTICLE_CURVATURE;
+        
+        particle.style.transform = `translate(${newX}px, ${newY}px)`;
+    }
+
+    /**
      * Throw a lemon's drop
      * @author Álvaro Fernández Barrero
      */
     async #throwDrop(particle)
     {
-        particle.style.opacity = 1;
-        particle.style.transform = `translate(${this.#lemonCoordinatesX}px, ${this.#lemonCoordinatesY}px)`;
+        this.#prepareParticleForInterpolation(particle);
         
         let t = 0;  
         let lifeTime = 1 + Math.random() * 2;
@@ -122,16 +155,7 @@ export class LemonParticles
         while (t < lifeTime)
         {
             await new Promise(resolve => setTimeout(resolve, DELTA_TIME)).then(() => t += DELTA_TIME * LemonParticles.#PARTICLES_SPEED);
-
-            let alpha = t / lifeTime;
-
-            let newX = lerp(this.#lemonCoordinatesX, goalX, alpha);
-            let newY = lerp(this.#lemonCoordinatesY, goalY, alpha);
-            
-            if (offsetY < 0)
-                newY -= Math.sin(Math.min(alpha * Math.PI, Math.PI)) * LemonParticles.#PARTICLE_CURVATURE;
-            
-            particle.style.transform = `translate(${newX}px, ${newY}px)`;
+            this.#computeInterpolation(particle, t, lifeTime, goalX, goalY, offsetY);
         }
 
         this.#htmlObjectPooling.unpool(particle);
