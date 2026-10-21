@@ -36,6 +36,7 @@ export class SFX
                                     .setElement(audioElement)
                                     .setDefaultAmount(5)
                                     .setPoolMethod(audio => audio.play())
+                                    .setUnpoolTime(audioElement.duration)
                                     .build();
     }
 
