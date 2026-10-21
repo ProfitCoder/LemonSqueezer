@@ -1,3 +1,5 @@
+import { SFX } from '../SFX.js';
+
 import { LemonSpringer } from "./LemonSpringer.js";
 import { LemonParticles } from "./LemonParticles.js";
 
@@ -26,6 +28,8 @@ export class Lemon
     #lemonSpringer = undefined;
     #lemonParticles = undefined;
 
+    #sfx = [];
+
     // ----------------------------------------------
     // CONSTRUCTOR
     // ----------------------------------------------
@@ -43,12 +47,47 @@ export class Lemon
         this.#lemonParticles = new LemonParticles(lemonElement, particlesParentElement);
         this.#lemonSpringer = new LemonSpringer(lemonElement);
 
+        this.#setUpAudios();
+
         this.#lemon.addEventListener("click", () => { this.#onclick(); });
     }
 
     // ----------------------------------------------
     // METHODS
     // ----------------------------------------------
+
+    /**
+     * Sets up click audios
+     * @author Álvaro Fernández Barrero
+     */
+    #setUpAudios()
+    {
+        const audio1 = new SFX(
+            {name: "lemon_squeeze_1.mp3", type: "audio/mpeg"},
+            {name: "lemon_squeeze_1.ogg", type: "audio/ogg"}
+        );
+
+        const audio2 = new SFX(
+            {name: "lemon_squeeze_2.mp3", type: "audio/mpeg"},
+            {name: "lemon_squeeze_2.ogg", type: "audio/ogg"}
+        );
+
+        const audio3 = new SFX(
+            {name: "lemon_squeeze_3.mp3", type: "audio/mpeg"},
+            {name: "lemon_squeeze_3.ogg", type: "audio/ogg"}
+        );
+
+        this.#sfx.push(audio1, audio2, audio3);
+    }
+
+    /**
+     * Plays a random squeeze audio
+     * @author Álvaro Fernández Barrero
+     */
+    #playClickSfx()
+    {
+        this.#sfx[Math.floor(Math.random() * this.#sfx.length)].play();
+    }
 
     /**
      * Plays the click animation (impulses the transform springs)
@@ -77,6 +116,8 @@ export class Lemon
     #onclick()
     {
         this.#playClickAnimation();
+        this.#playClickSfx();
+
         stats.incrementPoints();
         stats.showPoints();
     }
