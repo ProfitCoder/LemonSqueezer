@@ -5,6 +5,7 @@ min-height: 100dvh;
     background-color: hsl(211, 100%, 87%);
     font-family: "Pixelta", sans-serif;
     overflow-x: hidden;
+    background-image: url(../img/Limones\ pixelados\ sobre\ fondo\ azul\ pastel.png);
 }
 
 main {
@@ -38,4 +39,19 @@ width: var(--ancho-panel);
 
 body.menu-abierto {
 padding-left: var(--ancho-panel);
+}
+
+body {
+    background-repeat: repeat;
+    background-size: 100vw auto;
+    animation: moverFondo 40s linear infinite;
+}
+
+@keyframes moverFondo {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 0 56.25vw;
+    }
 }
