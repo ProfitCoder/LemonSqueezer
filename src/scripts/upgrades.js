@@ -468,4 +468,3 @@ function activeCooldownCallback(key, lemon, cooldown) {
         clearInterval(activeIntervals[key].cooldown);
     }
 }
-

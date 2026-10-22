@@ -53,11 +53,14 @@ function setUpgradesOpen(isOpen) {
 setUpgradesOpen(false);
 
 openUpgradesButton.addEventListener("click", () => {
+    console.log("Abriendo tienda");
     setUpgradesOpen(true);
     closeUpgradesButton.focus();
+    lemon.playOpenShop(true);
 });
 
 closeUpgradesButton.addEventListener("click", () => {
     setUpgradesOpen(false);
     openUpgradesButton.focus();
+    lemon.playOpenShop(false);
 });

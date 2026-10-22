@@ -15,7 +15,7 @@ function prepararMenus() {
         if (panelMejoras) {
             panelMejoras.hidden = !abierto;
         }
-
+        
         document.body.classList.toggle("menu-abierto", abierto);
         abrirMejoras?.setAttribute("aria-expanded", String(abierto));
     }
