@@ -8,6 +8,7 @@ import {
 
 import { stats } from './stats.js';
 import { SFX } from './SFX.js';
+import { prepararMenus } from './menu.js';
 
 
 
@@ -19,27 +20,6 @@ import { SFX } from './SFX.js';
 const lemonsObserver = new LemonsObserver();
 const lemon = new Lemon(document.getElementById("lemon"), document.getElementById("lemon-container"));
 
-//AUDIOS
-
-const open_shopAudio = new SFX(
-    { name: "open_shop.mp3", type: "audio/mpeg" },
-    { name: "open_shop.ogg", type: "audio/ogg" }
-);
-
-const close_shopAudio = new SFX(
-    { name: "close_shop.mp3", type: "audio/mpeg" },
-    { name: "close_shop.ogg", type: "audio/ogg" }
-);
-
-//FUCNTIONS FOR PLAYING AUDIOS
-
-   function playOpenShop(isOpen) {
-        if (isOpen) {
-            close_shopAudio.play();
-        } else {
-            open_shopAudio.play();
-        }
-    }
 
 
 // ----------------------------------------------
@@ -52,6 +32,7 @@ printAllUpgrades("autoItems", autoUpgradeList, "auto", lemon);
 printAllUpgrades("activeItems", activeUpgradeList, "active", lemon);
 printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
 printAllclothesShopUpgrades("clothesItems", lemon);
+prepararMenus();
 
 // ----------------------------------------------
 // GAME LOOP
@@ -81,11 +62,9 @@ setUpgradesOpen(false);
 openUpgradesButton.addEventListener("click", () => {
     setUpgradesOpen(true);
     closeUpgradesButton.focus();
-    playOpenShop(true);
 });
 
 closeUpgradesButton.addEventListener("click", () => {
     setUpgradesOpen(false);
     openUpgradesButton.focus();
-    playOpenShop(false);
 });

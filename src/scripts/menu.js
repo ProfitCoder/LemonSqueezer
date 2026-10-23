@@ -1,9 +1,34 @@
+import { SFX } from './SFX.js';
 /*
 Autor: Pablo Manuel Fernandez
 Fecha: 16/10/2026
 */
 
-function prepararMenus() {
+//AUDIOS
+
+const open_shopAudio = new SFX(
+    { name: "open_shop.mp3", type: "audio/mpeg" },
+    { name: "open_shop.ogg", type: "audio/ogg" }
+);
+
+const close_shopAudio = new SFX(
+    { name: "close_shop.mp3", type: "audio/mpeg" },
+    { name: "close_shop.ogg", type: "audio/ogg" }
+);
+
+//FUCNTIONS FOR PLAYING AUDIOS
+
+function playOpenShop(isOpen) {
+    if (isOpen) {
+        close_shopAudio.play();
+    } else {
+        open_shopAudio.play();
+    }
+}
+
+
+
+export function prepararMenus() {
     const abrirMejoras = document.getElementById("open-upgrades");
     const cerrarMejoras = document.getElementById("cerrar-upgrades");
     const panelMejoras = document.getElementById("upgrades-panel");
@@ -15,7 +40,7 @@ function prepararMenus() {
         if (panelMejoras) {
             panelMejoras.hidden = !abierto;
         }
-        
+
         document.body.classList.toggle("menu-abierto", abierto);
         abrirMejoras?.setAttribute("aria-expanded", String(abierto));
     }
@@ -41,11 +66,15 @@ function prepararMenus() {
         mostrarTienda(false);
         mostrarMejoras(true);
         cerrarMejoras?.focus();
+        playOpenShop(true);
     });
 
     cerrarMejoras?.addEventListener("click", () => {
         mostrarMejoras(false);
         abrirMejoras?.focus();
+        console.log("hola");
+        playOpenShop(false);
+
     });
 
     botonTienda?.addEventListener("click", () => {
