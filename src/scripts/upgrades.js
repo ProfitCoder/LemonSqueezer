@@ -4,6 +4,31 @@ import { SFX } from "./SFX.js";
 
 //New lemon to use private method playClickAnimation
 
+//AUDIO
+
+const turbo_1 = new SFX(
+    { name: "turbo_1.mp3", type: "audio/mpeg" },
+    { name: "turbo_1.ogg", type: "audio/ogg" }
+);
+
+const turbo_2 = new SFX(
+    { name: "turbo_2.mp3", type: "audio/mpeg" },
+    { name: "turbo_2.ogg", type: "audio/ogg" }
+);
+
+const turbo_3 = new SFX(
+    { name: "turbo_3.mp3", type: "audio/mpeg" },
+    { name: "turbo_3.ogg", type: "audio/ogg" }
+);
+
+const turbo_4 = new SFX(
+    { name: "turbo_4.mp3", type: "audio/mpeg" },
+    { name: "turbo_4.ogg", type: "audio/ogg" }
+);
+
+let sfxActive = [];
+
+sfxActive.push(turbo_1, turbo_2, turbo_3, turbo_4);
 
 //PASIVE UPGRADES VALUES
 
@@ -253,13 +278,7 @@ export const clothesList = [
 ];
 
 
-//AUDIOS
 
-
-const buyItemAudio = new SFX(
-            { name: "lemon_squeeze_18.mp3", type: "audio/mpeg" },
-            { name: "lemon_squeeze_18.ogg", type: "audio/ogg" }
-        );
 
 //ALL UPGRADE TYPES 
 
@@ -408,7 +427,8 @@ var activeIntervals = {};
 
 function activeEfect(key, lemon) {
     if (activeUpgradeList[key].canBePlayed) {
-
+        
+        sfxActive[Math.floor(Math.random()* sfxActive.length)].play();
         activeUpgradeList[key].canBePlayed = false;
 
         stats.setClicksPerSecond(stats.getClicksPerSecond() + activeUpgradeList[key].clicksPerSecond);

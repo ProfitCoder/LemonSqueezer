@@ -6,10 +6,22 @@ import { autoUpgradeList } from './upgrades.js';
 import { printAllUpgrades, printAllActiveUpgrades } from './upgrades.js';
 import { autoClicker } from './upgrades.js';
 import { printAllclothesShopUpgrades } from './upgrades.js';
+import { SFX } from "./SFX.js";
+
+const buyItemAudio = new SFX(
+    { name: "buy_item.mp3", type: "audio/mpeg" },
+    { name: "buy_item.ogg", type: "audio/ogg" }
+);
+
+const buyItemAudioInverse = new SFX(
+    { name: "buy_item_reverse.mp3", type: "audio/mpeg" },
+    { name: "buy_item_reverse.ogg", type: "audio/ogg" }
+);
+
 
 //SATS OF THE PLAYER
 export const stats = {
-    points:  222222222,
+    points: 222222222,
     multiplier: 1,
     baseValue: 1,
     clicksPerSecond: 0,
@@ -19,6 +31,7 @@ export const stats = {
     playerClothesUpgradesList: [],
     clothes: [],
     totalPoints: 0,
+
 
 
 
@@ -46,14 +59,14 @@ export const stats = {
         this.multiplier = x;
     },
 
-    getMultiplier: function() {
+    getMultiplier: function () {
         return this.multiplier;
     },
 
-    getBaseValue: function() {
+    getBaseValue: function () {
         return this.baseValue;
     },
-    
+
     setBaseValue: function (x) {
         this.baseValue = x;
     },
@@ -62,8 +75,8 @@ export const stats = {
 
     incrementPoints: function () {
         let n = 1;
-        this.clicksPerSecond == 0 ? n = 1: n = this.clicksPerSecond;
-        let sum =  n * this.baseValue * this.multiplier;
+        this.clicksPerSecond == 0 ? n = 1 : n = this.clicksPerSecond;
+        let sum = n * this.baseValue * this.multiplier;
         this.points += sum;
         this.totalPoints += sum;
         this.showPoints();
@@ -96,6 +109,7 @@ export const stats = {
 
         if (this.points >= price) {
 
+            buyItemAudio.play();
             this.decreasePoints(price);
             upgradeList[key].price = price * 0.75;
             upgradeList[key].tier++;
@@ -125,7 +139,7 @@ export const stats = {
                 activeUpgradeList[key].clicksPerSecond = Math.floor(activeUpgradeList[key].clicksPerSecond * 1.1);
                 activeUpgradeList[key].activeTime = Math.floor(activeUpgradeList[key].activeTime * 1.1);
 
-            }else if( upgradeList == clothesList) {
+            } else if (upgradeList == clothesList) {
                 clothesList[key].owned = true;
                 this.playerClothesUpgradesList.push(clothesList[key]);
                 printAllclothesShopUpgrades("clothesItems", lemon);
@@ -138,7 +152,8 @@ export const stats = {
             this.showClicksPerSecond();
 
         } else {
-            alert("Not enough lemon");
+            buyItemAudioInverse.play();
+            alert("Totaly retarded from your part");
         }
     },
 

@@ -8,7 +8,7 @@ import {
 
 import { stats } from './stats.js';
 import { SFX } from './SFX.js';
-import { prepararMenus } from './menu.js';
+import { prepararMenus  } from './menu.js';
 
 
 
@@ -32,7 +32,6 @@ printAllUpgrades("autoItems", autoUpgradeList, "auto", lemon);
 printAllUpgrades("activeItems", activeUpgradeList, "active", lemon);
 printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
 printAllclothesShopUpgrades("clothesItems", lemon);
-prepararMenus();
 
 // ----------------------------------------------
 // GAME LOOP

@@ -66,14 +66,14 @@ export function prepararMenus() {
         mostrarTienda(false);
         mostrarMejoras(true);
         cerrarMejoras?.focus();
-        playOpenShop(true);
+        playOpenShop(false);
     });
 
     cerrarMejoras?.addEventListener("click", () => {
         mostrarMejoras(false);
         abrirMejoras?.focus();
         console.log("hola");
-        playOpenShop(false);
+        playOpenShop(true);
 
     });
 
