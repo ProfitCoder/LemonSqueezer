@@ -152,15 +152,7 @@ export class Lemon {
             { name: "lemon_squeeze_18.ogg", type: "audio/ogg" }
         );
 
-        const open_shopAudio = new SFX(
-            { name: "open_shop.mp3", type: "audio/mpeg" },
-            { name: "open_shop.ogg", type: "audio/ogg" }
-        );
 
-        const close_shopAudio = new SFX(
-            { name: "close_shop.mp3", type: "audio/mpeg" },
-            { name: "close_shop.ogg", type: "audio/ogg" }
-        );
 
 
 
@@ -179,15 +171,7 @@ export class Lemon {
         this.#sfx[Math.floor(Math.random() * this.#sfx.length)].play();
     }
 
-    
 
-    playOpenShop(isOpen) {
-        if (isOpen) {
-            close_shopAudio.play();
-        } else {
-            open_shopAudio.play();
-        }
-    }
 
 
     /**

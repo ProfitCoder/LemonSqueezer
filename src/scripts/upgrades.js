@@ -1,5 +1,6 @@
 import { stats } from "./stats.js";
 import { Lemon } from "./lemon/Lemon.js";
+import { SFX } from "./SFX.js";
 
 //New lemon to use private method playClickAnimation
 
@@ -250,6 +251,15 @@ export const clothesList = [
         img: undefined
     }
 ];
+
+
+//AUDIOS
+
+
+const buyItemAudio = new SFX(
+            { name: "lemon_squeeze_18.mp3", type: "audio/mpeg" },
+            { name: "lemon_squeeze_18.ogg", type: "audio/ogg" }
+        );
 
 //ALL UPGRADE TYPES 
 

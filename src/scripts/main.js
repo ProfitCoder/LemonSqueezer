@@ -1,10 +1,13 @@
 import { Lemon } from './lemon/Lemon.js';
 import { LemonsObserver } from './lemon/LemonsObserver.js';
-import { printAllUpgrades, pasiveUpgradeList, autoUpgradeList, autoClicker,
-        activeUpgradeList, printAllActiveUpgrades,
-        printAllclothesShopUpgrades } from './upgrades.js';
+import {
+    printAllUpgrades, pasiveUpgradeList, autoUpgradeList, autoClicker,
+    activeUpgradeList, printAllActiveUpgrades,
+    printAllclothesShopUpgrades
+} from './upgrades.js';
 
-import {stats} from './stats.js';
+import { stats } from './stats.js';
+import { SFX } from './SFX.js';
 
 
 
@@ -15,6 +18,29 @@ import {stats} from './stats.js';
 
 const lemonsObserver = new LemonsObserver();
 const lemon = new Lemon(document.getElementById("lemon"), document.getElementById("lemon-container"));
+
+//AUDIOS
+
+const open_shopAudio = new SFX(
+    { name: "open_shop.mp3", type: "audio/mpeg" },
+    { name: "open_shop.ogg", type: "audio/ogg" }
+);
+
+const close_shopAudio = new SFX(
+    { name: "close_shop.mp3", type: "audio/mpeg" },
+    { name: "close_shop.ogg", type: "audio/ogg" }
+);
+
+//FUCNTIONS FOR PLAYING AUDIOS
+
+   function playOpenShop(isOpen) {
+        if (isOpen) {
+            close_shopAudio.play();
+        } else {
+            open_shopAudio.play();
+        }
+    }
+
 
 // ----------------------------------------------
 // ON START
@@ -53,14 +79,13 @@ function setUpgradesOpen(isOpen) {
 setUpgradesOpen(false);
 
 openUpgradesButton.addEventListener("click", () => {
-    console.log("Abriendo tienda");
     setUpgradesOpen(true);
     closeUpgradesButton.focus();
-    lemon.playOpenShop(true);
+    playOpenShop(true);
 });
 
 closeUpgradesButton.addEventListener("click", () => {
     setUpgradesOpen(false);
     openUpgradesButton.focus();
-    lemon.playOpenShop(false);
+    playOpenShop(false);
 });
