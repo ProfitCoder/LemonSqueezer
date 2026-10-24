@@ -37,7 +37,7 @@ export const pasiveUpgradeList = [
         key: "spoon",
         name: "Spoon",
         multiplier: 0.00,
-        tier: 1,
+        tier: 0,
         price: 70,
         baseValue: 1,
         description: "Gain 1 more lemon juice"
@@ -46,26 +46,26 @@ export const pasiveUpgradeList = [
         key: "fork",
         name: "Fork",
         multiplier: 0.10,
-        tier: 1,
+        tier: 0,
         price: 300,
         baseValue: 0,
-        description: "106% more juice"
+        description: "110% more juice"
     },
     {
         key: "manualTurmix",
         name: "Manual Turmix",
         multiplier: 0,
-        tier: 1,
-        price: 500,
-        baseValue: 5,
-        description: "Get 5 ml more per sqeeze!!"
+        tier: 0,
+        price: 700,
+        baseValue: 2,
+        description: "Get 2 ml more per sqeeze!!"
     },
     {
         key: "ogTurmix",
         name: "OG Turmix 2000",
         multiplier: 0.20,
-        tier: 1,
-        price: 1000,
+        tier: 0,
+        price: 1500,
         baseValue: 0,
         description: "Almost the best money can buy. + 20% ml"
     },
@@ -73,11 +73,21 @@ export const pasiveUpgradeList = [
         key: "universeMixer",
         name: "UNIVERSE Mixer",
         multiplier: 0,
-        tier: 1,
+        tier: 10000,
+        price: 1300,
+        baseValue: 10,
+        description: "The almost almost the best money can buy. + 10 ml/squeeze"
+    },
+    {
+        key: "godSqueeze",
+        name: "God Squeeze",
+        multiplier: 0,
+        tier: 10000,
         price: 1300,
         baseValue: 10,
         description: "The best money can buy. + 10 ml/squeeze"
     }
+    
 ];
 
 //AUTO UPGRADES VALUES
@@ -88,40 +98,49 @@ export const autoUpgradeList = [
         key: "lemonTree",
         name: "Lemon Tree",
         clicksPerSecond: 1,
-        tier: 1,
-        price: 100,
+        tier: 0,
+        price: 200,
         description: "Gain 1 more lemon juice every second"
+    },
+    {
+        key: "lemonTreePair",
+        name: "Lemon Tree Pair",
+        clicksPerSecond: 2,
+        tier: 0,
+        price: 800,
+        description: "Gain 2 more lemon juice every second. Its's 2 trees now but more expensive."
     },
     {
         key: "lemonFarm",
         name: "Lemon Farm",
         clicksPerSecond: 5,
-        tier: 1,
-        price: 1000,
-        description: "Gain 5 more lemon juice every second"
+        tier: 0,
+        price: 3000,
+        description: "+ 5 more lemon!"
     },
     {
         key: "lemonEmpire",
         name: "Lemon Empire",
-        clicksPerSecond: 1,
-        tier: 1,
-        price: 20000,
-        description: "Gain 1 more lemon juice every second"
+        clicksPerSecond: 6,
+        tier: 0,
+        price: 6666,
+        description: "LEMON EMPIRE GIVES YOU MERCY and + 6 lemon"
+    }, 
+    {
+        key: "lemonUniverse",
+        name: "Lemon UNIVERSE",
+        clicksPerSecond: 10,
+        tier: 0,
+        price: 15000,
+        description: "Gain 10 more lemon juice every second"
     },
     {
         key: "lemonGod",
         name: "Lemon God",
-        clicksPerSecond: 1,
-        tier: 1,
-        price: 1000000,
-        description: "Gain 1 more lemon juice every second"
-    }, {
-        key: "lemonUniverse",
-        name: "Lemon UNIVERSE",
-        clicksPerSecond: 1,
-        tier: 1,
-        price: 1000000,
-        description: "Gain 1 more lemon juice every second"
+        clicksPerSecond: 100,
+        tier: 0,
+        price: 2000000,
+        description: "Gain 100 more lemon juice every second"
     },
 
 ];
@@ -138,9 +157,9 @@ export const activeUpgradeList = [
         multiplier: 3,
         cooldown: 200,
         activeTime: 10,
-        tier: 1,
+        tier: 0,
         price: 100,
-        description: "Gain more for 10 seconds"
+        description: "Gain x3 for 10 seconds"
     },
     {
         key: "lemonDance",
@@ -151,20 +170,20 @@ export const activeUpgradeList = [
         baseValue: 0,
         cooldown: 300,
         activeTime: 10,
-        tier: 1,
+        tier: 0,
         price: 500,
         description: "Gain 1 more lemon juice every second"
     },
     {
-        key: "lemonRain",
-        name: "Lemon Rain",
+        key: "quickFertilizer",
+        name: "Quick Fertilizer",
         canBePlayed: true,
-        clicksPerSecond: 1,
+        clicksPerSecond: 5,
         baseValue: 0,
         multiplier: 0,
         cooldown: 60,
         activeTime: 10,
-        tier: 1,
+        tier: 0,
         price: 2000,
         description: "Gain 1 more lemon juice every second"
     },
@@ -189,7 +208,7 @@ export const clothesList = [
         key: "jeans",
         name: "Blue Jeans",
         tier: 1,
-        price: 1500,
+        price: 3000,
         part: "legs",
         owned: false,
         description: "",
@@ -199,7 +218,7 @@ export const clothesList = [
         key: "shorts",
         name: "Sport Shorts",
         tier: 1,
-        price: 1000,
+        price: 5000,
         part: "legs",
         owned: false,
         description: "",
@@ -229,7 +248,7 @@ export const clothesList = [
         key: "sandals",
         name: "Summer Sandals",
         tier: 1,
-        price: 800,
+        price: 4000,
         part: "feet",
         owned: false,
         description: "",
@@ -259,7 +278,7 @@ export const clothesList = [
         key: "jacket",
         name: "Leather Jacket",
         tier: 1,
-        price: 5000,
+        price: 10000,
         part: "torso",
         owned: false,
         description: "",
@@ -270,6 +289,16 @@ export const clothesList = [
         name: "Baseball Cap",
         tier: 1,
         price: 700,
+        part: "head",
+        owned: false,
+        description: "",
+        img: undefined
+    },
+    {
+        key: "lemonHelmet",
+        name: "Golden Lemon Hat",
+        tier: 1,
+        price: 1000000,
         part: "head",
         owned: false,
         description: "",
@@ -291,7 +320,13 @@ const upgradeLists = {
 
 //GENERAL FUNCTIONS 
 export function calculateUpgradePrice(upgradeList, key) {
-    return Math.floor(upgradeList[key].price * Math.sqrt(upgradeList[key].tier * 1.5));
+    let value = 0;
+    if (upgradeList[key].tier == 0)
+        value = Math.floor(upgradeList[key].price);
+    else
+        value = Math.floor(upgradeList[key].price * Math.sqrt((upgradeList[key].tier + 1) * 4));
+
+    return value;
 };
 
 
