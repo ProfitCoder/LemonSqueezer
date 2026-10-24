@@ -418,6 +418,7 @@ function printClothesShopUpgrades(htmlId, key, lemon, owned) {
 
     const item = document.createElement("div");
     item.className = "shopItem";
+    item.id = "clothesItem" + clothesList[key].part;
 
     item.innerHTML = `
         <p>${clothesList[key].name}</p> ` + 
@@ -433,22 +434,27 @@ function printClothesShopUpgrades(htmlId, key, lemon, owned) {
         
         button.addEventListener("click", () => {
             stats.addUpgrade(clothesList, key, lemon);
-        });
-        
-        
+        });    
     }
     else {
         button.textContent = "Put on";
         
         button.addEventListener("click", () => {
-            //stats.addUpgrade(clothesList, key, lemon);
+            putClothesOn(key);
         });
     }
     item.appendChild(button);
         container.appendChild(item);
 }
 
-
+function putClothesOn(key) {
+    const part = clothesList[key].part;
+    const id = part + "Item";
+    const item = document.getElementById(id);
+    item.src = `"./img/${clothesList[key].key}Img.png"`;
+    console.log(id);
+    console.log(item);
+}
 
 //AUTO FUNCTIONS
 
