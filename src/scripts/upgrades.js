@@ -87,7 +87,7 @@ export const pasiveUpgradeList = [
         baseValue: 10,
         description: "The best money can buy. + 10 ml/squeeze"
     }
-    
+
 ];
 
 //AUTO UPGRADES VALUES
@@ -125,7 +125,7 @@ export const autoUpgradeList = [
         tier: 0,
         price: 6666,
         description: "LEMON EMPIRE GIVES YOU MERCY and + 6 lemon"
-    }, 
+    },
     {
         key: "lemonUniverse",
         name: "Lemon UNIVERSE",
@@ -404,37 +404,51 @@ function printActiveUpgrade(htmlId, listName, key, lemon) {
 
 //PRINT CLOTHES UPGRADES
 
-export function printAllclothesShopUpgrades(htmlId, lemon) {
+export function printAllclothesShopUpgrades(htmlId, lemon, owned = false) {
     document.getElementById(htmlId).innerHTML = "";
     for (const upgradeKey in clothesList) {
-        if(clothesList[upgradeKey].owned == false)
-            printClothesShopUpgrades(htmlId, upgradeKey, lemon);
+        if (clothesList[upgradeKey].owned == owned)
+            printClothesShopUpgrades(htmlId, upgradeKey, lemon, owned);
     }
 };
 
-function printClothesShopUpgrades(htmlId, key, lemon) {
+
+function printClothesShopUpgrades(htmlId, key, lemon, owned) {
     const container = document.getElementById(htmlId);
 
     const item = document.createElement("div");
     item.className = "shopItem";
 
     item.innerHTML = `
-        <p>${clothesList[key].name}</p>
-        <p>Price: ${clothesList[key].price}</p>
-        <p>Body Part: ${clothesList[key].part}</p>
-        <p>${clothesList[key].description ?? ""}</p>
-    `;
+        <p>${clothesList[key].name}</p> ` + 
+        (!owned ? `<p>Price: ${clothesList[key].price}</p>`: "") +
+        `<p>Body Part: ${clothesList[key].part}</p>
+        <p>${clothesList[key].description ?? ""}</p>`;
 
     const button = document.createElement("button");
-    button.textContent = "Buy";
+    if(!owned) {
 
-    button.addEventListener("click", () => {
-        stats.addUpgrade(clothesList , key, lemon);
-    });
-
+        
+        button.textContent = "Buy";
+        
+        button.addEventListener("click", () => {
+            stats.addUpgrade(clothesList, key, lemon);
+        });
+        
+        
+    }
+    else {
+        button.textContent = "Put on";
+        
+        button.addEventListener("click", () => {
+            //stats.addUpgrade(clothesList, key, lemon);
+        });
+    }
     item.appendChild(button);
-    container.appendChild(item);
+        container.appendChild(item);
 }
+
+
 
 //AUTO FUNCTIONS
 
@@ -462,8 +476,8 @@ var activeIntervals = {};
 
 function activeEfect(key, lemon) {
     if (activeUpgradeList[key].canBePlayed) {
-        
-        sfxActive[Math.floor(Math.random()* sfxActive.length)].play();
+
+        sfxActive[Math.floor(Math.random() * sfxActive.length)].play();
         activeUpgradeList[key].canBePlayed = false;
 
         stats.setClicksPerSecond(stats.getClicksPerSecond() + activeUpgradeList[key].clicksPerSecond);

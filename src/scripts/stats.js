@@ -21,7 +21,7 @@ const buyItemAudioInverse = new SFX(
 
 //SATS OF THE PLAYER
 export const stats = {
-    points: 0,
+    points: 20000,
     multiplier: 1,
     baseValue: 1,
     clicksPerSecond: 0,
@@ -143,6 +143,7 @@ export const stats = {
                 clothesList[key].owned = true;
                 this.playerClothesUpgradesList.push(clothesList[key]);
                 printAllclothesShopUpgrades("clothesItems", lemon);
+                printAllclothesShopUpgrades("clothesItemsOwned", lemon, true);
 
             }
 
@@ -168,6 +169,21 @@ export const stats = {
     }
 }
 
+//CLOTHES LOGIC
+/*
+function printOwnedClothes (htmlId, key, lemon) {
+    const container = document.getElementById(htmlId);
+
+    const item = document.createElement("div");
+    item.className = "shopItem";
+
+    item.innerHTML = `
+        <p>${clothesList[key].name}</p>
+        <p>Price: ${clothesList[key].price}</p>
+        <p>Body Part: ${clothesList[key].part}</p>
+        <p>${clothesList[key].description ?? ""}</p>
+    `;
+}*/
 
 
 //ADD OR REPLACE PLAYER UPGRADE
