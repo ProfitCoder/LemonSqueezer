@@ -49,11 +49,15 @@ export function prepararMenus() {
         document.body.classList.toggle("shop-open", abierto);
 
         if (botonTienda) {
+            playOpenShop(true);
             botonTienda.textContent = abierto
                 ? "✕ Cerrar"
                 : "🛒 Tienda";
 
             botonTienda.setAttribute("aria-expanded", String(abierto));
+        }else{
+            playOpenShop(false);
+
         }
     }
 
@@ -64,6 +68,7 @@ export function prepararMenus() {
 
     abrirMejoras?.addEventListener("click", () => {
         mostrarTienda(false);
+        console.log("holaaa");
         mostrarMejoras(true);
         cerrarMejoras?.focus();
         playOpenShop(false);
