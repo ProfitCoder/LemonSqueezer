@@ -489,8 +489,6 @@ function activeCooldownCallback(key, lemon, cooldown) {
 
     }
     else {
-        console.log("a");
-
         activeUpgradeList[key].cooldown = cooldown;
         activeUpgradeList[key].canBePlayed = true;
         printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);

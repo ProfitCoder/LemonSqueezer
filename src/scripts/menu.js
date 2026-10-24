@@ -20,9 +20,9 @@ const close_shopAudio = new SFX(
 
 function playOpenShop(isOpen) {
     if (isOpen) {
-        close_shopAudio.play();
-    } else {
         open_shopAudio.play();
+    } else {
+        close_shopAudio.play();
     }
 }
 
@@ -45,20 +45,20 @@ export function prepararMenus() {
         abrirMejoras?.setAttribute("aria-expanded", String(abierto));
     }
 
-    function mostrarTienda(abierto) {
+    function mostrarTienda(abierto, playSound = false) {
         document.body.classList.toggle("shop-open", abierto);
 
         if (botonTienda) {
-            playOpenShop(true);
             botonTienda.textContent = abierto
                 ? "✕ Cerrar"
                 : "🛒 Tienda";
 
-            botonTienda.setAttribute("aria-expanded", String(abierto));
-        }else{
-            playOpenShop(false);
 
+            botonTienda.setAttribute("aria-expanded", String(abierto));
         }
+
+        if (playSound) 
+            playOpenShop(abierto);
     }
 
     if (tienda) {
@@ -68,25 +68,21 @@ export function prepararMenus() {
 
     abrirMejoras?.addEventListener("click", () => {
         mostrarTienda(false);
-        console.log("holaaa");
+        playOpenShop(true);
         mostrarMejoras(true);
         cerrarMejoras?.focus();
-        playOpenShop(false);
     });
-
+    
     cerrarMejoras?.addEventListener("click", () => {
-        mostrarMejoras(false);
+        mostrarMejoras(false, true);
         abrirMejoras?.focus();
-        console.log("hola");
-        playOpenShop(true);
-
+        playOpenShop(false);
     });
 
     botonTienda?.addEventListener("click", () => {
         const abierto = document.body.classList.contains("shop-open");
-
         mostrarMejoras(false);
-        mostrarTienda(!abierto);
+        mostrarTienda(!abierto, true);
     });
 
     document.addEventListener("keydown", (event) => {
@@ -95,9 +91,13 @@ export function prepararMenus() {
         if (document.body.classList.contains("shop-open")) {
             mostrarTienda(false);
             botonTienda?.focus();
+            playOpenShop(true);
+
+
         } else if (panelMejoras && !panelMejoras.hidden) {
             mostrarMejoras(false);
             abrirMejoras?.focus();
+            playOpenShop(true);
         }
     });
 
