@@ -24,7 +24,6 @@ export class SFX
         htmlBody.appendChild(audioElement);
 
         data.forEach(audioData => {            
-            //console.log(audioData)
             const source = document.createElement("source");
             source.src = `./src/audios/${audioData.name}`;
             source.type = audioData.type;

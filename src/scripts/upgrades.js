@@ -303,6 +303,16 @@ export const clothesList = [
         owned: false,
         description: "",
         img: undefined
+    },
+    {
+        key: "chain",
+        name: "Golden chain",
+        tier: 1,
+        price: 1000,
+        part: "head",
+        owned: false,
+        description: "",
+        img: undefined
     }
 ];
 
@@ -451,9 +461,8 @@ function putClothesOn(key) {
     const part = clothesList[key].part;
     const id = part + "Item";
     const item = document.getElementById(id);
-    item.src = `"./img/${clothesList[key].key}Img.png"`;
-    console.log(id);
-    console.log(item);
+    item.src = `./src/img/${clothesList[key].key}Img.png`;
+
 }
 
 //AUTO FUNCTIONS
@@ -539,7 +548,6 @@ function activeCooldownCallback(key, lemon, cooldown) {
 
     if (activeUpgradeList[key].cooldown > 0) {
         activeUpgradeList[key].cooldown--;
-        console.log(activeUpgradeList[key].cooldown);
         printAllActiveUpgrades("activeItemsOwned", stats.playerActiveUpgradesList, "activeOwned", lemon);
 
     }
