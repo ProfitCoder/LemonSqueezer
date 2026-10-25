@@ -1,17 +1,28 @@
-/* Reusable particles: their animations are managed by LemonParticles.js. */
+/*
+Author: Profit Coder
+Date: 25/10/2026
+*/
+#lemon-container {
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+}
+
 #lemon-container > .particle {
     position: absolute;
-    top: 0;
+
+    /* Compensa la coordenada vertical del JavaScript original. */
+    top: 100%;
     left: 0;
 
     width: 8px;
     height: 8px;
     margin: 0;
 
-    background: #ffe65b;
+    background-color: #ffe65b;
     border-radius: 50%;
     pointer-events: none;
 
-    /* El limón tiene z-index: 1. */
-    z-index: 0;
+    /* Detrás del limón, evitando el -500 del JS original. */
+    z-index: 0 !important;
 }

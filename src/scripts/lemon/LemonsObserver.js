@@ -29,8 +29,8 @@ export class LemonsObserver
         this.#lemons.push(lemon);
     }
 
-    notify(deltaSeconds)
+    notify()
     {
-        this.#lemons.forEach(lemon => lemon.onNotify(deltaSeconds));
+        this.#lemons.forEach(lemon => lemon.onNotify());
     }
 }

@@ -14,7 +14,7 @@ export class Lemon {
     // STATICS
     // ----------------------------------------------
 
-    static #MINIMUM_DELAY_BETWEEN_CLICKS_TO_RUN_ANIMATIONS = 0.075;
+    static #MINIMUM_DELAY_BETWEEN_CLICKS_TO_RUN_ANIMATIONS = 0.1;
 
     // ----------------------------------------------
     // ATTRIBUTES
@@ -182,7 +182,7 @@ export class Lemon {
      */
     #playClickAnimation() {
         let now = Date.now();
-        if (now - this.#lastTimeClicked < Lemon.#MINIMUM_DELAY_BETWEEN_CLICKS_TO_RUN_ANIMATIONS * 1000)
+        if (now - this.#lastTimeClicked < Lemon.#MINIMUM_DELAY_BETWEEN_CLICKS_TO_RUN_ANIMATIONS)
             return;
 
         this.#lastTimeClicked = now;
@@ -211,15 +211,15 @@ export class Lemon {
      * Updates the lemon's springs and applies them to the lemon's transform
      * @author Álvaro Fernández Barrero
      */
-    #update(deltaSeconds) {
-        this.#lemonSpringer.update(deltaSeconds);
+    #update() {
+        this.#lemonSpringer.update();
     }
 
     /**
      * Notifies the lemon to update its state
      * @author Álvaro Fernández Barrero
      */
-    onNotify(deltaSeconds) {
-        this.#update(deltaSeconds);
+    onNotify() {
+        this.#update();
     }
 }
