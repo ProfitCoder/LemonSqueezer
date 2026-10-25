@@ -28,84 +28,79 @@ function playOpenShop(isOpen) {
 
 
 
+// main.js imports this name; keep it for compatibility.
+let menusReady = false;
+
 export function prepararMenus() {
-    const abrirMejoras = document.getElementById("open-upgrades");
-    const cerrarMejoras = document.getElementById("cerrar-upgrades");
-    const panelMejoras = document.getElementById("upgrades-panel");
+    if (menusReady) return;
+    menusReady = true;
 
-    const botonTienda = document.getElementById("toggle-shop");
-    const tienda = document.querySelector(".shop");
+    const openUpgradesButton = document.getElementById("open-upgrades");
+    const closeUpgradesButton = document.getElementById("cerrar-upgrades");
+    const upgradesPanel = document.getElementById("upgrades-panel");
+    const shopButton = document.getElementById("toggle-shop");
+    const shopPanel = document.querySelector(".shop");
+    let lastOpenedPanel = null;
 
-    function mostrarMejoras(abierto) {
-        if (panelMejoras) {
-            panelMejoras.hidden = !abierto;
+    function setUpgradesOpen(isOpen, playSound = false) {
+        if (!upgradesPanel) return;
+        upgradesPanel.hidden = !isOpen;
+        document.body.classList.toggle("menu-abierto", isOpen);
+        openUpgradesButton?.setAttribute("aria-expanded", String(isOpen));
+        if (isOpen) lastOpenedPanel = "upgrades";
+        if (playSound) playOpenShop(isOpen);
+    }
+
+    function setShopOpen(isOpen, playSound = false) {
+        if (!shopPanel) return;
+        shopPanel.hidden = !isOpen;
+        document.body.classList.toggle("shop-open", isOpen);
+        if (shopButton) {
+            shopButton.textContent = isOpen ? "✕ Cerrar" : "🛒 Tienda";
+            shopButton.setAttribute("aria-expanded", String(isOpen));
         }
-
-        document.body.classList.toggle("menu-abierto", abierto);
-        abrirMejoras?.setAttribute("aria-expanded", String(abierto));
+        if (isOpen) lastOpenedPanel = "shop";
+        if (playSound) playOpenShop(isOpen);
     }
 
-    function mostrarTienda(abierto, playSound = false) {
-        document.body.classList.toggle("shop-open", abierto);
-
-        if (botonTienda) {
-            botonTienda.textContent = abierto
-                ? "✕ Cerrar"
-                : "🛒 Tienda";
-
-
-            botonTienda.setAttribute("aria-expanded", String(abierto));
-        }
-
-        if (playSound) 
-            playOpenShop(abierto);
+    if (shopPanel) {
+        shopPanel.id = "shop-panel";
+        shopButton?.setAttribute("aria-controls", shopPanel.id);
     }
 
-    if (tienda) {
-        tienda.id = "shop-panel";
-        botonTienda?.setAttribute("aria-controls", tienda.id);
-    }
-
-    abrirMejoras?.addEventListener("click", () => {
-        mostrarTienda(false);
-        playOpenShop(true);
-        mostrarMejoras(true);
-        cerrarMejoras?.focus();
+    openUpgradesButton?.addEventListener("click", () => {
+        setUpgradesOpen(true, true);
+        closeUpgradesButton?.focus();
     });
-    
-    cerrarMejoras?.addEventListener("click", () => {
-        mostrarMejoras(false, true);
-        abrirMejoras?.focus();
-        playOpenShop(false);
+    closeUpgradesButton?.addEventListener("click", () => {
+        setUpgradesOpen(false, true);
+        openUpgradesButton?.focus();
     });
-
-    botonTienda?.addEventListener("click", () => {
-        const abierto = document.body.classList.contains("shop-open");
-        mostrarMejoras(false);
-        mostrarTienda(!abierto, true);
+    shopButton?.addEventListener("click", () => {
+        setShopOpen(!document.body.classList.contains("shop-open"), true);
     });
+    upgradesPanel?.addEventListener("pointerdown", () => { lastOpenedPanel = "upgrades"; });
+    shopPanel?.addEventListener("pointerdown", () => { lastOpenedPanel = "shop"; });
 
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", event => {
         if (event.key !== "Escape") return;
-
-        if (document.body.classList.contains("shop-open")) {
-            mostrarTienda(false);
-            botonTienda?.focus();
-            playOpenShop(true);
-
-
-        } else if (panelMejoras && !panelMejoras.hidden) {
-            mostrarMejoras(false);
-            abrirMejoras?.focus();
-            playOpenShop(true);
+        const upgradesOpen = upgradesPanel && !upgradesPanel.hidden;
+        const shopOpen = document.body.classList.contains("shop-open");
+        if (shopOpen && (lastOpenedPanel === "shop" || !upgradesOpen)) {
+            setShopOpen(false, true);
+            shopButton?.focus();
+        } else if (upgradesOpen) {
+            setUpgradesOpen(false, true);
+            openUpgradesButton?.focus();
         }
     });
 
-    mostrarTienda(false);
+    setUpgradesOpen(false);
+    setShopOpen(false);
 }
 
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", prepararMenus);
+    document.addEventListener("DOMContentLoaded", prepararMenus, { once: true });
 } else {
     prepararMenus();
 }

@@ -1,8 +1,28 @@
-.particle {
-    width: 10px;
-    height: 10px;
+/*
+Author: Profit Coder
+Date: 25/10/2026
+*/
+#lemon-container {
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+}
 
-    background-color: yellow;
+#lemon-container > .particle {
+    position: absolute;
 
-    border-radius: 100%;
+    /* Compensa la coordenada vertical del JavaScript original. */
+    top: 100%;
+    left: 0;
+
+    width: 8px;
+    height: 8px;
+    margin: 0;
+
+    background-color: #ffe65b;
+    border-radius: 50%;
+    pointer-events: none;
+
+    /* Detrás del limón, evitando el -500 del JS original. */
+    z-index: 0 !important;
 }

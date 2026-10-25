@@ -1,85 +1,92 @@
-/* Botón y panel izquierdo de upgrades. */
-
-#open-upgrades {
-position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 30;
-
-    padding: 10px 10px;
-    background: url("../img/fondo-textura-madera_1100-57.png")
-        center / cover;
-
-    font-family: "Pixelta", sans-serif;
-    font-size: 22px;
-    color: white;
-
+#open-upgrades, #toggle-shop {
+    position: fixed;
+    top: max(10px, env(safe-area-inset-top));
+    z-index: 60;
+    max-width: calc(50vw - 20px);
+    min-height: 44px;
+    padding: 8px 12px;
+    background: url("../img/fondo-textura-madera_1100-57.png") center / cover;
     border: 3px solid #573719;
-    border-radius: 0;
-    box-shadow: 4px 4px 0 #382310;
-    text-shadow: 2px 2px 0 #382310;
+    box-shadow: 3px 3px 0 #382310;
+    color: white;
+    font-size: 20px;
+    text-shadow: 2px 2px #382310;
     cursor: pointer;
 }
-
-#open-upgrades:hover {
-filter: brightness(1.2);
-}
-
-#open-upgrades:active {
-transform: translate(3px, 3px);
-    box-shadow: 1px 1px 0 #382310;
-}
-
-#open-upgrades:focus-visible {
-outline: 3px solid #ffe65b;
-    outline-offset: 5px;
-}
+#open-upgrades { left: 10px; }
+#toggle-shop { right: 10px; }
+#open-upgrades:hover, #toggle-shop:hover { filter: brightness(1.15); }
 
 #upgrades-panel {
-position: fixed;
+    position: fixed;
     inset: 0 auto 0 0;
-    width: min(320px, 100vw);
-    z-index: 40;
-
+    width: var(--panel-width);
+    height: 100dvh;
+    z-index: 50;
     display: flex;
     flex-direction: column;
-
-    background: url("../img/imagenesDesplegables.png")
-        center / cover;
-
-    color: white;
+    padding-top: 70px;
+    background: url("../img/imagenesDesplegables.png") center / cover;
     border-right: 4px solid #573719;
+    color: white;
+    overflow: hidden;
 }
-
-#upgrades-panel[hidden] {
-display: none;
-}
-
+#upgrades-panel[hidden] { display: none; }
 .upgrades-cabecera {
-display: flex;
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    padding: 20px;
+    gap: 8px;
+    padding: 12px 16px;
     flex-shrink: 0;
 }
-
+.upgrades-cabecera h2 { min-width: 0; overflow-wrap: anywhere; }
 #cerrar-upgrades {
-background: transparent;
-    border: none;
+    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    background: none;
+    border: 0;
     color: white;
-    font-size: 26px;
+    font-size: 28px;
     cursor: pointer;
 }
-
 .upgrade-list {
-flex: 1;
+    flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding: 0 20px 20px;
+    overscroll-behavior: contain;
+    padding: 0 16px 20px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
 }
+.upgrade { padding: 15px 0; border-top: 2px solid #573719; }
+.upgrade-list p { overflow-wrap: anywhere; }
 
-.upgrade {
-padding: 15px 0;
-    border-top: 2px solid #573719;
+/* Shared wood headers and cards for both drawers. */
+.shop-head, .upgrades-cabecera {
+    min-height: 64px;
+    padding: 10px 12px;
+    gap: 10px;
+    background: url("../img/fondo-textura-madera_1100-57.png") center / cover;
+    border: 3px solid #573719;
+    box-shadow: 3px 3px 0 #382310;
+}
+.shop-head h2, .upgrades-cabecera h2 {
+    flex: 1;
+    font-size: 25px;
+    color: white;
+    text-shadow: 2px 2px #382310;
+}
+.upgrades-cabecera { margin: 0 16px 16px; }
+.upgrade-list > .upgrade {
+    padding: 15px;
+    margin-bottom: 15px;
+    background: rgba(48, 33, 15, 0.9);
+    border: 2px solid #b18249;
+    box-shadow: 3px 3px 0 #382310;
+}
+.upgrade-list > .upgrade h3 {
+    margin-bottom: 6px;
+    color: #ffe65b;
+    font-size: 25px;
 }

@@ -1,57 +1,29 @@
-/* Distribución original y espacio de los paneles. */
-
 body {
-min-height: 100dvh;
-    background-color: hsl(211, 100%, 87%);
-    font-family: "Pixelta", sans-serif;
-    overflow-x: hidden;
-    background-image: url(../img/Limones\ pixelados\ sobre\ fondo\ azul\ pastel.png);
+    --panel-width: clamp(260px, 25vw, 360px);
+    --left-space: 0px;
+    --right-space: 0px;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    padding-left: var(--left-space);
+    padding-right: var(--right-space);
 }
 
+header, main, footer { min-width: 0; }
+header { grid-row: 1; }
 main {
-margin-top: 20px;
+    grid-row: 2;
+    min-height: 0;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow: visible;
 }
+footer { grid-row: 3; }
 
-body {
-min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-}
-
-body {
-padding-right: 320px;
-}
-
-body {
---ancho-panel: 400px;
-    padding-right: var(--ancho-panel);
-    padding-left: 0;
-}
-
-.shop,
-#upgrades-panel {
-width: var(--ancho-panel);
-    box-sizing: border-box;
-}
-
-body.menu-abierto {
-padding-left: var(--ancho-panel);
-}
-
-body {
-    background-repeat: repeat;
-    background-size: 100vw auto;
-    animation: moverFondo 40s linear infinite;
-}
-
-@keyframes moverFondo {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: -100vw 56.25vw;
-    }
+/* Reserve room only when enough width remains for the game. */
+@media (min-width: 1100px) {
+    body.menu-abierto { --left-space: var(--panel-width); }
+    body.shop-open { --right-space: var(--panel-width); }
 }
