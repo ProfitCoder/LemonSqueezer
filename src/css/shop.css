@@ -1,72 +1,30 @@
-/* shop derecha. */
-
 .shop {
-position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 320px;
-    padding: 20px;
-    box-sizing: border-box;
-
-    background: url("../img/imagenesDesplegables.png")
-        center / cover;
-
-    color: white;
-    border-left: 4px solid #573719;
-    overflow-y: auto;
-}
-
-.shop-head {
-display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.shop-head img {
-width: 50px;
-    height: 50px;
-    object-fit: contain;
-    margin: 0;
-    padding: 0;
-}
-
-.shop-head h2 {
-margin: 0;
-    font-size: 26px;
-    text-decoration: underline;
-}
-
-.shop-seccion {
-padding: 18px 0;
-    border-top: 2px solid #573719;
-}
-
-.shop-seccion p {
-margin: 8px 0;
-}
-
-.shop-seccion button {
-padding: 8px 12px;
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.shop {
-display: flex;
+    display: none;
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: var(--panel-width);
+    height: 100dvh;
+    padding: 70px 16px 20px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 50;
     flex-direction: column;
+    gap: 22px;
+    background: url("../img/imagenesDesplegables.png") center / cover;
+    border-left: 4px solid #573719;
+    color: white;
     overflow-y: auto;
-
-    
-    padding-top: 60px;
+    overscroll-behavior: contain;
 }
-
-.shop > * {
-flex-shrink: 0;
-}
+body.shop-open .shop { display: flex; }
+.shop > * { flex-shrink: 0; min-width: 0; }
+.shop-head { display: flex; align-items: center; gap: 10px; }
+.shop-head img { width: 40px; height: 40px; object-fit: contain; }
+.shop-head h2 { min-width: 0; font-size: 26px; }
+.shop > div > h2 { margin-bottom: 12px; }
+.shopItem { min-width: 0; overflow-wrap: anywhere; }
+.shopItem button { min-height: 44px; }
 /* Lista de herramientas */
-#shop {
+#shop, #pasiveItems, #autoItems, #activeItems, #clothesItems {
     display: grid;
     gap: 15px;
 }

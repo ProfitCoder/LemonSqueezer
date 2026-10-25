@@ -37,33 +37,19 @@ printAllclothesShopUpgrades("clothesItems", lemon);
 // GAME LOOP
 // ----------------------------------------------
 
-setInterval(
-    () => {
-        lemonsObserver.notify();
-    },
-    DELTA_TIME
-);
+// One screen-synchronised loop, using elapsed seconds for the springs.
+let previousFrameTime = null;
 
-// Abrir y cerrar el panel de mejoras
-const openUpgradesButton = document.getElementById("open-upgrades");
-const closeUpgradesButton = document.getElementById("cerrar-upgrades");
-const upgradesPanel = document.getElementById("upgrades-panel");
-
-function setUpgradesOpen(isOpen) {
-    upgradesPanel.hidden = !isOpen;
-    document.body.classList.toggle("menu-abierto", isOpen);
-    openUpgradesButton.setAttribute("aria-expanded", String(isOpen));
+function animateGame(timestamp) {
+    if (!document.hidden && previousFrameTime !== null) {
+        const deltaSeconds = Math.min((timestamp - previousFrameTime) / 1000, 0.05);
+        lemonsObserver.notify(deltaSeconds);
+    }
+    previousFrameTime = document.hidden ? null : timestamp;
+    requestAnimationFrame(animateGame);
 }
 
-// Empieza cerrado
-setUpgradesOpen(false);
-
-openUpgradesButton.addEventListener("click", () => {
-    setUpgradesOpen(true);
-    closeUpgradesButton.focus();
+document.addEventListener("visibilitychange", () => {
+    previousFrameTime = null;
 });
-
-closeUpgradesButton.addEventListener("click", () => {
-    setUpgradesOpen(false);
-    openUpgradesButton.focus();
-});
+requestAnimationFrame(animateGame);

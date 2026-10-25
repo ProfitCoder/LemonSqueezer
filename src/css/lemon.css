@@ -1,75 +1,35 @@
-/* Tamaño del limón y multiplicador. */
 #lemon-container {
     position: relative;
-    width: min(400px, 85vw);
-    height: 45dvh;
+    width: min(400px, 100%);
+    height: min(400px, 100%);
+    min-height: 0;
     padding: 0;
-    box-sizing: border-box;
+    overflow: visible;
+    isolation: isolate;
 }
 
 #lemon,
 #lemon-container .clothing-item {
     position: absolute;
-    top: 0;
-    left: 0;
-
+    inset: 0;
     width: 100%;
     height: 100%;
-
     object-fit: contain;
     image-rendering: pixelated;
-    align-items: center;
-
     margin: 0;
     padding: 0;
 }
 
 #lemon {
     z-index: 1;
+    cursor: pointer;
+    will-change: transform;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
+#lemon-container .clothing-item { z-index: 2; pointer-events: none; }
 
-#lemon-container .clothing-item {
-    z-index: 2;
-    pointer-events: none;
-}
-
-/* El multiplicador se coloca debajo del limón sin cambiar sus IDs. */
-main {
-    flex-direction: column;
-    gap: 18px;
-}
-
-.multiplier-display {
-    padding: 12px 25px;
-    background: url("../img/fondo-textura-madera_1100-57.png")
-        center / cover;
-
-    border: 4px solid #573719;
-    box-shadow:
-        inset 0 0 0 2px #b18249,
-        4px 4px 0 #382310;
-
-    text-align: center;
-    color: white;
-}
-
-.multiplier-display h4 {
-    margin-bottom: 5px;
-    font-size: 20px;
-    font-weight: normal;
-    letter-spacing: 2px;
-}
-
-#multiplier {
-    font-size: 36px;
-    color: #ffe65b;
-    text-shadow: 2px 2px 0 #382310;
-}
-
-/* Contiene el desbordamiento de la animación y las partículas */
-#lemon-container {
-    position: relative;
-    overflow: clip;
-    padding: 35px;
-    box-sizing: border-box;
-}
+/* Empty image placeholders otherwise display broken-image icons. */
+#lemon-container img:not([src]),
+#lemon-container img[src=""] { visibility: hidden; }

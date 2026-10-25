@@ -1,12 +1,12 @@
 /* Título, cadenas e iluminación. */
 
-nav {
+header > nav {
 padding: 65px 10px 0;
     position: relative;
     z-index: 10;
 }
 
-nav h1 {
+header > nav h1 {
 position: relative;
     width: fit-content;
     margin: 0 auto;
@@ -25,8 +25,8 @@ position: relative;
     5px 5px 0 #382310;
 }
 
-nav h1::before,
-nav h1::after {
+header > nav h1::before,
+header > nav h1::after {
 content: "";
     position: absolute;
     top: -65px;
@@ -44,15 +44,15 @@ content: "";
     );
 }
 
-nav h1::before {
+header > nav h1::before {
 left: 35px;
 }
 
-nav h1::after {
+header > nav h1::after {
 right: 35px;
 }
 
-nav h1:hover {
+header > nav h1:hover {
 text-shadow:
         0 0 5px #fff,
         0 0 10px #ffff00,

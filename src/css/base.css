@@ -1,24 +1,46 @@
-/* Fuente, reset y ajustes generales. */
-
 @font-face {
-font-family: "Pixelta";
+    font-family: "Pixelta";
     src: url("../fonts/PixelOperator.ttf") format("truetype");
     font-display: swap;
 }
 
-* {
-margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    width: 100%;
+    height: 100%;
+    /* Clip only at the screen edges, never at the lemon's box. */
+    overflow: hidden;
+    overflow: clip;
 }
 
-html {
-scrollbar-gutter: auto;
-}
-
-/* Evita el desplazamiento horizontal de la página */
-html,
 body {
-    overflow-x: clip;
+    font-family: "Pixelta", sans-serif;
+    background-color: hsl(211, 100%, 87%);
+    isolation: isolate;
 }
 
+/* One composited background layer instead of animating background-position. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -56.2799043062vw -100vw 0 0;
+    z-index: -1;
+    pointer-events: none;
+    background: url("../img/Limones pixelados sobre fondo azul pastel.png") repeat;
+    background-size: 100vw 56.2799043062vw;
+    animation: moveBackground 40s linear infinite;
+    will-change: transform;
+}
+
+button { font-family: inherit; touch-action: manipulation; }
+button:focus-visible { outline: 3px solid #ffe65b; outline-offset: 3px; }
+
+@keyframes moveBackground {
+    from { transform: translate(0, 0); }
+    to { transform: translate(-100vw, 56.2799043062vw); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before { animation: none; will-change: auto; }
+}

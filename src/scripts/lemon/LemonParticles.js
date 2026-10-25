@@ -1,209 +1,90 @@
-import { HTMLObjectPoolingBuilder } from "../HTMLObjectPooling/HTMLObjectPoolingBuilder.js";
-
 import { stats } from "../stats.js";
-import { lerp } from "../math/MathHelper.js";
 
-// ----------------------------------------------
-// CLASS
-// ----------------------------------------------
+// A small reusable pool; the browser runs the animations without JS timers.
+export class LemonParticles {
+    static MAX_PARTICLES = 48;
+    static EMISSION_DELAY = 110; // milliseconds
 
-export class LemonParticles
-{
-    // ----------------------------------------------
-    // STATICS
-    // ----------------------------------------------
+    #lemon;
+    #parent;
+    #particles = [];
+    #lastEmission = -Infinity;
 
-    static #MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 3;
-    static #MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK = 20;
-    static #LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE = Math.abs(this.#MAXIMUM_AMOUNT_OF_PARTICLES_PER_CLICK - this.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK);
-
-    static #PARTICLE_CLASS_NAME = "particle";
-    static #PARTICLES_SPEED = 0.35;
-
-    static #PARTICLE_MINIMUM_MOTION = 0;
-    static #PARTICLE_MAXIMUM_MOTION = 400;
-    static #PARTICLE_CURVATURE = 100;
-
-    // ----------------------------------------------
-    // ATTRIBUTES
-    // ----------------------------------------------
-
-    #lemon = undefined;
-    #particlesParent = undefined;
-
-    #htmlObjectPooling = undefined;
-
-    #lemonContainerCoordinates = undefined;
-    #lemonCoordinates = undefined;
-
-    #lemonCoordinatesX = undefined;
-    #lemonCoordinatesY = undefined;
-
-    // ----------------------------------------------
-    // CONSTRUCTORS
-    // ----------------------------------------------
-
-    /**
-     * Creates a new clickable lemon with the given parameters
-     * @param {HTMLElement} lemonElement Lemon's HTML element
-     * @param {HTMLElement} particlesParentElement Particles' parent HTML element
-     * @author Álvaro Fernández Barrero
-     */
-    constructor(lemonElement, particlesParentElement)
-    {
+    constructor(lemonElement, particlesParentElement) {
         this.#lemon = lemonElement;
-        this.#particlesParent = particlesParentElement;
-
-        this.#htmlObjectPooling = new HTMLObjectPoolingBuilder()
-                                .setElement(this.#createDrop())
-                                .setDefaultAmount(5)
-                                .setUnpoolTime(-1)
-                                .setPoolMethod(particle => this.#throwDrop(particle))
-                                .setUnpoolMethod(particle => particle.style.opacity = 0)
-                                .build();
-
-        this.#setLemonCoordinates();
-
-        window.addEventListener("resize", () => { this.#setLemonCoordinates(); });
+        this.#parent = particlesParentElement;
     }
 
-    // ----------------------------------------------
-    // METHODS
-    // ----------------------------------------------
+    spread() {
+        if (document.hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const now = performance.now();
+        if (now - this.#lastEmission < LemonParticles.EMISSION_DELAY) return;
+        this.#lastEmission = now;
 
-    /**
-     * Gets a random amount of particles
-     * @returns A random amount of particles
-     * @author Álvaro Fernández Barrero
-     */
-    static #getAmountParticles = () => {
-        let multiplier = Math.sqrt(1 + stats.baseValue * 0.1);
-        let randomAmount = (LemonParticles.#MINIMUM_AMOUNT_OF_PARTICLES_PER_CLICK + Math.floor(Math.random() * LemonParticles.#LIMINTS_AMOUNT_OF_PARTICLES_DIFFERENCE));
-        
-        return Math.floor(multiplier * randomAmount);
+        // Measure once per burst, not once per particle or animation frame.
+        const parentBounds = this.#parent.getBoundingClientRect();
+        const lemonBounds = this.#lemon.getBoundingClientRect();
+        const startX = lemonBounds.left + lemonBounds.width / 2 - parentBounds.left - 6;
+        const startY = lemonBounds.top + lemonBounds.height / 2 - parentBounds.top - 6;
+        const baseValue = Number(stats.baseValue);
+        const amount = Math.min(10, 6 + Math.floor(Math.sqrt(Math.max(0, baseValue || 0))));
+
+        for (let index = 0; index < amount; index++) {
+            let particle = this.#particles.find(item => !item.busy);
+            if (!particle) {
+                if (this.#particles.length >= LemonParticles.MAX_PARTICLES) break;
+                const element = document.createElement("div");
+                element.className = "particle";
+                element.setAttribute("aria-hidden", "true");
+                element.style.visibility = "hidden";
+                this.#parent.appendChild(element);
+                particle = { element, busy: false };
+                this.#particles.push(particle);
+            }
+            this.#animateParticle(particle, startX, startY);
+        }
     }
 
-    /**
-     * Computes a random offset for the drop's motion
-     * @returns The random offset for the drop's motion
-     * @author Álvaro Fernández Barrero
-     */
-    static #computeDropOffset()
-    {
-        let offset = LemonParticles.#PARTICLE_MINIMUM_MOTION + Math.floor(Math.random() * LemonParticles.#PARTICLE_MAXIMUM_MOTION);
-        if (Math.random() > 0.5)
-            offset *= -1;
+        #animateParticle(particle, startX, startY) {
+        particle.busy = true;
+        particle.element.style.visibility = "visible";
 
-        return offset;
-    }
+        // Disparo hacia un lado, con recorrido suficiente para salir del limón.
+        const direction = Math.random() < 0.5 ? -1 : 1;
+        const distance = 220 + Math.random() * 200;
+        const speedX = direction * distance;
 
-    /**
-     * Prepares a particle for interpolating it
-     * @param {HTMLElement} particle Particle to prepare
-     * @author Álvaro Fernández Barrero
-     */
-    #prepareParticleForInterpolation(particle)
-    {
-        particle.style.opacity = 1;
-        particle.style.transform = `translate(${this.#lemonCoordinatesX}px, ${this.#lemonCoordinatesY}px)`;
-    }
+        // Sale hacia arriba y después cae por gravedad.
+        const speedY = -(180 + Math.random() * 160);
+        const gravity = 850;
+        const duration = 850 + Math.random() * 250;
+        const seconds = duration / 1000;
+        const keyframes = [];
 
-    /**
-     * Computes a interpolation's interpolation
-     * @param {HTMLElement} particle Particle to move 
-     * @param {Number} t Time
-     * @param {Number} lifeTime Particle's lifetime 
-     * @param {Number} goalX Target position X
-     * @param {Number} goalY Target position Y
-     * @param {Number} offsetY Offset Z
-     * @author Álvaro Fernández Barrero
-     */
-    #computeInterpolation(particle, t, lifeTime, goalX, goalY, offsetY)
-    {
-        let alpha = t / lifeTime;
+        for (let index = 0; index <= 12; index++) {
+            const progress = index / 12;
+            const time = progress * seconds;
 
-        let newX = lerp(this.#lemonCoordinatesX, goalX, alpha);
-        let newY = lerp(this.#lemonCoordinatesY, goalY, alpha);
-        
-        if (offsetY < 0)
-            newY -= Math.sin(Math.min(alpha * Math.PI, Math.PI)) * LemonParticles.#PARTICLE_CURVATURE;
-        
-        particle.style.transform = `translate(${newX}px, ${newY}px)`;
-    }
+            const x = startX + speedX * time;
+            const y = startY + speedY * time
+                + 0.5 * gravity * time * time;
 
-    /**
-     * Throw a lemon's drop
-     * @author Álvaro Fernández Barrero
-     */
-    async #throwDrop(particle)
-    {
-        this.#prepareParticleForInterpolation(particle);
-        
-        let t = 0;  
-        let lifeTime = 1 + Math.random() * 2;
-
-        let offsetX = LemonParticles.#computeDropOffset();
-        let offsetY = LemonParticles.#computeDropOffset();
-
-        if (offsetX === 0 && offsetY === 0)
-            offsetX = LemonParticles.#PARTICLE_MAXIMUM_MOTION;
-
-        let goalX = this.#lemonCoordinatesX + offsetX * lifeTime;
-        let goalY = this.#lemonCoordinatesY + (offsetY < 0 ? offsetY : offsetY * 2) * lifeTime;
-
-
-        while (t < lifeTime)
-        {
-            await new Promise(resolve => setTimeout(resolve, DELTA_TIME)).then(() => t += DELTA_TIME * LemonParticles.#PARTICLES_SPEED);
-            this.#computeInterpolation(particle, t, lifeTime, goalX, goalY, offsetY);
+            keyframes.push({
+                transform: `translate(${x}px, ${y}px)`,
+                opacity: 0.65 * (1 - progress * progress),
+                offset: progress
+            });
         }
 
-        this.#htmlObjectPooling.unpool(particle);
-    }
+        const animation = particle.element.animate(keyframes, {
+            duration,
+            easing: "linear",
+            fill: "none"
+        });
 
-    /**
-    * Creates a new drop element
-    * @returns The new particle created as a HTML element
-    * @author Álvaro Fernández Barrero
-    */
-    #createDrop()
-    {
-        const particle = document.createElement("div");
-        particle.className = LemonParticles.#PARTICLE_CLASS_NAME;
-        particle.style.margin = "0 auto";
-        particle.style.opacity = 0;
-        particle.style.zIndex = -500;
-        particle.style.position = "absolute";
-
-        this.#particlesParent.appendChild(particle);
-
-        return particle;
-    }
-
-    /**
-     * Spreads lemon's particles
-     * @author Álvaro Fernández Barrero
-     */
-    spread()
-    {
-        let particlesAmount = LemonParticles.#getAmountParticles();
-        if (particlesAmount <= 0)
-            return;
-
-        for (let i = 0; i < particlesAmount; i++)
-            this.#htmlObjectPooling.pool();
-    }
-
-    /**
-     * Sets the lemon's coordinates in screen
-     * @author Álvaro Fernández Barrero
-     */
-    #setLemonCoordinates()
-    {
-        this.#lemonContainerCoordinates = this.#particlesParent.getBoundingClientRect();
-        this.#lemonCoordinates = this.#lemon.getBoundingClientRect();
-
-        this.#lemonCoordinatesX = this.#lemonCoordinates.left + (this.#lemonCoordinates.right - this.#lemonCoordinates.left) / 2 - this.#lemonContainerCoordinates.left;
-        this.#lemonCoordinatesY = this.#lemonContainerCoordinates.top + (this.#lemonCoordinates.top - this.#lemonCoordinates.bottom) / 2 - this.#lemonCoordinates.top;
+        animation.finished.catch(() => {}).then(() => {
+            particle.element.style.visibility = "hidden";
+            particle.busy = false;
+        });
     }
 }
