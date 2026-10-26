@@ -1,4 +1,3 @@
-import { SFX } from '../SFX.js';
 import { hover_audios } from './LemonClickAudios.js';
 
 import { LemonSpringer } from "./LemonSpringer.js";
@@ -30,8 +29,6 @@ export class Lemon
     #lemonParticles = undefined;
 
     #firstTime = true;
-
-    #sfx = [];
 
     // ----------------------------------------------
     // CONSTRUCTOR
